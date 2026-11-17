@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 4,
+  "id": "hve-capability-closure-release-firewall-v4",
+  "authority": "DEVELOPMENT_RELEASE_GATE_ONLY",
+  "runtimeImportForbidden": true,
+  "purpose": "Development/release firewall. Runtime does not import this policy. It protects frozen capabilities by dependency closure and, for language-sensitive capabilities, semantic/output-variance closure: a change anywhere in a registered producer/representation/consumer/enforcement/send chain invalidates inherited PASS, requires the capability verifier, and requires fresh capability-attributed Live evidence across independently adjudicated equivalent semantic shapes before the freeze can be considered current.",
+  "riskPolicy": {
+    "criticalRuntimePrefixes": [
+      "src/modules/customer-service-agent/runtime/",
+      "src/modules/customer-service-agent/customer-service-agent.module.ts"
+    ],
+    "criticalRuntimePaths": [
+      "src/modules/customer-service-agent/runtime/generation/customer-service-hve3-execution.service.ts",
+      "src/modules/customer-service-agent/runtime/generation/customer-service-reply-generator.service.ts",
+      "src/modules/customer-service-agent/runtime/generation/customer-service-generation-prompt.builder.ts",
+      "src/modules/customer-service-agent/runtime/generation/customer-service-human-turn-realization.ts",
+      "src/modules/customer-service-agent/runtime/generation/customer-service-final-candidate.ts",
+      "src/modules/customer-service-agent/runtime/generation/customer-service-final-delivery-arbiter.ts",
+      "src/modules/customer-service-agent/runtime/generation/customer-service-message-delivery-planner.ts",
+      "src/modules/customer-service-agent/runtime/simulation/customer-service-simulation.service.ts",
+      "src/modules/customer-service-agent/runtime/reply/customer-service-runtime-reply.service.ts",
+      "src/modules/customer-service-agent/runtime/understanding/customer-service-message-understanding.service.ts",
+      "src/modules/customer-service-agent/runtime/understanding/customer-service-deep-recognition.service.ts",
+      "src/modules/customer-service-agent/runtime/state/customer-service-conversation-state.reducer.ts"
+    ]
+  },
+  "offlineVerifierPolicy": {
+    "always": [
+      "tools/customer-service-v520/verify-v520-minimal-runtime-architecture.cjs",
+      "tools/customer-service-v520/verify-v520-regression-firewall-architecture.cjs",
+      "tools/customer-service-v520/verify-v520-generation-send-authority-seal.cjs",
+      "tools/customer-service-v520/verify-v520-human-realization-goal-alignment.cjs",
+      "tools/customer-service-v520/verify-v520-f0-1-observability-metric-semantics.cjs",
+      "tools/customer-service-v520/verify-v520-f1-shared-context-given-new.cjs",
+      "tools/customer-service-v520/verify-v520-t3-business-knowledge.cjs"
+    ]
+  },
+  "liveSmokePolicy": {
+    "requiredForCriticalRuntimeChange": true,
+    "minimumDistinctRoleFingerprints": 3,
+    "minimumSuccessfulTurns": 6,
+    "maximumControlledAvailability": 0,
+    "maximumSelectedNone": 0,
+    "maximumCandidateStarvation": 0,
+    "acceptedRequestStatus": [
+      "SUCCESS"
+    ]
+  },
+  "frozenCapabilityPolicy": {
+    "oldPassInvalidatedOnClosureImpact": true,
+    "requireFreshLiveForImpactedCapability": true,
+    "requireExplicitClosureRegistrationForNewFreeze": true,
+    "capabilities": [
+      {
+        "key": "P0_REFUSAL_GENERATION_SEND",
+        "stageStatus": "SEALED_FROZEN",
+        "observableContract": "An answerable non-safety customer request must not degrade to a fixed processing/refusal notice because an upstream semantic, grounding, conformance, candidate, or delivery representation changed. Safety/restricted hard failures remain fail-closed.",
+        "dependencyPrefixes": [
+          "src/modules/customer-service-agent/runtime/"
+        ],
+        "dependencyPaths": [
+          "src/modules/customer-service-agent/shared/context/customer-service-knowledge.util.ts",
+          "src/modules/customer-service-agent/customer-service-agent.module.ts"
+        ],
+        "mandatoryVerifiers": [
+          "tools/customer-service-v520/verify-v520-generation-send-authority-seal.cjs"
+        ],
+        "freshLiveRequired": true,
+        "minimumFreshSuccessfulTurns": 1,
+        "semanticVarianceRequired": true,
+        "minimumSemanticVariants": 2,
+        "contractVersion": "P0_REFUSAL_GENERATION_SEND_V1",
+        "semanticVarianceVerifiers": [
+          "tools/customer-service-v520/verify-v520-generation-send-authority-seal.cjs",
+          "tools/customer-service-v520/verify-v520-canonical-semantic-conformance.cjs"
+        ]
+      },
+      {
+        "key": "R2_2_CUSTOMER_REFUSAL_USEFUL_SERVICE_CONTINUATION",
+        "stageStatus": "RESEALED_FROZEN",
+        "observableContract": "For an answerable non-safety customer turn, unsupported merchant-specific recommendation/performance propositions may be rejected locally, but that rejection must not collapse the whole normal answer into refusal/recovery when independently authorized task-material general guidance or surviving grounded facts can still provide useful value. Direct-source suitability may support recommendation framing for the same concrete option without becoming performance authority; unsupported performance/experience remains fail-closed. Post-correction completion must preserve the missing merchant semantic as incomplete while allowing the remaining authorized value to reach the primary candidate and Delivery instead of PARTIAL_SAFE_NON_GROUNDED_RECOVERY.",
+        "dependencyPrefixes": [],
+        "dependencyPaths": [
+          "src/modules/customer-service-agent/runtime/understanding/customer-service-deep-recognition.service.ts",
+          "src/modules/customer-service-agent/runtime/interaction/customer-service-answer-obligation.ts",
+          "src/modules/customer-service-agent/runtime/interaction/customer-service-interaction-plan-compiler.service.ts",
+          "src/modules/customer-service-agent/shared/context/customer-service-knowledge.util.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-reply-generator.service.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-semantic-conformance.type.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-semantic-conformance.service.ts",
+          "src/modules/customer-service-agent/runtime/behavior/customer-service-behavior-memory.util.ts",
+          "src/modules/customer-service-agent/runtime/state/customer-service-conversation-state.reducer.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-hve3-execution.service.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-final-candidate.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-final-delivery-arbiter.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-message-delivery-planner.ts",
+          "src/modules/customer-service-agent/runtime/reply/customer-service-runtime-reply.service.ts"
+        ],
+        "mandatoryVerifiers": [
+          "tools/customer-service-v520/verify-v520-canonical-semantic-conformance.cjs",
+          "tools/customer-service-v520/verify-v520-generation-send-authority-seal.cjs",
+          "tools/customer-service-v520/verify-v520-root-cause-semantic-authority.cjs",
+          "tools/customer-service-v520/verify-v520-r0-current-turn-semantic-authority-convergence.cjs"
+        ],
+        "freshLiveRequired": true,
+        "minimumFreshSuccessfulTurns": 2,
+        "semanticVarianceRequired": true,
+        "minimumSemanticVariants": 2,
+        "contractVersion": "R2_2_CUSTOMER_REFUSAL_USEFUL_SERVICE_CONTINUATION_V1",
+        "semanticVarianceVerifiers": [
+          "tools/customer-service-v520/verify-v520-canonical-semantic-conformance.cjs",
+          "tools/customer-service-v520/verify-v520-generation-send-authority-seal.cjs"
+        ]
+      },
+      {
+        "key": "R2_1_ACTIVE_CONSTRAINT_DECISION_INTEGRITY",
+        "stageStatus": "SEALED_FROZEN",
+        "observableContract": "Only evidence-admitted active customer constraints may persist into decision support, Canonical planning, and final realization; outcomes, intentions, rejected or unrelated wording must not silently become active constraints or decision authority.",
+        "dependencyPrefixes": [],
+        "dependencyPaths": [
+          "src/modules/customer-service-agent/runtime/understanding/customer-service-deep-recognition.service.ts",
+          "src/modules/customer-service-agent/runtime/state/customer-service-conversation-state.reducer.ts",
+          "src/modules/customer-service-agent/runtime/interaction/customer-service-interaction-plan-compiler.service.ts",
+          "src/modules/customer-service-agent/runtime/planning/customer-service-reply-planner.service.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-final-realization-authority.ts",
+          "src/modules/customer-service-agent/runtime/diagnostics/customer-service-decision-integrity-diagnostics.ts",
+          "src/modules/customer-service-agent/runtime/reply/customer-service-runtime-reply.service.ts"
+        ],
+        "mandatoryVerifiers": [
+          "tools/customer-service-v520/verify-v520-r2-1-active-constraint-decision-integrity.cjs",
+          "tools/customer-service-v520/verify-v520-r2-1-constraint-admission-precision.cjs",
+          "tools/customer-service-v520/verify-v520-r2-1-natural-constraint-producer-robustness.cjs",
+          "tools/customer-service-v520/verify-v520-r2-1-decision-outcome-intention-exclusion.cjs",
+          "tools/customer-service-v520/verify-v520-r2-1-decision-integrity-observability.cjs"
+        ],
+        "freshLiveRequired": true,
+        "minimumFreshSuccessfulTurns": 1,
+        "semanticVarianceRequired": true,
+        "minimumSemanticVariants": 2,
+        "contractVersion": "R2_1_ACTIVE_CONSTRAINT_DECISION_INTEGRITY_V1",
+        "semanticVarianceVerifiers": [
+          "tools/customer-service-v520/verify-v520-r2-1-natural-constraint-producer-robustness.cjs"
+        ]
+      },
+      {
+        "key": "R2_3_RESPONSE_EFFORT_DEPTH",
+        "stageStatus": "SEALED_FROZEN",
+        "observableContract": "Response effort/depth is derived from the existing ResponseTarget and Canonical completion only, is transported unchanged through final realization into ordinary Generation, and cannot independently create Acts, fixed quotas, or Send authority.",
+        "dependencyPrefixes": [],
+        "dependencyPaths": [
+          "src/modules/customer-service-agent/runtime/interaction/customer-service-answer-obligation.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-final-realization-authority.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-human-turn-realization.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-generation-prompt.builder.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-hve3-execution.service.ts",
+          "src/modules/customer-service-agent/runtime/reply/customer-service-runtime-reply.service.ts"
+        ],
+        "mandatoryVerifiers": [
+          "tools/customer-service-v520/verify-v520-human-realization-phase-a2-realization-boundary-closure.cjs",
+          "tools/customer-service-v520/verify-v520-human-realization-phase-a2-surface-consumption-closure.cjs"
+        ],
+        "freshLiveRequired": true,
+        "minimumFreshSuccessfulTurns": 1,
+        "semanticVarianceRequired": true,
+        "minimumSemanticVariants": 2,
+        "contractVersion": "R2_3_RESPONSE_EFFORT_DEPTH_V1",
+        "semanticVarianceVerifiers": [
+          "tools/customer-service-v520/verify-v520-human-realization-phase-a2-realization-boundary-closure.cjs"
+        ]
+      },
+      {
+        "key": "R2_4_CONTEXTUAL_EXTENSION_STOP_WHEN_ENOUGH",
+        "stageStatus": "SEALED_FROZEN",
+        "observableContract": "After the required contribution reaches its authorized depth, adjacent context may be realized only within the already-selected contribution scope and must stop when enough; it cannot upgrade Preferred/Optional Acts, suppress Required input, or use diagnostics/length heuristics as Generation or Send authority.",
+        "dependencyPrefixes": [],
+        "dependencyPaths": [
+          "src/modules/customer-service-agent/runtime/interaction/customer-service-answer-obligation.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-final-realization-authority.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-human-turn-realization.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-generation-prompt.builder.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-reply-generator.service.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-message-delivery-planner.ts",
+          "src/modules/customer-service-agent/runtime/reply/customer-service-runtime-reply.service.ts"
+        ],
+        "mandatoryVerifiers": [
+          "tools/customer-service-v520/verify-v520-human-realization-phase-a2-realization-boundary-closure.cjs",
+          "tools/customer-service-v520/verify-v520-human-realization-phase-a2-surface-consumption-closure.cjs",
+          "tools/customer-service-v520/verify-v520-f1-shared-context-given-new.cjs"
+        ],
+        "freshLiveRequired": true,
+        "minimumFreshSuccessfulTurns": 1,
+        "semanticVarianceRequired": true,
+        "minimumSemanticVariants": 2,
+        "contractVersion": "R2_4_CONTEXTUAL_EXTENSION_STOP_WHEN_ENOUGH_V1",
+        "semanticVarianceVerifiers": [
+          "tools/customer-service-v520/verify-v520-human-realization-phase-a2-realization-boundary-closure.cjs",
+          "tools/customer-service-v520/verify-v520-f1-shared-context-given-new.cjs"
+        ]
+      },
+      {
+        "key": "R2_2_ENTITY_CONTINUITY",
+        "stageStatus": "SEALED_FROZEN",
+        "observableContract": "A typed current named offering or typed contextual referent may Ground only the uniquely proven structured entity; unknown, ambiguous, incomplete, or untransported referents remain ungrounded.",
+        "dependencyPrefixes": [],
+        "dependencyPaths": [
+          "src/modules/customer-service-agent/runtime/understanding/customer-service-deep-recognition.service.ts",
+          "src/modules/customer-service-agent/runtime/understanding/customer-service-explicit-semantics.ts",
+          "src/modules/customer-service-agent/runtime/understanding/customer-service-contextual-referent.ts",
+          "src/modules/customer-service-agent/runtime/understanding/types/customer-service-message-understanding.type.ts",
+          "src/modules/customer-service-agent/shared/context/customer-service-knowledge.util.ts",
+          "src/modules/customer-service-agent/runtime/behavior/customer-service-behavior-memory.util.ts",
+          "src/modules/customer-service-agent/runtime/state/customer-service-conversation-state.type.ts",
+          "src/modules/customer-service-agent/runtime/state/customer-service-conversation-state.reducer.ts",
+          "src/modules/customer-service-agent/runtime/state/customer-service-canonical-conversation-state.service.ts",
+          "src/modules/customer-service-agent/runtime/simulation/customer-service-simulation.service.ts",
+          "src/modules/customer-service-agent/runtime/reply/customer-service-runtime-reply.service.ts",
+          "src/modules/customer-service-agent/runtime/channel/customer-service-channel-reply.service.ts",
+          "src/modules/customer-service-agent/runtime/testing/customer-service-robot-test-dm-session.service.ts"
+        ],
+        "mandatoryVerifiers": [
+          "tools/customer-service-v520/verify-v520-r2-2-contextual-grounded-referent-continuity.cjs"
+        ],
+        "freshLiveRequired": true,
+        "minimumFreshSuccessfulTurns": 1,
+        "semanticVarianceRequired": true,
+        "minimumSemanticVariants": 2,
+        "contractVersion": "R2_2_ENTITY_CONTINUITY_V1",
+        "semanticVarianceVerifiers": [
+          "tools/customer-service-v520/verify-v520-r2-2-contextual-grounded-referent-continuity.cjs"
+        ]
+      },
+      {
+        "key": "CONFORMANCE_SURFACE_SEAM",
+        "stageStatus": "SEALED_FROZEN",
+        "observableContract": "Semantic Conformance may remove unauthorized propositions without corrupting surviving proposition boundaries, bindings, delivery text, or customer-visible surface; diagnostics cannot become Send Authority.",
+        "dependencyPrefixes": [],
+        "dependencyPaths": [
+          "src/modules/customer-service-agent/runtime/generation/customer-service-semantic-conformance.service.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-hve3-execution.service.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-human-turn-realization.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-final-candidate.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-final-delivery-arbiter.ts",
+          "src/modules/customer-service-agent/runtime/generation/customer-service-message-delivery-planner.ts",
+          "src/modules/customer-service-agent/runtime/reply/customer-service-runtime-reply.service.ts"
+        ],
+        "mandatoryVerifiers": [
+          "tools/customer-service-v520/verify-v520-canonical-semantic-conformance.cjs"
+        ],
+        "freshLiveRequired": true,
+        "minimumFreshSuccessfulTurns": 1,
+        "semanticVarianceRequired": true,
+        "minimumSemanticVariants": 2,
+        "contractVersion": "CONFORMANCE_SURFACE_SEAM_V1",
+        "semanticVarianceVerifiers": [
+          "tools/customer-service-v520/verify-v520-canonical-semantic-conformance.cjs"
+        ]
+      }
+    ],
+    "requireSemanticOutputVarianceForLanguageSensitiveCapability": true,
+    "singleFreshLiveProvesSampleOnly": true,
+    "semanticVarianceEvidenceContract": {
+      "schemaVersion": 1,
+      "authority": "RELEASE_EVIDENCE_ONLY_NO_RUNTIME_AUTHORITY",
+      "requiredFields": [
+        "capabilityKey",
+        "contractVersion",
+        "variants"
+      ],
+      "variantRequiredFields": [
+        "id",
+        "semanticShapeId",
+        "equivalenceBasis",
+        "traceFile",
+        "replyTrace",
+        "observableOutcome"
+      ],
+      "observableOutcomePassValue": "PASS",
+      "semanticEquivalenceAdjudication": "HUMAN_OR_TYPED_VERIFIER_EVIDENCE_ONLY",
+      "runtimeNaturalLanguageInferenceForbidden": true
+    }
+  }
+}

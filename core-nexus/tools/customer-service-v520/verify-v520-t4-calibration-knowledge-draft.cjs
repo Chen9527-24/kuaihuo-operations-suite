@@ -1,0 +1,53 @@
+const fs = require('fs');
+const path = require('path');
+const root = path.resolve(__dirname, '../..');
+const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
+const checks = [];
+function check(name, condition) { checks.push([name, Boolean(condition)]); }
+const schema = read('prisma/schema.prisma');
+const migration = read('prisma/migrations/20260806213000_add_knowledge_revision_drafts/migration.sql');
+const controller = read('src/modules/customer-service-agent/admin/calibrations/customer-service-calibrations.controller.ts');
+const service = read('src/modules/customer-service-agent/admin/calibrations/customer-service-calibrations.service.ts');
+const queryDto = read('src/modules/customer-service-agent/admin/calibrations/dto/calibration-record-query.dto.ts');
+const draftDto = read('src/modules/customer-service-agent/admin/calibrations/dto/knowledge-revision-draft.dto.ts');
+const recordRepo = read('src/modules/customer-service-agent/infrastructure/persistence/customer-service-calibration-record.repository.ts');
+const draftRepo = read('src/modules/customer-service-agent/infrastructure/persistence/customer-service-knowledge-revision-draft.repository.ts');
+const moduleFile = read('src/modules/customer-service-agent/customer-service-agent.module.ts');
+const governanceRepo = read('src/modules/customer-service-agent/infrastructure/persistence/customer-service-data-governance.repository.ts');
+const governanceService = read('src/modules/customer-service-agent/admin/data-governance/customer-service-data-governance.service.ts');
+
+check('schema defines revision draft model', schema.includes('model CustomerServiceKnowledgeRevisionDraft'));
+check('one draft per calibration', schema.includes('calibrationRecordId String    @unique'));
+check('draft status separates DRAFT VERIFIED PUBLISHED', schema.includes('DRAFT / VERIFIED / PUBLISHED / REJECTED'));
+check('calibration has one-to-one draft relation', schema.includes('knowledgeRevisionDraft CustomerServiceKnowledgeRevisionDraft?'));
+check('migration creates only additive table', migration.includes('CREATE TABLE "CustomerServiceKnowledgeRevisionDraft"'));
+check('migration has calibration unique index', migration.includes('calibrationRecordId_key'));
+check('migration has tenant and calibration foreign keys', migration.includes('CsKnowledgeRevisionDraft_tenantId_fkey') && migration.includes('CsKnowledgeRevisionDraft_calibrationRecordId_fkey'));
+check('migration contains no destructive SQL', !/\b(DROP|TRUNCATE|DELETE\s+FROM)\b/i.test(migration));
+check('query supports account scope', queryDto.includes('accountProfileId?: string'));
+check('list applies accountProfileId filter', service.includes('query.accountProfileId ? { accountProfileId: query.accountProfileId }'));
+check('create endpoint exists', controller.includes("@Post(':id/knowledge-revision-draft')"));
+check('verify endpoint exists', controller.includes("@Post(':id/knowledge-revision-draft/verify')"));
+check('publish endpoint requires calibration and context permissions', controller.includes("@Permissions('customer-service:calibration:update', 'customer-service:context-profile:update')"));
+check('only FACT_ERROR can create knowledge draft', service.includes("problemTypes.includes('FACT_ERROR')"));
+check('draft requires account isolation evidence', service.includes('缺少账号资料作用域'));
+check('store scope derives from bound account store', service.includes("dto.scopeType === 'ACCOUNT' ? account.id : account.storeProfileId"));
+check('target knowledge must match scope', service.includes('目标业务知识与当前校准账号/店铺作用域不一致'));
+check('draft is created with DRAFT status', service.includes("status: 'DRAFT'"));
+check('fact verification requires explicit confirmation', service.includes('if (!dto.confirmedFact)'));
+check('publish requires explicit confirmation', service.includes('if (!dto.confirmPublish)'));
+check('publish is blocked before verification', service.includes("draft.status !== 'VERIFIED'"));
+check('update draft protects original knowledge revision', service.includes('target.revision !== draft.targetEntryRevision'));
+check('published knowledge source is auditable', service.includes("sourceType: 'CALIBRATION_DRAFT'"));
+check('published knowledge becomes enabled only at publish', service.includes("status: 'ENABLED'"));
+check('record detail includes draft status', recordRepo.includes('knowledgeRevisionDraft:'));
+check('draft repository uses tenant and revision optimistic lock', draftRepo.includes('where: { id, tenantId, revision, deletedAt: null }'));
+check('new repository registered in module', moduleFile.includes('CustomerServiceKnowledgeRevisionDraftRepository'));
+check('DTO requires human verification note', draftDto.includes('verificationNote!: string'));
+check('data governance includes draft table', governanceRepo.includes("'CustomerServiceKnowledgeRevisionDraft'"));
+check('capacity overview counts revision drafts', governanceService.includes('knowledgeRevisionDrafts'));
+
+let passed = 0;
+for (const [name, ok] of checks) { console.log(`${ok ? 'PASS' : 'FAIL'} ${name}`); if (ok) passed++; }
+console.log(`\n${passed}/${checks.length} passed`);
+if (passed !== checks.length) process.exit(1);

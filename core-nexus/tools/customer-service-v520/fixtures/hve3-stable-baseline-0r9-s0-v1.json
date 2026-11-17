@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "core-nexus-hve-stable-baseline-0r9-s0-20260815-2127",
+  "baselineKind": "STABLE_BASELINE",
+  "packageName": "core-nexus-full-handoff-stable-human-progress-baseline-20260815-2127.zip",
+  "packageSha256": "b2fe99593f7613600bcf99fa77d15b7febf8cf1c587b3ddd723fd176b34a7004",
+  "stageProgressSha256AtBaseline": "65297b74ab950a720ce1b6293e1283615e5ee51734c5555baf16f366ecf6c006",
+  "productionSourceTree": {
+    "root": "src",
+    "fileCount": 394,
+    "sha256": "e2135dc5ae99f373cf1f3909e8536de2f494ed02873e1438f2cf484451c24066"
+  },
+  "customerServiceRuntimeTree": {
+    "root": "src/modules/customer-service-agent/runtime",
+    "fileCount": 82,
+    "sha256": "4904b8f9a0d42e1023276697e05e6bb9fabf0f736a30e1a1440f6ea8c04c4944"
+  },
+  "preservedRuntime": [
+    "0R6 Lived Context Continuity",
+    "0R7 Current Human Position / Grounding hardening",
+    "Attempted-Ineffective / Epistemic Continuity v2",
+    "Claim false-positive reliability fix"
+  ],
+  "excludedFailedCandidates": [
+    "0R8 Surface De-Planning",
+    "0R8-R2 Producer Shape Authority Convergence"
+  ],
+  "baselineRegressionEvidence": {
+    "humanRealizationAuthority": "36/36 PASS",
+    "conversationReality": "22/22 PASS",
+    "groundingClaimHardness": "23/23 PASS",
+    "epistemicDomainSeparation": "20/20 PASS",
+    "longHorizonStateTruth": "39/39 PASS",
+    "naturalClosure": "14/14 PASS",
+    "currentTurnSemanticAuthority": "58/58 PASS",
+    "turnToDelivery": "37/37 PASS",
+    "r2Structural": "20/20 PASS",
+    "regressionFirewallArchitecture": "12/12 PASS",
+    "regressionFirewallNormalSurvival": "29/29 PASS"
+  },
+  "realHumanGate": "OPEN_EVIDENCE_INCOMPLETE"
+}

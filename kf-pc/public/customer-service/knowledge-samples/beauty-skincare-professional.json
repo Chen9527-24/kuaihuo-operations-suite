@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 2,
+  "sampleKey": "BEAUTY_CONSULTANT",
+  "label": "基础护肤专业知识样例",
+  "industryCode": "skincare",
+  "demo": true,
+  "collection": {
+    "name": "木棉 · 基础护肤商品与使用知识",
+    "code": "demo-mumian-skincare",
+    "description": "虚构护肤样例，包含清洁、保湿、防晒、使用顺序、风险边界和商品链接。",
+    "industryCode": "skincare",
+    "status": "ENABLED"
+  },
+  "entries": [
+    {
+      "category": "PRODUCT",
+      "title": "木棉舒润保湿乳",
+      "question": null,
+      "content": "示例保湿乳，定位为日常基础保湿，肤感偏轻润；不宣称治疗皮肤问题。具体成分和适用说明以正式商品成分表为准。",
+      "tags": [
+        "保湿",
+        "乳液",
+        "干燥",
+        "基础护肤"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "MM-MOIST-01",
+      "aliases": [
+        "舒润乳",
+        "保湿乳"
+      ],
+      "structuredData": {
+        "texture": "轻润",
+        "routineStep": "保湿",
+        "claims": [
+          "基础保湿"
+        ],
+        "notClaims": [
+          "治疗湿疹",
+          "修复疾病"
+        ]
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "舒润保湿乳商品资料",
+          "url": "https://example.com/demo/mumian/moist-01",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "PRODUCT",
+      "title": "木棉柔净洁面乳",
+      "question": null,
+      "content": "示例温和清洁产品，建议按使用感受控制清洁频率；皮肤出现持续刺痛、红肿等异常时应停止使用并寻求专业意见。",
+      "tags": [
+        "洁面",
+        "温和清洁",
+        "干皮"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "MM-CLEAN-02",
+      "aliases": [
+        "柔净洁面"
+      ],
+      "structuredData": {
+        "routineStep": "清洁",
+        "usage": "取适量轻柔清洁后冲洗",
+        "caution": "持续不适应停止使用"
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "柔净洁面乳商品资料",
+          "url": "https://example.com/demo/mumian/clean-02",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "PRODUCT",
+      "title": "木棉日常防晒乳 SPF50+ PA++++",
+      "question": null,
+      "content": "示例防晒产品信息：标称 SPF50+ PA++++；实际使用需结合户外时长、出汗情况按商品说明补涂。",
+      "tags": [
+        "防晒",
+        "SPF50+",
+        "PA++++"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "MM-SUN-03",
+      "aliases": [
+        "日常防晒乳"
+      ],
+      "structuredData": {
+        "spf": "SPF50+",
+        "pa": "PA++++",
+        "routineStep": "日间最后一步"
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "日常防晒乳商品资料",
+          "url": "https://example.com/demo/mumian/sun-03",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "皮肤干燥时的基础选择方向",
+      "question": "最近皮肤比较干，有什么推荐",
+      "content": "皮肤偏干时，可优先把温和清洁和基础保湿理顺；如果客户想要具体店内推荐，应优先匹配已配置的保湿产品资料，而不是凭空编造成分或功效。",
+      "tags": [
+        "干皮",
+        "保湿",
+        "推荐"
+      ],
+      "entityType": "GENERIC",
+      "entityKey": null,
+      "aliases": [],
+      "structuredData": {
+        "priority": [
+          "温和清洁",
+          "保湿"
+        ],
+        "medicalBoundary": true
+      },
+      "references": [],
+      "authorityLevel": "GENERAL_GUIDANCE",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "基础护肤顺序",
+      "question": "护肤先用哪个后用哪个",
+      "content": "常见基础顺序可概括为清洁 → 保湿 → 日间防晒；具体叠加产品应以已核实商品说明和个人耐受为准。",
+      "tags": [
+        "护肤顺序",
+        "清洁",
+        "保湿",
+        "防晒"
+      ],
+      "entityType": "GENERIC",
+      "entityKey": null,
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "GENERAL_GUIDANCE",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "SERVICE_POLICY",
+      "title": "敏感、不适与医疗边界",
+      "question": null,
+      "content": "客服不能诊断皮肤疾病或承诺治疗效果。出现明显红肿、持续刺痛、破损或症状加重时，应建议停止可疑产品并咨询正规医疗专业人士。",
+      "tags": [
+        "敏感",
+        "不适",
+        "医疗边界"
+      ],
+      "entityType": "POLICY",
+      "entityKey": "MM-SAFETY",
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "木棉基础护肤选购页",
+      "question": null,
+      "content": "客户明确希望查看商品或链接时，可发送该示例集合页；正式环境应替换为真实店铺页面。",
+      "tags": [
+        "链接",
+        "护肤商品"
+      ],
+      "entityType": "REFERENCE",
+      "entityKey": "MM-SKINCARE-LIST",
+      "aliases": [],
+      "structuredData": {},
+      "references": [
+        {
+          "type": "COLLECTION_PAGE",
+          "title": "基础护肤选购页",
+          "url": "https://example.com/demo/mumian/skincare-list",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "BRAND_FACT",
+      "title": "木棉品牌定位",
+      "question": null,
+      "content": "木棉示例店定位为日常基础护肤与温和清洁，强调不过度制造焦虑、不给未经证实的治疗承诺。",
+      "tags": [
+        "品牌",
+        "定位",
+        "温和护肤"
+      ],
+      "entityType": "BRAND",
+      "entityKey": "MM-BRAND",
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "hve3-human-realization-goal-alignment-0r13-e1-v1",
+  "authority": "DEVELOPMENT_DIRECTION_GATE_ONLY",
+  "finalProductGoal": "UNIVERSAL_HUMAN_REALIZATION",
+  "candidate": "0R13-E1_ROLE_NEED_ALIGNED_HUMAN_PARTICIPATION",
+  "problem": "The model can understand a customer need and still allocate surface behavior incorrectly, e.g. narrating or classifying the need before a recommendation/solution when the current Role should primarily recommend/solve. Explanation itself remains correct when the Role/Need/Canonical obligation actually calls for explanation.",
+  "allowedRuntimeFiles": [
+    "src/modules/customer-service-agent/runtime/generation/customer-service-human-turn-realization.ts",
+    "src/modules/customer-service-agent/runtime/generation/customer-service-generation-prompt.builder.ts"
+  ],
+  "requiredArchitecture": [
+    "One existing HumanTurn REALIZATION_ONLY authority",
+    "Canonical Plan remains semantic/behavior authority",
+    "Grounding/Claim/Permission remain fact and permission authorities",
+    "No new model call",
+    "No new Planner/Gate/Judge/Repair/Fallback/Retry/Humanizer",
+    "No role/industry/test-sentence special case",
+    "No global ban on explanation",
+    "No phrase blacklist or particle quota"
+  ],
+  "successEvidence": [
+    "Unknown recommendation/service roles act on the current need without low-value need narration when information is sufficient",
+    "Unknown explanation/teaching/why roles still explain when explanation is the actual value",
+    "Explicit relational acknowledgement remains when it has real social/repair value or Canonical requires it",
+    "Different Roles remain behaviorally distinct rather than converging on a direct-answer template",
+    "Normal answer, Grounding, Claim, Permission and Delivery do not regress"
+  ],
+  "stopConditions": [
+    "Any Runtime change outside allowedRuntimeFiles",
+    "Any global direct-answer or no-explanation policy",
+    "Any role/industry/phrase-specific branch",
+    "Any new semantic/Send authority",
+    "Human P1 shows only shorter wording but not better Role/Need behavior alignment",
+    "Any P0 regression"
+  ]
+}

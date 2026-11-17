@@ -1,0 +1,53 @@
+name: Source checks and builds
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: [core-nexus, kf-pc, task-distribution-app]
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+    env:
+      DATABASE_URL: postgresql://ci:ci-fixture@127.0.0.1:5432/ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+          cache-dependency-path: ${{ matrix.project }}/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - if: matrix.project == 'core-nexus'
+        run: pnpm exec prisma validate
+      - if: matrix.project == 'task-distribution-app'
+        run: pnpm typecheck
+      - run: pnpm build
+
+  python-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check configuration isolation
+        run: python -m unittest discover -s tests -v
+      - name: Check Python syntax
+        run: python -m compileall -q scripts ucp/app ucp/tests interception-bot/src interception-bot/tests
+      - name: Install lightweight test dependencies
+        run: python -m pip install requests openpyxl python-dateutil tzdata
+      - name: Run desktop-client tests offline
+        run: python scripts/test_bots_offline.py

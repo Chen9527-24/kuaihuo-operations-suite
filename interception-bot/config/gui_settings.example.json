@@ -1,0 +1,13 @@
+{
+  "apiBaseUrl": "",
+  "tokenCachePath": "config/core_session.json",
+  "rememberCredentials": false,
+  "username": "",
+  "password": "",
+  "tenantId": "",
+  "guiLogEnabled": true,
+  "interfaceTraceEnabled": false,
+  "browserName": "chromium",
+  "prepareRuntimeBeforeStart": true,
+  "autoRestoreSession": false
+}

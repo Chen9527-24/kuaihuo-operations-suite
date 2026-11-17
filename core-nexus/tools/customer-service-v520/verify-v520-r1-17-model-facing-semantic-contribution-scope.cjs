@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+'use strict';
+const fs=require('fs');
+const path=require('path');
+const {compileFinalHumanTurn,normalizeFrame}=require('./_final-human-turn-test-helper.cjs');
+const root=path.resolve(__dirname,'../..');
+const authorityRel='src/modules/customer-service-agent/runtime/generation/customer-service-final-realization-authority.ts';
+const promptRel='src/modules/customer-service-agent/runtime/generation/customer-service-generation-prompt.builder.ts';
+const kernelRel='src/modules/customer-service-agent/runtime/generation/customer-service-prompt-kernel.registry.ts';
+const authority=fs.readFileSync(path.join(root,authorityRel),'utf8');
+const prompt=fs.readFileSync(path.join(root,promptRel),'utf8');
+const kernel=fs.readFileSync(path.join(root,kernelRel),'utf8');
+let pass=0,fail=0;
+function check(name,ok,detail=''){if(ok){pass++;console.log(`PASS ${name}`)}else{fail++;console.error(`FAIL ${name}${detail?` :: ${detail}`:''}`)}}
+const contract={persona:{resolvedRoleIdentity:{generationPrompt:{role:'generic warm role',identity:null}}},businessContext:{conversationStrategy:{policy:{humanBehavior:{}}}}};
+const valueFrame=normalizeFrame({acts:{required:[{type:'DIRECT_ANSWER',necessity:'REQUIRED',semantic:'answer',reasonCode:'fixture',parameters:{target:'answer'}}],preferred:[],optional:[],forbidden:[]}});
+const receptionFrame=normalizeFrame({acts:{required:[{type:'DIRECT_ANSWER',necessity:'REQUIRED',semantic:'answer',reasonCode:'fixture',parameters:{target:'answer'}}],preferred:[{type:'EMOTIONAL_ACK',necessity:'PREFERRED',semantic:'ack',reasonCode:'fixture',parameters:{}}],optional:[],forbidden:[]}});
+const value=compileFinalHumanTurn(root,valueFrame,contract);
+const reception=compileFinalHumanTurn(root,receptionFrame,contract);
+check('FinalHumanTurn projects value-only reception authorization as NOT selected under canonicalPlan', value.realization.canonicalPlan.receptionContribution.selected===false && value.realization.canonicalPlan.receptionContribution.actTypes.length===0 && value.realization.canonicalPlan.receptionContribution.authority==='DERIVED_FROM_SELECTED_CANONICAL_ACTS_ONLY');
+check('FinalHumanTurn projects selected reception Act without a second acknowledgement selector', reception.realization.canonicalPlan.receptionContribution.selected===true && reception.realization.canonicalPlan.receptionContribution.actTypes.includes('EMOTIONAL_ACK') && !Object.prototype.hasOwnProperty.call(reception.realization.selectedComponents,'acknowledgement'));
+check('FinalHumanTurn exposes a hard function-level semantic scope', value.realization.constraints.semanticContributionScope==='SELECTED_CANONICAL_ACTS_ONLY' && value.realization.constraints.noUnauthorizedSemanticContribution===true);
+check('structured reception authorization is derived from Canonical Act selection, not RoleBehavior diagnostics', authority.includes('resolveCanonicalReceptionActTypes(selectedActTypes)') && !authority.includes('roleBehavior.reassurance'));
+check('Generation carries semantic contribution scope through the exhaustive current-turn permit rather than writing advice', prompt.includes('CURRENT_SEMANTIC_PERMIT=') && prompt.includes('customerVisibleContributionScope') && prompt.includes('穷尽语义授权'));
+check('fusion or placement cannot create authority for an unselected semantic function', prompt.includes('任何能够单独承担互动功能的客户可见成分都属于语义贡献') && prompt.includes('中性实现同一组 selected Acts'));
+check('Current Canonical Execution consumes structured reception projection inside the permit', prompt.includes('realization.canonicalPlan.receptionContribution') && prompt.includes('receptionContribution: projectedReception?.selected'));
+check('legitimate answer-owned judgments remain available by selected value function', prompt.includes('实际判断、信息、风险、选择、行动或已选关系任务'));
+check('R1.17 contains no lexical blacklist, phrase frequency, generation rewrite, or second judge/model path', !/(tokenBlacklist|phraseBlacklist|phraseFrequency|receptionJudge|normalizationJudge|rewriteCandidate|replaceGenerated|secondModelCall)/i.test(authority+'\n'+prompt));
+check('R1.17 source contains no observed Live utterance or role/domain fixture', !/(柯基爆冲|别太担心|恭喜你入职|广州夏天|tencel|wide-leg)/i.test(authority+'\n'+prompt));
+check('kernel retains v1.92 model-facing semantic contribution scope under latest v1.93', kernel.includes("version: 'hve-3-v1.99'") && kernel.includes('R1 Regression-only Model-facing Semantic Contribution Scope') && kernel.includes('R2.2 implementation is unchanged and remains Live pending'));
+console.log(`\nR1.17 Model-facing Semantic Contribution Scope: ${pass}/${pass+fail} PASS`);
+if(fail) process.exit(1);

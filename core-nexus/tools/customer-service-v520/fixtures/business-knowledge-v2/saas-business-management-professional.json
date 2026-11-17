@@ -1,0 +1,336 @@
+{
+  "schemaVersion": 2,
+  "sampleKey": "SAAS_TECH_SUPPORT",
+  "label": "SaaS 产品与技术支持专业知识样例",
+  "industryCode": "SAAS_B2B",
+  "demo": true,
+  "collection": {
+    "name": "云栈 · 产品功能与技术支持知识",
+    "code": "demo-cloudstack-saas",
+    "description": "虚构 SaaS 专业样例，包含模块、典型场景、权限、API、套餐边界和文档链接。",
+    "industryCode": "SAAS_B2B",
+    "status": "ENABLED"
+  },
+  "entries": [
+    {
+      "category": "BRAND_FACT",
+      "title": "云栈产品概览",
+      "question": null,
+      "content": "云栈示例产品是一套面向中小团队的在线协作与业务管理 SaaS，示例能力分为任务协作、客户事项、审批流程、权限管理和开放 API 五类。",
+      "tags": [
+        "产品概览",
+        "SaaS",
+        "业务管理"
+      ],
+      "entityType": "SERVICE",
+      "entityKey": "YZ-OVERVIEW",
+      "aliases": [
+        "云栈",
+        "云栈SaaS"
+      ],
+      "structuredData": {
+        "modules": [
+          "任务协作",
+          "客户事项",
+          "审批流程",
+          "权限管理",
+          "开放API"
+        ],
+        "target": "中小团队"
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "云栈产品概览",
+          "url": "https://example.com/demo/yunzhan/overview",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "SERVICE",
+      "title": "任务协作模块",
+      "question": null,
+      "content": "支持示例任务创建、负责人、截止时间、状态流转和评论协作；适合团队跟踪日常任务、项目事项和跨部门待办。",
+      "tags": [
+        "任务",
+        "协作",
+        "项目"
+      ],
+      "entityType": "MODULE",
+      "entityKey": "YZ-TASK",
+      "aliases": [
+        "任务协作",
+        "任务模块"
+      ],
+      "structuredData": {
+        "useCases": [
+          "项目待办",
+          "跨部门协作",
+          "进度跟踪"
+        ],
+        "features": [
+          "负责人",
+          "截止时间",
+          "状态",
+          "评论"
+        ]
+      },
+      "references": [
+        {
+          "type": "HELP_CENTER",
+          "title": "任务协作文档",
+          "url": "https://example.com/demo/yunzhan/task",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "SERVICE",
+      "title": "客户事项模块",
+      "question": null,
+      "content": "用于示例客户事项登记、跟进状态和负责人协同，可作为轻量客户服务/销售跟进工作台；不等同于完整 CRM 套件。",
+      "tags": [
+        "客户",
+        "跟进",
+        "CRM"
+      ],
+      "entityType": "MODULE",
+      "entityKey": "YZ-CUSTOMER",
+      "aliases": [
+        "客户事项",
+        "客户跟进"
+      ],
+      "structuredData": {
+        "features": [
+          "事项登记",
+          "跟进状态",
+          "负责人"
+        ],
+        "limitation": "非完整CRM套件"
+      },
+      "references": [
+        {
+          "type": "HELP_CENTER",
+          "title": "客户事项文档",
+          "url": "https://example.com/demo/yunzhan/customer",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "SERVICE",
+      "title": "审批流程模块",
+      "question": null,
+      "content": "支持示例请假、费用和自定义表单审批，可配置审批节点和抄送；高级条件分支是否可用需以当前套餐资料为准。",
+      "tags": [
+        "审批",
+        "流程",
+        "表单"
+      ],
+      "entityType": "MODULE",
+      "entityKey": "YZ-APPROVAL",
+      "aliases": [
+        "审批流程"
+      ],
+      "structuredData": {
+        "useCases": [
+          "请假",
+          "费用",
+          "自定义表单"
+        ],
+        "features": [
+          "审批节点",
+          "抄送"
+        ]
+      },
+      "references": [
+        {
+          "type": "HELP_CENTER",
+          "title": "审批流程文档",
+          "url": "https://example.com/demo/yunzhan/approval",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "SERVICE",
+      "title": "权限管理",
+      "question": null,
+      "content": "权限按示例组织成员、角色和功能范围配置；排查“看不到功能”时先确认账号角色、所在组织和目标模块权限。",
+      "tags": [
+        "权限",
+        "角色",
+        "看不到功能"
+      ],
+      "entityType": "MODULE",
+      "entityKey": "YZ-PERMISSION",
+      "aliases": [
+        "权限配置"
+      ],
+      "structuredData": {
+        "diagnosticInputs": [
+          "账号角色",
+          "组织",
+          "模块权限"
+        ]
+      },
+      "references": [
+        {
+          "type": "HELP_CENTER",
+          "title": "权限配置文档",
+          "url": "https://example.com/demo/yunzhan/permission",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "SERVICE",
+      "title": "开放 API",
+      "question": null,
+      "content": "示例开放 API 使用 HTTPS + Token 鉴权，调用前需创建有权限的集成凭证；接口地址、速率限制和字段定义必须以当前 API 文档为准。",
+      "tags": [
+        "API",
+        "接口",
+        "Token",
+        "集成"
+      ],
+      "entityType": "MODULE",
+      "entityKey": "YZ-API",
+      "aliases": [
+        "开放接口",
+        "API"
+      ],
+      "structuredData": {
+        "auth": "Token",
+        "transport": "HTTPS",
+        "boundary": "以当前API文档为准"
+      },
+      "references": [
+        {
+          "type": "API_DOC",
+          "title": "开放 API 文档",
+          "url": "https://example.com/demo/yunzhan/api",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "云栈适合哪些实际场景",
+      "question": "实际应用场景有哪些",
+      "content": "示例典型场景包括团队任务协作、内部审批、客户事项跟进和通过 API 对接已有系统。具体是否适配，应结合团队流程和需要使用的模块判断。",
+      "tags": [
+        "应用场景",
+        "实际应用",
+        "适合什么"
+      ],
+      "entityType": "USE_CASE",
+      "entityKey": "YZ-USECASE",
+      "aliases": [],
+      "structuredData": {
+        "useCases": [
+          "任务协作",
+          "内部审批",
+          "客户事项跟进",
+          "API集成"
+        ]
+      },
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "SERVICE_POLICY",
+      "title": "套餐与功能边界",
+      "question": null,
+      "content": "不同套餐可用模块、人数、存储和高级能力可能不同；在没有当前套餐资料时，客服只能说明已确认的通用能力，不应编造价格、额度或版本发布日期。",
+      "tags": [
+        "套餐",
+        "版本",
+        "价格",
+        "权限"
+      ],
+      "entityType": "POLICY",
+      "entityKey": "YZ-PLAN",
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "接口调用失败的最短排查",
+      "question": "接口调用失败怎么排查",
+      "content": "先确认 HTTP 状态码和请求 ID，再核对 Token 是否有效、当前凭证是否有目标资源权限、请求参数是否符合文档；如果是 5xx，再结合时间点和请求 ID 继续排查，不能直接断言服务故障。",
+      "tags": [
+        "API",
+        "5xx",
+        "401",
+        "403",
+        "排障"
+      ],
+      "entityType": "GENERIC",
+      "entityKey": null,
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "TROUBLESHOOTING_GUIDANCE",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "云栈帮助中心与 API 文档入口",
+      "question": null,
+      "content": "当客户需要完整产品说明或 API 字段时，可按问题类型分享对应文档链接。",
+      "tags": [
+        "文档",
+        "帮助中心",
+        "API链接"
+      ],
+      "entityType": "REFERENCE",
+      "entityKey": "YZ-DOCS",
+      "aliases": [],
+      "structuredData": {},
+      "references": [
+        {
+          "type": "HELP_CENTER",
+          "title": "云栈帮助中心",
+          "url": "https://example.com/demo/yunzhan/help",
+          "shareable": true
+        },
+        {
+          "type": "API_DOC",
+          "title": "云栈 API 文档",
+          "url": "https://example.com/demo/yunzhan/api",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    }
+  ]
+}

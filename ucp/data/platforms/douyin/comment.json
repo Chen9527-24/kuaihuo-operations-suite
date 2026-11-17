@@ -1,0 +1,113 @@
+{
+  "state_probe": {
+    "ready_hints": [
+      "评论管理",
+      "选择作品",
+      "最新发布",
+      "有爱评论",
+      "回复"
+    ],
+    "ready_root_selectors": [
+      ".container-AFENbv",
+      ".container-sXKyMs",
+      ".operations-WFV7Am .item-M3fSkJ",
+      ".footer-oZJTJd button",
+      ".input-d24X73[contenteditable='true']"
+    ]
+  },
+  "filter": {
+    "enabled": false,
+    "target_text": "",
+    "note": "默认不强制切换“未回复”，保持当前筛选/全部评论并扫描当前可见线程；如需固定筛选，改为 enabled=true 且填写 target_text。"
+  },
+  "reply": {
+    "enabled": true,
+    "auto_send": true,
+    "inherit_dm_reply_coze": true,
+    "fallback_text": "感谢支持呀",
+    "identity": "你现在就是抖音账号本人，在评论区直接回复用户评论。回复要像真人，不要像客服或机器人。",
+    "style_prompt": "口吻自然、简短、口语化，像评论区本人顺手回一句。优先一句话，必要时两句，不要端着。",
+    "safety_prompt": "只能根据当前评论和可见上下文回复；不要编造价格、库存、功效、承诺或私聊导流信息。",
+    "coze": {
+      "enabled": false,
+      "api_url": "",
+      "workflow_id": "",
+      "token": "",
+      "request_timeout_sec": 30.0,
+      "input_key": "input",
+      "include_bot_id": false,
+      "bot_id": "",
+      "app_id": "",
+      "extra_parameters": {},
+      "ext": {}
+    },
+    "draft_probe_enabled": false,
+    "v50_immediate_inject_probe_enabled": true,
+    "v50_probe_text": "感谢支持呀",
+    "stage_note": "V74：抖音评论已放开受控真实发送；草稿回读一致后调用发送脚本，并启用作品切换。",
+    "coze_pre_generate_before_open": true,
+    "coze_pre_generate_timeout_ms": 30000,
+    "allow_real_send": true,
+    "dry_run_only": false,
+    "dry_run": {
+      "enabled": false,
+      "send_click_plan_enabled": true,
+      "send_click_plan_delay_ms": 450,
+      "note": "只定位发送按钮并输出模拟点击计划；不分发发送按钮鼠标/指针事件，不点击发送。默认 mock plan 后关闭当前回复框，继续验证下一条可回复候选。",
+      "continue_after_mock_plan": false,
+      "continue_finalize_delay_ms": 450
+    }
+  },
+  "candidate": {
+    "skip_empty_content": true,
+    "skip_author_tag": true,
+    "min_content_length": 1,
+    "skip_keywords": [],
+    "self_author_aliases": [],
+    "self_author_aliases_note": "评论作者身份不再按账号名/机器人名推断，只以当前消息用户名旁边的作者 badge 为准；本字段保留兼容但默认不参与判定。"
+  },
+  "send": {
+    "reactivate_max_attempts": 0,
+    "stage_timeout_ms": 22000,
+    "close_editor_after_ready": false,
+    "ready_finalize_delay_ms": 180,
+    "dry_run_only": false,
+    "enable_poll_attempts": 3,
+    "enable_poll_interval_ms": 360,
+    "enable_poll_note": "草稿原生激活后先轮询同一事务发送按钮，仍禁用才执行下一次原生激活，避免固定双重 Space+Backspace。"
+  },
+  "work": {
+    "max_process_ms": 90000,
+    "max_replies_per_work": 20,
+    "enable_switch": true,
+    "switch_note": "V74：当前作品处理完成或达到处理预算后，自动切换到下一个作品继续处理。"
+  },
+  "reply_expand": {
+    "enabled": true,
+    "max_expand_per_round": 1,
+    "min_interval_ms": 12000,
+    "cooldown_ms": 60000,
+    "note": "仅在可见线程存在“查看N条回复”且需要判断线程完整性时，低频展开少量线程；成功点击后短冷却，失败后长冷却。",
+    "success_cooldown_ms": 15000,
+    "failure_cooldown_ms": 60000
+  },
+  "log": {
+    "probe_summary_interval_ms": 15000,
+    "candidate_summary_interval_ms": 20000,
+    "cookie_log_interval_ms": 60000,
+    "quiet_skip_log_enabled": false,
+    "verbose_dom_detail_enabled": false,
+    "note": "默认只输出巡检摘要和候选摘要；完整 DOM/候选大 JSON 不再每轮输出，必要时后续可接入显式 debug 开关。"
+  },
+  "same_work_refresh": {
+    "enabled": true,
+    "min_interval_ms": 90000,
+    "note": "单作品或全部作品已完成后，下一轮扫描前刷新当前作品页面，避免评论列表停留在首次加载快照。仅在无回复/发送主流程时触发。"
+  },
+  "scroll_scan": {
+    "enabled": true,
+    "min_interval_ms": 2500,
+    "max_scrolls_per_work": 80,
+    "note": "评论模块按当前作品向下深扫：先展开可见折叠回复，再在无候选时继续滚动扫描，避免只处理首屏可见评论。"
+  }
+}

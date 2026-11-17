@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "hve3-human-progress-promotion-gate-v1",
+  "authority": "DEVELOPMENT_RELEASE_PROMOTION_GATE_ONLY",
+  "runtimeImportForbidden": true,
+  "purpose": "Release-time promotion evidence contract for Human Realization and other Runtime product-goal optimizations. It may block release promotion, but it never participates in Runtime generation, evaluation, selection, delivery or send decisions.",
+  "stableBaselineManifest": "tools/customer-service-v520/fixtures/hve3-stable-baseline-0r9-s0-v1.json",
+  "p0": {
+    "delegate": "tools/customer-service-v520/run-v520-release-regression-firewall.cjs",
+    "required": true
+  },
+  "p1": {
+    "minimumComparedTurns": 6,
+    "minimumDistinctRoleFingerprints": 3,
+    "minimumPositiveGainComparisons": 3,
+    "minimumRolesWithPositiveGain": 2,
+    "allowedVerdicts": [
+      "POSITIVE_GAIN",
+      "NO_MATERIAL_GAIN",
+      "REGRESSION"
+    ],
+    "requiredOverallVerdict": "POSITIVE_GAIN",
+    "regressionTolerance": 0,
+    "humanReviewRequired": true
+  },
+  "p2": {
+    "minimumCounterfactualCases": 3,
+    "minimumDistinctRoleFingerprints": 3,
+    "minimumDistinctStructuralVariants": 3,
+    "requiredVerdict": "MECHANISM_HOLDS",
+    "runtimeFixtureReuseForbidden": true,
+    "roleIndustrySentenceSpecialCasesForbidden": true
+  },
+  "p3": {
+    "singleFinalAuthorityRequired": true,
+    "producerOwnsCorrectnessRequired": true,
+    "maximumRuntimeDecisionComplexityDelta": 1,
+    "newRuntimeGateForbiddenExceptCanonicalSemanticConformance": true,
+    "newRepairFallbackHumanizerForbidden": true,
+    "canonicalSemanticConformanceException": {
+      "allowed": true,
+      "authority": "CANONICAL_SEMANTIC_CONFORMANCE_V1",
+      "maximumModelCalls": 1,
+      "maximumRuntimeDecisionComplexityDelta": 1,
+      "correctionMode": "EXACT_SUBSTRING_REMOVAL_ONLY",
+      "retryForbidden": true,
+      "plannerQualityJudgeHumanizerForbidden": true,
+      "permittedNewRuntimeFiles": [
+        "src/modules/customer-service-agent/runtime/generation/customer-service-semantic-conformance.service.ts",
+        "src/modules/customer-service-agent/runtime/generation/customer-service-semantic-conformance.type.ts"
+      ]
+    }
+  },
+  "release": {
+    "requiredHumanDecision": "PROMOTE",
+    "failedCandidateMustNotPromote": true,
+    "noMaterialGainMustNotPromote": true,
+    "buildGate": "tools/customer-service-v520/run-v520-release-build-gate.cjs",
+    "buildPassRequired": true
+  }
+}

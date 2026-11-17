@@ -1,0 +1,14 @@
+{
+  "comment_item_selectors": [],
+  "comment_text_selectors": [],
+  "comment_author_selectors": [],
+  "comment_time_selectors": [],
+  "comment_region_selectors": [],
+  "reply_item_selectors": [],
+  "reply_text_selectors": [],
+  "reply_author_selectors": [],
+  "reply_time_selectors": [],
+  "reply_region_selectors": [],
+  "load_more_comment_selectors": [],
+  "expand_reply_selectors": []
+}

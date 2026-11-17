@@ -1,0 +1,53 @@
+{
+  "intercept": {
+    "targetMode": "homepage",
+    "homepageTargets": [],
+    "contentTargets": [],
+    "homepageLookbackDays": 10,
+    "schedule": {
+      "timezone": "Asia/Shanghai",
+      "runEveryDays": 3,
+      "anchorDate": "",
+      "runWindows": [
+        {
+          "name": "默认运行时间",
+          "start": "19:00",
+          "end": "00:00",
+          "enabled": true
+        }
+      ],
+      "outsideWindowAction": "sleep"
+    },
+    "collect": {
+      "maxPosts": 0,
+      "maxCommentsPerPost": 0,
+      "maxTargetMinutes": 30,
+      "captureSeconds": 8,
+      "triggerScrollRounds": 0,
+      "triggerPauseSec": 1.2,
+      "browserName": "chromium",
+      "pacingProfile": "conservative",
+      "saveDebugFiles": false,
+      "headless": false,
+      "randomizeTargets": true,
+      "commentFetchMaxSeconds": 0,
+      "postCooldownMinSec": 6,
+      "postCooldownMaxSec": 20,
+      "accountCooldownMinSec": 12,
+      "accountCooldownMaxSec": 35,
+      "commentPagePauseMinSec": 1,
+      "commentPagePauseMaxSec": 2.2,
+      "maxPostDurationSeconds": 0
+    },
+    "workDecision": {
+      "enabled": false,
+      "workflowId": "",
+      "failStrategy": "SKIP"
+    },
+    "speech": {
+      "enabled": true,
+      "failStrategy": "SKIP",
+      "emptyTranscriptStrategy": "SKIP"
+    }
+  }
+}

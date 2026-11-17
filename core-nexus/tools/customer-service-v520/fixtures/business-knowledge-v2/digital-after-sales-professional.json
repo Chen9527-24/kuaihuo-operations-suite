@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 2,
+  "sampleKey": "DIGITAL_AFTER_SALES",
+  "label": "数码售后专业知识样例",
+  "industryCode": "DIGITAL_3C",
+  "demo": true,
+  "collection": {
+    "name": "星环数码 · 产品与售后排障知识",
+    "code": "demo-starloop-digital",
+    "description": "虚构数码售后样例，包含产品目录、连接排障、电源问题、保修边界和帮助链接。",
+    "industryCode": "DIGITAL_3C",
+    "status": "ENABLED"
+  },
+  "entries": [
+    {
+      "category": "PRODUCT",
+      "title": "星环 AirBeat S2 蓝牙耳机",
+      "question": null,
+      "content": "示例真无线耳机，支持蓝牙 5.3、USB-C 充电盒；配对、续航与保修以正式说明书和订单状态为准。",
+      "tags": [
+        "耳机",
+        "蓝牙",
+        "AirBeat"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "XH-AIRBEAT-S2",
+      "aliases": [
+        "AirBeat S2",
+        "S2耳机"
+      ],
+      "structuredData": {
+        "bluetooth": "5.3",
+        "charging": "USB-C",
+        "type": "TWS"
+      },
+      "references": [
+        {
+          "type": "HELP_CENTER",
+          "title": "AirBeat S2 使用手册",
+          "url": "https://example.com/demo/starloop/airbeat-s2",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "PRODUCT",
+      "title": "星环 KeyPro K3 机械键盘",
+      "question": null,
+      "content": "示例有线/2.4G/蓝牙三模键盘，支持 Windows/macOS 基础键位切换；具体组合键以手册为准。",
+      "tags": [
+        "键盘",
+        "机械键盘",
+        "三模"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "XH-KEYPRO-K3",
+      "aliases": [
+        "K3键盘",
+        "KeyPro"
+      ],
+      "structuredData": {
+        "connection": [
+          "USB-C",
+          "2.4G",
+          "Bluetooth"
+        ],
+        "platform": [
+          "Windows",
+          "macOS"
+        ]
+      },
+      "references": [
+        {
+          "type": "HELP_CENTER",
+          "title": "KeyPro K3 使用手册",
+          "url": "https://example.com/demo/starloop/keypro-k3",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "PRODUCT",
+      "title": "星环 PowerGo 10000 移动电源",
+      "question": null,
+      "content": "示例 10000mAh 移动电源，支持 USB-C 输入输出；实际额定容量、协议和航空携带要求以商品铭牌与官方规则为准。",
+      "tags": [
+        "移动电源",
+        "充电宝",
+        "10000mAh"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "XH-POWERGO-10K",
+      "aliases": [
+        "PowerGo",
+        "10000充电宝"
+      ],
+      "structuredData": {
+        "nominalCapacity": "10000mAh",
+        "ports": [
+          "USB-C"
+        ]
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "PowerGo 说明页",
+          "url": "https://example.com/demo/starloop/powergo-10k",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "蓝牙耳机无法连接的最短排查",
+      "question": "耳机连不上怎么办",
+      "content": "先确认耳机和手机蓝牙已开启、耳机不在其他设备占用连接；再尝试把旧配对记录删除后重新进入配对模式。若仍失败，需要结合具体型号和指示灯状态继续判断。",
+      "tags": [
+        "蓝牙",
+        "连接失败",
+        "排障"
+      ],
+      "entityType": "GENERIC",
+      "entityKey": null,
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "TROUBLESHOOTING_GUIDANCE",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "键盘部分按键无响应",
+      "question": "有几个键按了没反应",
+      "content": "先确认连接模式与供电正常，再换一个应用或设备复现；如果只有固定按键持续失效，再进入售后检测流程。不能未检测就断言是硬件故障。",
+      "tags": [
+        "键盘",
+        "按键失灵",
+        "排障"
+      ],
+      "entityType": "GENERIC",
+      "entityKey": null,
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "TROUBLESHOOTING_GUIDANCE",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "SERVICE_POLICY",
+      "title": "保修和换新边界",
+      "question": null,
+      "content": "是否在保修期、是否满足换新或维修条件，需要以订单时间、产品序列信息、平台售后政策和检测结果为准；客服不能在未核验时承诺直接换新。",
+      "tags": [
+        "保修",
+        "换新",
+        "维修",
+        "售后"
+      ],
+      "entityType": "POLICY",
+      "entityKey": "XH-WARRANTY",
+      "aliases": [],
+      "structuredData": {},
+      "references": [
+        {
+          "type": "AFTERSALE_POLICY",
+          "title": "星环售后政策示例",
+          "url": "https://example.com/demo/starloop/warranty",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "物流/订单问题的数据边界",
+      "question": null,
+      "content": "物流节点、签收状态、退款和补发必须来自订单/物流接口或平台事实；知识库只能解释规则，不能代替实时订单状态。",
+      "tags": [
+        "物流",
+        "订单",
+        "退款",
+        "补发"
+      ],
+      "entityType": "GENERIC",
+      "entityKey": null,
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "POLICY",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "星环产品帮助中心",
+      "question": null,
+      "content": "客户明确需要说明书、驱动或完整排障步骤时，可发送帮助中心示例链接；正式环境应替换为真实资源。",
+      "tags": [
+        "帮助中心",
+        "说明书",
+        "驱动",
+        "链接"
+      ],
+      "entityType": "REFERENCE",
+      "entityKey": "XH-HELP",
+      "aliases": [],
+      "structuredData": {},
+      "references": [
+        {
+          "type": "HELP_CENTER",
+          "title": "星环产品帮助中心",
+          "url": "https://example.com/demo/starloop/help",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    }
+  ]
+}

@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 2,
+  "sampleKey": "FASHION_WARM_ADVISOR",
+  "label": "通勤女装专业知识样例",
+  "industryCode": "apparel",
+  "demo": true,
+  "collection": {
+    "name": "青禾 · 通勤女装商品与服务知识",
+    "code": "demo-qinghe-fashion",
+    "description": "虚构的通勤女装专业样例，包含商品、尺码、搭配、售后和可分享链接。",
+    "industryCode": "apparel",
+    "status": "ENABLED"
+  },
+  "entries": [
+    {
+      "category": "PRODUCT",
+      "title": "青禾「清简」垂感衬衫",
+      "question": "有没有适合上班穿的衬衫",
+      "content": "偏通勤基础款，版型微宽松，适合单穿或作为西装内搭；已核实样例属性为聚酯纤维混纺、常规衣长、非紧身版。",
+      "tags": [
+        "衬衫",
+        "通勤",
+        "基础款",
+        "内搭"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "QH-SHIRT-01",
+      "aliases": [
+        "清简衬衫",
+        "通勤衬衫"
+      ],
+      "structuredData": {
+        "colors": [
+          "雾白",
+          "浅蓝"
+        ],
+        "sizes": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "fit": "微宽松",
+        "occasion": [
+          "日常通勤",
+          "会议内搭"
+        ],
+        "care": "建议低温轻柔洗涤"
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "清简垂感衬衫详情",
+          "url": "https://example.com/demo/qinghe/shirt-01",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "PRODUCT",
+      "title": "青禾「利落」直筒西装裤",
+      "question": null,
+      "content": "高腰直筒版型，裤线清晰，适合通勤和会议场景；样例尺码覆盖 S–XL，具体库存与价格必须以实时商品页为准。",
+      "tags": [
+        "西装裤",
+        "直筒裤",
+        "通勤",
+        "高腰"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "QH-PANTS-02",
+      "aliases": [
+        "利落直筒裤",
+        "通勤西裤"
+      ],
+      "structuredData": {
+        "colors": [
+          "黑色",
+          "深灰",
+          "卡其"
+        ],
+        "sizes": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "fit": "直筒",
+        "waist": "高腰",
+        "occasion": [
+          "通勤",
+          "会议"
+        ]
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "利落直筒西装裤详情",
+          "url": "https://example.com/demo/qinghe/pants-02",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "PRODUCT",
+      "title": "青禾「轻搭」针织开衫",
+      "question": null,
+      "content": "薄款针织开衫，适合办公室空调环境与春秋叠穿；建议与衬衫、背心或连衣裙组合。",
+      "tags": [
+        "针织衫",
+        "开衫",
+        "叠穿",
+        "办公室"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "QH-KNIT-03",
+      "aliases": [
+        "轻搭开衫"
+      ],
+      "structuredData": {
+        "colors": [
+          "燕麦",
+          "藏蓝"
+        ],
+        "sizes": [
+          "M",
+          "L"
+        ],
+        "fit": "常规",
+        "season": [
+          "春",
+          "秋",
+          "空调房"
+        ]
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "轻搭针织开衫详情",
+          "url": "https://example.com/demo/qinghe/knit-03",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "通勤搭配：简洁风如何快速选",
+      "question": "平时喜欢简洁一点，上班怎么搭",
+      "content": "想要简洁、少出错，可以先确定一个主色，再用基础上装 + 直线条下装；若客户已明确偏好，不必继续追问无关信息。",
+      "tags": [
+        "搭配",
+        "简洁",
+        "通勤",
+        "选款"
+      ],
+      "entityType": "GENERIC",
+      "entityKey": null,
+      "aliases": [],
+      "structuredData": {
+        "principles": [
+          "主色不超过2个",
+          "优先版型线条",
+          "鞋包做低对比呼应"
+        ]
+      },
+      "references": [],
+      "authorityLevel": "GENERAL_GUIDANCE",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "尺码建议需要哪些信息",
+      "question": "我应该穿什么码",
+      "content": "如果需要具体尺码方向，至少要结合商品尺码表和客户已提供的身高/体重或常穿尺码；不能保证绝对合身。",
+      "tags": [
+        "尺码",
+        "身高",
+        "体重",
+        "合身"
+      ],
+      "entityType": "GENERIC",
+      "entityKey": null,
+      "aliases": [],
+      "structuredData": {
+        "requiredSignals": [
+          "商品尺码表",
+          "身高/体重或常穿尺码"
+        ],
+        "boundary": "不保证绝对合身"
+      },
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "SERVICE_POLICY",
+      "title": "退换与试穿边界",
+      "question": null,
+      "content": "示例规则：未影响二次销售且符合平台当前售后规则时可申请退换；实际是否可退换、运费承担与时限必须以订单页面及平台规则为准。",
+      "tags": [
+        "退换",
+        "售后",
+        "试穿"
+      ],
+      "entityType": "POLICY",
+      "entityKey": "QH-AFTERSALE",
+      "aliases": [],
+      "structuredData": {
+        "realtimeAuthority": "ORDER_AND_PLATFORM_POLICY"
+      },
+      "references": [
+        {
+          "type": "AFTERSALE_POLICY",
+          "title": "青禾售后规则示例",
+          "url": "https://example.com/demo/qinghe/after-sale",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "通勤选款专题入口",
+      "question": null,
+      "content": "当客户明确希望查看更完整的通勤款式列表时，可发送该示例专题链接；正式环境请替换为真实店铺专题页。",
+      "tags": [
+        "链接",
+        "专题",
+        "通勤款式"
+      ],
+      "entityType": "REFERENCE",
+      "entityKey": "QH-COMMUTE-LIST",
+      "aliases": [],
+      "structuredData": {},
+      "references": [
+        {
+          "type": "COLLECTION_PAGE",
+          "title": "通勤选款专题",
+          "url": "https://example.com/demo/qinghe/commute-collection",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "BRAND_FACT",
+      "title": "青禾店铺定位",
+      "question": null,
+      "content": "青禾定位为面向上班族女性的通勤女装店，强调简洁、好搭配、日常可复用。",
+      "tags": [
+        "品牌",
+        "定位",
+        "通勤女装"
+      ],
+      "entityType": "BRAND",
+      "entityKey": "QH-BRAND",
+      "aliases": [],
+      "structuredData": {
+        "audience": "22-35岁上班族女性",
+        "positioning": [
+          "简洁",
+          "好搭配",
+          "日常通勤"
+        ]
+      },
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 2,
+  "sampleKey": "COMMUNITY_HOST",
+  "label": "私域社群运营专业知识样例",
+  "industryCode": null,
+  "demo": true,
+  "collection": {
+    "name": "拾光 · 老客社群内容与会员知识",
+    "code": "demo-shiguang-community",
+    "description": "虚构私域社群样例，包含内容栏目、会员规则、活动边界、常见互动和可分享资源。",
+    "industryCode": null,
+    "status": "ENABLED"
+  },
+  "entries": [
+    {
+      "category": "BRAND_FACT",
+      "title": "拾光老客社群定位",
+      "question": null,
+      "content": "拾光示例社群用于老客内容互动、使用技巧、会员服务和已发布活动信息，不以每轮聊天都转化下单为目标。",
+      "tags": [
+        "社群",
+        "老客",
+        "定位"
+      ],
+      "entityType": "SERVICE",
+      "entityKey": "SG-COMMUNITY",
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "SERVICE",
+      "title": "每周内容栏目",
+      "question": null,
+      "content": "示例固定栏目包括周二使用技巧、周四新品/上新预告、周末老客问答；实际发布时间可由运营调整。",
+      "tags": [
+        "内容",
+        "栏目",
+        "上新"
+      ],
+      "entityType": "CONTENT_SERIES",
+      "entityKey": "SG-WEEKLY",
+      "aliases": [],
+      "structuredData": {
+        "series": [
+          "周二使用技巧",
+          "周四上新预告",
+          "周末老客问答"
+        ]
+      },
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "SERVICE_POLICY",
+      "title": "会员权益说明边界",
+      "question": null,
+      "content": "会员等级、积分、优惠券和活动资格必须以当前会员系统与已发布规则为准；客服不能因为“老客”身份就自行承诺额外权益。",
+      "tags": [
+        "会员",
+        "积分",
+        "优惠券",
+        "权益"
+      ],
+      "entityType": "POLICY",
+      "entityKey": "SG-MEMBER",
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "客户只是闲聊时怎么承接",
+      "question": null,
+      "content": "可先自然回应客户当前话题，不必每句话都转商品；如果对方主动提到使用体验、新品或活动，再顺势提供相关内容。",
+      "tags": [
+        "闲聊",
+        "互动",
+        "低压"
+      ],
+      "entityType": "GUIDANCE",
+      "entityKey": "SG-CHAT",
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "GENERAL_GUIDANCE",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "客户问最近有什么活动",
+      "question": "最近有什么活动",
+      "content": "只能说明当前知识中明确有效的活动；如果没有有效活动条目，应直接说当前没有已确认活动信息，不得沿用过期活动。",
+      "tags": [
+        "活动",
+        "时效",
+        "会员"
+      ],
+      "entityType": "GENERIC",
+      "entityKey": null,
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "拾光老客内容合集",
+      "question": null,
+      "content": "客户想回看使用技巧或往期内容时，可分享示例内容合集；正式环境替换为真实社群内容页。",
+      "tags": [
+        "内容合集",
+        "链接",
+        "技巧"
+      ],
+      "entityType": "REFERENCE",
+      "entityKey": "SG-CONTENT",
+      "aliases": [],
+      "structuredData": {},
+      "references": [
+        {
+          "type": "CONTENT_PAGE",
+          "title": "拾光老客内容合集",
+          "url": "https://example.com/demo/shiguang/content",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "会员规则入口",
+      "question": null,
+      "content": "当客户追问积分、等级或权益细则时，可发送当前会员规则入口。",
+      "tags": [
+        "会员规则",
+        "积分",
+        "链接"
+      ],
+      "entityType": "REFERENCE",
+      "entityKey": "SG-MEMBER-DOC",
+      "aliases": [],
+      "structuredData": {},
+      "references": [
+        {
+          "type": "POLICY_PAGE",
+          "title": "拾光会员规则",
+          "url": "https://example.com/demo/shiguang/member",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    },
+    {
+      "category": "FAQ",
+      "title": "活动结束后的处理",
+      "question": null,
+      "content": "活动已结束或知识已过有效期时，不继续宣传旧权益；可以说明当前活动已结束，并引导客户关注后续已发布通知。",
+      "tags": [
+        "活动结束",
+        "过期",
+        "权益"
+      ],
+      "entityType": "GENERIC",
+      "entityKey": null,
+      "aliases": [],
+      "structuredData": {},
+      "references": [],
+      "authorityLevel": "POLICY",
+      "sourceType": "IMPORT",
+      "freshnessPolicy": "示例数据：正式使用前请替换为店铺当前已核实资料"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+ALTER TABLE "InterceptCaptureRecord"
+  ADD COLUMN IF NOT EXISTS "speechTranscript" TEXT,
+  ADD COLUMN IF NOT EXISTS "speechStatus" VARCHAR(32),
+  ADD COLUMN IF NOT EXISTS "speechError" TEXT,
+  ADD COLUMN IF NOT EXISTS "videoDescription" TEXT,
+  ADD COLUMN IF NOT EXISTS "videoTags" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[],
+  ADD COLUMN IF NOT EXISTS "workDecisionStatus" VARCHAR(32),
+  ADD COLUMN IF NOT EXISTS "workDecisionShouldRun" BOOLEAN,
+  ADD COLUMN IF NOT EXISTS "workDecisionReason" TEXT,
+  ADD COLUMN IF NOT EXISTS "workDecisionWorkflowId" VARCHAR(128);

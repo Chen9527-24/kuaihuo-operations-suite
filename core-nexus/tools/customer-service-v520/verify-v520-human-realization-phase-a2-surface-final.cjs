@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+'use strict';
+const fs=require('fs'),path=require('path'),ts=require('typescript');
+const {loadFinalHumanTurnCompiler,normalizeFrame}=require('./_final-human-turn-test-helper.cjs');
+const root=path.resolve(__dirname,'../..'); const read=r=>fs.readFileSync(path.join(root,r),'utf8');
+let pass=0,fail=0; const check=(n,o)=>{if(o){pass++;console.log(`PASS ${n}`)}else{fail++;console.error(`FAIL ${n}`)}};
+const authorityRel='src/modules/customer-service-agent/runtime/generation/customer-service-final-realization-authority.ts';
+const promptRel='src/modules/customer-service-agent/runtime/generation/customer-service-generation-prompt.builder.ts';
+const humanRel='src/modules/customer-service-agent/runtime/generation/customer-service-human-turn-realization.ts';
+const plannerRel='src/modules/customer-service-agent/runtime/generation/customer-service-message-delivery-planner.ts';
+const a=read(authorityRel),p=read(promptRel),h=read(humanRel),d=read(plannerRel);
+function syntax(rel){const out=ts.transpileModule(read(rel),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020,experimentalDecorators:true,esModuleInterop:true},reportDiagnostics:true,fileName:rel});return !(out.diagnostics||[]).some(x=>x.category===ts.DiagnosticCategory.Error)}
+check('Upstream HumanTurn retains rich texture/cadence/adaptation for diagnostics compatibility', /texture:/.test(h)&&/antiAiCadence:/.test(h)&&/surfaceBudget:/.test(h)&&/adaptation:/.test(h));
+check('Final model-facing surface no longer projects texture/cadence/message-shape micro-controls', !/(texture\s*:|conversationForm\s*:|explicitPcSurface\s*:|customerMessageShape\s*:|mirrorIntensity\s*:|varyFromRecentStructure\s*:|completionCadence\s*:|stopBias\s*:)/.test(a));
+check('Legacy rolePresence expression profile is no longer parallel model-facing HOW authority', !/rolePresence\s*:/.test(a));
+check('generationGuidance retains persisted configuration server-side while one typed surface profile is the ordinary model-facing HOW authority', /generationGuidance:\s*\{/.test(a)&&/ROLE_IDENTITY_PROMPT_CHAIN_V1/.test(a)&&/STRUCTURED_PERSONA_SURFACE_ONLY_V1/.test(a)&&p.includes('PERSONA_SURFACE_PROFILE='));
+check('Factual relationship context remains available without style micro-planning', /relationshipContext:/.test(a)&&/distance:\s*human\.adaptation\.relationshipDistance/.test(a));
+check('Selected semantic depth and Canonical question authority remain model-facing', /requestedSpecificity:\s*responseTarget\.requestedSpecificity/.test(a)&&/disposition:\s*customerInputDisposition/.test(a));
+check('Accepted/rejected/corrected factual continuity remains model-facing without reuse phrasing HOW', /priorContributionStatus:\s*human\.sharedContext\.priorContributionStatus/.test(a)&&/currentFeedback:/.test(a)&&!/priorContributionReuse:/.test(a));
+check('No numeric response budget is model-facing', !/softMaxChars|maxValueUnits|maxPreQuestionClauses|maxSentences|maxQuestions/.test(a));
+check('Model owns wording/length/rhythm/message count under HVE_REPLY_V2', p.includes('它们不规定客户可见措辞、字数、句数、顺序、节奏或消息数量')&&p.includes('segments 中每个元素仍是一条实际发送消息'));
+check('Delivery remains presentation-only and does not infer semantic boundaries', !/splitNaturalPresentationParagraphs|splitIndependentPresentationUnits|roleCode|industryCode/.test(d));
+check('No style Gate/Judge/Repair authority', !/(SurfaceGate|SurfaceJudge|Humanizer|PersonaRepair|SurfaceRewrite|HumanizationRetry)/i.test(a+p));
+check('No role/domain/test-sentence surface branch', !/(宠物|女装|SaaS|柯基|外卖员|碎花裙)/i.test(a+p));
+const {compile}=loadFinalHumanTurnCompiler(root); const contract={persona:{resolvedRoleIdentity:{generationPrompt:{role:'R',identity:null}}},businessContext:{conversationStrategy:{policy:{humanBehavior:{}}}}};
+const frame=normalizeFrame({humanTurnRealization:{adaptation:{relationshipDistance:'WARM'},sharedContext:{priorContributionReuse:'ADVANCE_FROM_ACCEPTED',priorContributionStatus:'ACCEPTED'},conversationReality:{currentFeedback:{reception:'ACCEPTED',correctionTarget:null,requestedDeltas:[]},continuity:{recentRequestedDeltas:[],lastAssistantMoveAccepted:true,lastAssistantMoveRejected:false}}}});
+const out=compile(contract,frame);
+check('Runtime final surface contains only authority + relationshipContext + generationGuidance', JSON.stringify(Object.keys(out.surface).sort())===JSON.stringify(['authority','generationGuidance','relationshipContext'].sort()));
+check('Runtime Role prompt and relationship truth survive reduction', out.surface.generationGuidance.role==='R'&&out.surface.relationshipContext.distance==='WARM');
+check('Runtime accepted continuity remains factual in same final object', out.realization.continuity.priorContributionStatus==='ACCEPTED'&&!Object.prototype.hasOwnProperty.call(out.realization.continuity,'priorContributionReuse'));
+check('Changed TypeScript files transpile', [authorityRel,promptRel,humanRel,plannerRel].every(syntax));
+console.log(`\nA2 Surface Final: ${pass}/${pass+fail} PASS`); if(fail)process.exit(1);

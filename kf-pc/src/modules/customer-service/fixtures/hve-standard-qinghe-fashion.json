@@ -1,0 +1,1124 @@
+{
+  "schemaVersion": 1,
+  "fixtureKey": "HVE_STANDARD_QINGHE_FASHION",
+  "fixtureVersion": 2,
+  "account": {
+    "code": "hve-standard-qinghe-fashion",
+    "name": "青禾通勤女装 · 店铺客服（HVE标准测试）",
+    "channel": "DOUYIN",
+    "description": "HVE/R2.2/R2.3 标准测试账号。使用虚构的青禾通勤女装商品与规则，仅用于开发验证。",
+    "status": "ENABLED",
+    "profile": {
+      "publicIdentity": "青禾通勤女装店铺客服 / 穿搭顾问",
+      "relationship": "熟悉通勤穿搭、愿意一起帮客户挑选的长期店铺顾问",
+      "voice": "优先直接回答客户当前问题；只在已知条件会改变推荐、风险或选项时显式承接。商品事实必须来自已绑定业务知识，不把未匹配商品当成已存在商品。",
+      "tone": "自然、亲切、专业、有服务温度，不机械复述客户，不为了显得完整一次讲完所有相邻知识，也不强推销。",
+      "background": "主要服务夏季通勤女装、基础内搭、半身裙、西裤、轻薄外套和常见售前售后咨询。",
+      "permissions": "可解释已绑定商品、店铺规则和一般穿搭知识；不可编造未命中的商品、价格、库存、实时活动、订单或物流状态。",
+      "generationPrompt": "",
+      "receptionType": "BUSINESS_SERVICE",
+      "greetingMode": "SERVICE_SCOPE",
+      "businessVisibility": "LIGHT",
+      "greetingServiceScope": "可帮助看通勤款式、版型、面料、颜色、尺码方向，以及已确认的店铺售前售后规则。",
+      "openingMaxChars": 120,
+      "openingMaxQuestions": 2,
+      "allowCasualChatOnOpening": true,
+      "customGreetingGuidance": "自然接住客户当前需求；没有必要时不复述客户原话，不主动编具体商品事实。",
+      "inheritStoreIntentFlow": true,
+      "intentFlowMode": "AUTO",
+      "intentFlowKeys": [],
+      "inheritStoreReplyExperience": true,
+      "replyLengthPreset": "AUTO",
+      "replyMaxSentences": 6,
+      "deliveryMode": "AUTO",
+      "maxSegments": 4,
+      "splitThresholdChars": 64,
+      "minDelayMs": 500,
+      "maxDelayMs": 1200,
+      "cancelRemainingOnCustomerMessage": true,
+      "inheritStoreConversationStrategy": true,
+      "conversationStrategy": {
+        "contextCarryoverMode": "AUTO",
+        "returningGreetingMode": "SOFT_CONTINUITY",
+        "businessIdentityStrength": "BALANCED",
+        "casualChatBoundary": "OPEN",
+        "reuseConfirmedPreferences": true,
+        "continueUnfinishedItems": true,
+        "stateInferenceMode": "CONSERVATIVE",
+        "humanNaturalness": "AUTO",
+        "humanResponseDensity": "AUTO",
+        "humanColloquiality": "AUTO",
+        "humanQuestionFrequency": "AUTO",
+        "humanBusinessAdvance": "AUTO",
+        "humanReturningContinuity": "AUTO",
+        "humanEmoji": "AUTO",
+        "humanIdentityExposure": "AUTO",
+        "humanSegmentation": "AUTO",
+        "contextBudgetMode": "AUTO",
+        "activeContextTokenBudget": 3200,
+        "totalInputTokenBudget": 7200,
+        "reservedInstructionTokens": 1800,
+        "maxKnowledgeTokens": 2200
+      }
+    }
+  },
+  "store": {
+    "code": "hve-standard-qinghe-fashion-store",
+    "name": "青禾通勤女装 · HVE标准测试店铺",
+    "description": "虚构测试店铺。商品、知识、售后政策均为固定测试事实，用于 HVE Grounding 与对话回归。",
+    "status": "ENABLED",
+    "profile": {
+      "brandIntro": "青禾是一家面向上班族女性的通勤女装测试店铺，主打简洁、好搭配、适合高温通勤与办公室场景的基础款。",
+      "mainBusiness": "通勤女装、基础内搭、半身裙、西裤、轻薄外套和简约配饰",
+      "targetCustomers": "22～38 岁，需要兼顾高温通勤、办公室体面和日常省心搭配的上班族女性",
+      "brandTone": "自然、真诚、有温度，给清晰判断但不过度推销。",
+      "businessRules": "商品静态属性以本测试知识库为准；价格、库存、活动、订单和物流均视为实时数据，本 Fixture 不提供，不允许模型自行编造。",
+      "permissionBoundaries": "未命中结构化商品时，不得把虚构名称当成本店已存在商品；尺码建议只能给方向，不保证绝对合身；不承诺实时库存、价格、优惠或发货时效。",
+      "validityNotes": "本 Fixture 为固定开发测试数据。商品和政策内容可作为已核实静态事实；所有实时字段必须由实时接口提供。",
+      "examples": "优先根据客户的通勤场景、气候、版型偏好与已确认约束筛选真实商品；只有与本轮决策有关的已知信息才需要显式承接。",
+      "intentFlowMode": "AUTO",
+      "intentFlowKeys": [],
+      "replyLengthPreset": "AUTO",
+      "replyMaxSentences": 6,
+      "deliveryMode": "AUTO",
+      "maxSegments": 4,
+      "splitThresholdChars": 64,
+      "minDelayMs": 500,
+      "maxDelayMs": 1200,
+      "cancelRemainingOnCustomerMessage": true,
+      "conversationStrategy": {
+        "contextCarryoverMode": "AUTO",
+        "returningGreetingMode": "SOFT_CONTINUITY",
+        "businessIdentityStrength": "BALANCED",
+        "casualChatBoundary": "OPEN",
+        "reuseConfirmedPreferences": true,
+        "continueUnfinishedItems": true,
+        "stateInferenceMode": "CONSERVATIVE",
+        "humanNaturalness": "AUTO",
+        "humanResponseDensity": "AUTO",
+        "humanColloquiality": "AUTO",
+        "humanQuestionFrequency": "AUTO",
+        "humanBusinessAdvance": "AUTO",
+        "humanReturningContinuity": "AUTO",
+        "humanEmoji": "AUTO",
+        "humanIdentityExposure": "AUTO",
+        "humanSegmentation": "AUTO",
+        "contextBudgetMode": "AUTO",
+        "activeContextTokenBudget": 3200,
+        "totalInputTokenBudget": 7200,
+        "reservedInstructionTokens": 1800,
+        "maxKnowledgeTokens": 2200
+      }
+    }
+  },
+  "collection": {
+    "name": "青禾 · HVE标准商品与客服知识库",
+    "code": "hve-standard-qinghe-fashion-kb",
+    "description": "R2.2 matched/unmatched Grounding 与后续 R2.3 对话深度测试用固定知识库。",
+    "industryCode": null,
+    "status": "ENABLED"
+  },
+  "entries": [
+    {
+      "category": "PRODUCT",
+      "title": "青禾「云感轻垂」通勤西裤",
+      "question": "有没有适合夏天通勤、胯宽又不想贴身的裤子",
+      "content": "高腰直筒偏微阔版型，臀胯留量较足，裤腿不贴腿；面料中薄、垂坠、微弹，适合夏季通勤和办公室场景。该商品不是冰丝，也不是纯天然面料。",
+      "tags": [
+        "西裤",
+        "通勤",
+        "夏季",
+        "胯宽",
+        "直筒",
+        "微阔",
+        "垂坠"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "QH-HVE-P001",
+      "aliases": [
+        "云感轻垂通勤西裤",
+        "云感轻垂西裤",
+        "青禾云感西裤",
+        "QH-HVE-P001"
+      ],
+      "structuredData": {
+        "category": "西裤",
+        "fit": [
+          "高腰",
+          "直筒偏微阔",
+          "臀胯留量较足",
+          "不贴腿"
+        ],
+        "material": {
+          "polyester": "68%",
+          "viscose": "27%",
+          "spandex": "5%"
+        },
+        "fabric": [
+          "中薄",
+          "垂坠",
+          "微弹"
+        ],
+        "colors": [
+          "黑色",
+          "深灰",
+          "燕麦灰"
+        ],
+        "sizes": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "occasions": [
+          "夏季通勤",
+          "办公室",
+          "商务休闲"
+        ],
+        "suitableFor": [
+          "胯宽",
+          "大腿有肉",
+          "希望修饰腿型",
+          "不喜欢紧身"
+        ],
+        "notBestFor": [
+          "极度追求纯天然面料",
+          "明确需要紧身裤型"
+        ],
+        "realtimeExcluded": [
+          "price",
+          "stock",
+          "promotion",
+          "shipping"
+        ]
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "青禾「云感轻垂」通勤西裤详情",
+          "url": "https://example.com/hve/qinghe/pants-p001",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试商品事实；价格、库存、活动、物流不在本条知识中",
+      "knowledgeKind": "ENTITY",
+      "taxonomyKeys": [
+        "APPAREL.BOTTOM",
+        "APPAREL.BOTTOM.PANTS"
+      ]
+    },
+    {
+      "category": "PRODUCT",
+      "title": "青禾「清风棉麻」短袖衬衫",
+      "question": "广州夏天上班有没有透气一点的衬衫",
+      "content": "短袖微宽松通勤衬衫，棉 55%、亚麻 30%、粘胶 15%。轻薄透气，适合高温高湿通勤；亚麻成分会带来自然轻微褶皱，不属于免烫衬衫。",
+      "tags": [
+        "衬衫",
+        "棉麻",
+        "夏季",
+        "广州",
+        "透气",
+        "通勤"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "QH-HVE-P002",
+      "aliases": [
+        "清风棉麻衬衫",
+        "青禾清风衬衫",
+        "QH-HVE-P002"
+      ],
+      "structuredData": {
+        "category": "衬衫",
+        "sleeve": "短袖",
+        "fit": "微宽松",
+        "material": {
+          "cotton": "55%",
+          "linen": "30%",
+          "viscose": "15%"
+        },
+        "fabric": [
+          "轻薄",
+          "透气"
+        ],
+        "colors": [
+          "雾白",
+          "浅蓝",
+          "浅杏"
+        ],
+        "sizes": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "occasions": [
+          "高温通勤",
+          "办公室",
+          "商务休闲"
+        ],
+        "care": [
+          "冷水轻柔洗",
+          "整理后阴干"
+        ],
+        "notes": [
+          "亚麻成分会有自然轻微褶皱",
+          "非免烫"
+        ]
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "青禾「清风棉麻」短袖衬衫详情",
+          "url": "https://example.com/hve/qinghe/shirt-p002",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试商品事实；价格、库存、活动、物流不在本条知识中",
+      "knowledgeKind": "ENTITY",
+      "taxonomyKeys": [
+        "APPAREL.TOP",
+        "APPAREL.TOP.SHIRT"
+      ]
+    },
+    {
+      "category": "PRODUCT",
+      "title": "青禾「轻盈A线」通勤半身裙",
+      "question": "胯宽上班穿什么半身裙比较合适",
+      "content": "高腰 A 字版型，腰臀不过度贴合，下摆自然展开并带里衬。S/M/L/XL 裙长分别为 58/59/60/61cm，适合通勤、梨形或胯宽用户作为选择方向。",
+      "tags": [
+        "半身裙",
+        "A字裙",
+        "通勤",
+        "胯宽",
+        "梨形"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "QH-HVE-P003",
+      "aliases": [
+        "轻盈A线半身裙",
+        "青禾A字裙",
+        "通勤A字裙",
+        "QH-HVE-P003"
+      ],
+      "structuredData": {
+        "category": "半身裙",
+        "fit": [
+          "高腰A字",
+          "腰臀不过度贴合",
+          "下摆自然展开"
+        ],
+        "lining": true,
+        "material": {
+          "polyester": "72%",
+          "viscose": "24%",
+          "spandex": "4%"
+        },
+        "fabric": [
+          "中薄",
+          "有垂坠感"
+        ],
+        "colors": [
+          "深灰",
+          "燕麦",
+          "藏蓝"
+        ],
+        "sizes": {
+          "S": {
+            "lengthCm": 58
+          },
+          "M": {
+            "lengthCm": 59
+          },
+          "L": {
+            "lengthCm": 60
+          },
+          "XL": {
+            "lengthCm": 61
+          }
+        },
+        "suitableFor": [
+          "通勤",
+          "胯宽",
+          "梨形身材"
+        ]
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "青禾「轻盈A线」通勤半身裙详情",
+          "url": "https://example.com/hve/qinghe/skirt-p003",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试商品事实；价格、库存、活动、物流不在本条知识中",
+      "knowledgeKind": "ENTITY",
+      "taxonomyKeys": [
+        "APPAREL.BOTTOM",
+        "APPAREL.BOTTOM.SKIRT"
+      ]
+    },
+    {
+      "category": "PRODUCT",
+      "title": "青禾「空调房细针」针织开衫",
+      "question": "办公室空调冷，有没有轻薄一点的外套",
+      "content": "夏季空调房轻外搭，细针织、轻薄、微宽松，可折叠收纳。面料为粘胶 70%、锦纶 30%，适合室内空调较冷、室外炎热的通勤切换。",
+      "tags": [
+        "针织开衫",
+        "空调房",
+        "轻薄",
+        "通勤",
+        "外搭"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "QH-HVE-P004",
+      "aliases": [
+        "空调房细针开衫",
+        "青禾细针开衫",
+        "轻薄针织开衫",
+        "QH-HVE-P004"
+      ],
+      "structuredData": {
+        "category": "针织开衫",
+        "fit": "微宽松",
+        "material": {
+          "viscose": "70%",
+          "nylon": "30%"
+        },
+        "fabric": [
+          "细针织",
+          "轻薄",
+          "可折叠收纳"
+        ],
+        "colors": [
+          "米白",
+          "浅灰",
+          "燕麦色"
+        ],
+        "sizes": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "occasions": [
+          "办公室空调房",
+          "夏季通勤轻外搭"
+        ]
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "青禾「空调房细针」针织开衫详情",
+          "url": "https://example.com/hve/qinghe/knit-p004",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试商品事实；价格、库存、活动、物流不在本条知识中",
+      "knowledgeKind": "ENTITY",
+      "taxonomyKeys": [
+        "APPAREL.TOP",
+        "APPAREL.TOP.KNIT_CARDIGAN"
+      ]
+    },
+    {
+      "category": "PRODUCT",
+      "title": "青禾「亚麻感轻构」薄西装",
+      "question": "想要比开衫正式一点的夏季外套",
+      "content": "单排扣微宽松薄西装，肩线自然，非紧身收腰版。面料为聚酯 60%、粘胶 25%、亚麻 15%，比针织开衫更正式，适合会议、面试、商务通勤和空调房。",
+      "tags": [
+        "西装",
+        "薄外套",
+        "亚麻感",
+        "会议",
+        "面试",
+        "通勤"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "QH-HVE-P005",
+      "aliases": [
+        "亚麻感轻构薄西装",
+        "青禾薄西装",
+        "轻构西装",
+        "QH-HVE-P005"
+      ],
+      "structuredData": {
+        "category": "西装外套",
+        "fit": [
+          "微宽松",
+          "自然肩线",
+          "非紧身收腰"
+        ],
+        "material": {
+          "polyester": "60%",
+          "viscose": "25%",
+          "linen": "15%"
+        },
+        "colors": [
+          "米白",
+          "浅卡其",
+          "深灰"
+        ],
+        "sizes": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "occasions": [
+          "会议",
+          "面试",
+          "商务通勤",
+          "空调房"
+        ],
+        "formality": "高于针织开衫"
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "青禾「亚麻感轻构」薄西装详情",
+          "url": "https://example.com/hve/qinghe/blazer-p005",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试商品事实；价格、库存、活动、物流不在本条知识中",
+      "knowledgeKind": "ENTITY",
+      "taxonomyKeys": [
+        "APPAREL.TOP",
+        "APPAREL.TOP.BLAZER"
+      ]
+    },
+    {
+      "category": "PRODUCT",
+      "title": "青禾「基础冰感」圆领T",
+      "question": "有没有特别凉快的短袖",
+      "content": "圆领短袖基础 T，触感偏凉、整体休闲。适合日常和低正式度通勤，但不作为正式会议或明确要求商务感较强场合的第一推荐。",
+      "tags": [
+        "T恤",
+        "冰感",
+        "短袖",
+        "休闲",
+        "夏季"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "QH-HVE-P006",
+      "aliases": [
+        "基础冰感圆领T",
+        "青禾冰感T",
+        "QH-HVE-P006"
+      ],
+      "structuredData": {
+        "category": "T恤",
+        "fit": "常规",
+        "fabric": [
+          "触感偏凉",
+          "轻薄"
+        ],
+        "colors": [
+          "白色",
+          "浅灰",
+          "雾蓝"
+        ],
+        "sizes": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "occasions": [
+          "日常",
+          "低正式度通勤"
+        ],
+        "notBestFor": [
+          "正式会议",
+          "强商务感场合"
+        ]
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "青禾「基础冰感」圆领T详情",
+          "url": "https://example.com/hve/qinghe/tee-p006",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试商品事实；价格、库存、活动、物流不在本条知识中",
+      "knowledgeKind": "ENTITY",
+      "taxonomyKeys": [
+        "APPAREL.TOP",
+        "APPAREL.TOP.TSHIRT"
+      ]
+    },
+    {
+      "category": "PRODUCT",
+      "title": "青禾「利落修身」烟管西裤",
+      "question": "想要修身一点的通勤西裤",
+      "content": "高腰修身烟管裤型，腰臀贴合、小脚收束，适合偏好利落贴身轮廓的用户。若客户明确胯宽且介意显胯，或明确要求宽松、不贴身，则不应优先推荐该款。",
+      "tags": [
+        "烟管裤",
+        "修身",
+        "西裤",
+        "通勤",
+        "负向对照"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "QH-HVE-P007",
+      "aliases": [
+        "利落修身烟管西裤",
+        "青禾烟管裤",
+        "QH-HVE-P007"
+      ],
+      "structuredData": {
+        "category": "西裤",
+        "fit": [
+          "高腰",
+          "修身",
+          "腰臀贴合",
+          "小脚"
+        ],
+        "colors": [
+          "黑色",
+          "深灰"
+        ],
+        "sizes": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "suitableFor": [
+          "偏好利落贴身轮廓"
+        ],
+        "notBestFor": [
+          "明确胯宽且介意显胯",
+          "明确要求宽松",
+          "明确要求不贴身"
+        ]
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "青禾「利落修身」烟管西裤详情",
+          "url": "https://example.com/hve/qinghe/pants-p007",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试商品事实；价格、库存、活动、物流不在本条知识中",
+      "knowledgeKind": "ENTITY",
+      "taxonomyKeys": [
+        "APPAREL.BOTTOM",
+        "APPAREL.BOTTOM.PANTS"
+      ]
+    },
+    {
+      "category": "PRODUCT",
+      "title": "青禾「柔光醋酸」通勤衬衫",
+      "question": "想要有质感、垂坠一点的通勤衬衫",
+      "content": "醋酸 72%、聚酯 28%，光泽柔和、垂坠感明显、通勤感较强。建议冷水轻柔洗，不建议高温烘干；更适合重视质感和垂坠感的用户，不作为极度追求低维护成本用户的第一推荐。",
+      "tags": [
+        "醋酸",
+        "衬衫",
+        "垂坠",
+        "质感",
+        "通勤"
+      ],
+      "entityType": "PRODUCT",
+      "entityKey": "QH-HVE-P008",
+      "aliases": [
+        "柔光醋酸衬衫",
+        "青禾醋酸衬衫",
+        "QH-HVE-P008"
+      ],
+      "structuredData": {
+        "category": "衬衫",
+        "material": {
+          "acetate": "72%",
+          "polyester": "28%"
+        },
+        "fabric": [
+          "柔和光泽",
+          "垂坠"
+        ],
+        "colors": [
+          "香槟白",
+          "雾灰",
+          "墨蓝"
+        ],
+        "sizes": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "care": [
+          "冷水轻柔洗",
+          "不建议高温烘干"
+        ],
+        "suitableFor": [
+          "重视质感",
+          "重视垂坠感"
+        ],
+        "notBestFor": [
+          "极度追求低维护成本"
+        ]
+      },
+      "references": [
+        {
+          "type": "PRODUCT_PAGE",
+          "title": "青禾「柔光醋酸」通勤衬衫详情",
+          "url": "https://example.com/hve/qinghe/shirt-p008",
+          "shareable": true
+        }
+      ],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试商品事实；价格、库存、活动、物流不在本条知识中",
+      "knowledgeKind": "ENTITY",
+      "taxonomyKeys": [
+        "APPAREL.TOP",
+        "APPAREL.TOP.SHIRT"
+      ]
+    },
+    {
+      "category": "DOCUMENT",
+      "title": "夏季通勤面料与体感原则",
+      "question": "夏天通勤面料怎么选",
+      "content": "高温通勤应区分透气、吸湿、垂坠、挺括和触感凉爽，这些不是同一属性。棉、亚麻通常更重视透气和吸湿；粘胶常有柔软与垂坠感；聚酯不能仅凭成分名称判断一定闷热，应结合织法、厚度和结构。商品级结论必须以该商品已绑定资料为准。",
+      "tags": [
+        "夏季",
+        "面料",
+        "透气",
+        "垂坠",
+        "知识边界"
+      ],
+      "entityType": "GUIDE",
+      "entityKey": "QH-KB-FABRIC",
+      "aliases": [],
+      "structuredData": {
+        "principles": [
+          "透气≠凉感",
+          "垂坠≠透气",
+          "挺括≠厚重",
+          "商品级事实优先于一般材质印象"
+        ]
+      },
+      "references": [],
+      "authorityLevel": "GENERAL_GUIDANCE",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试知识；与实时价格、库存、活动、订单或物流冲突时，以实时接口为准"
+    },
+    {
+      "category": "DOCUMENT",
+      "title": "胯宽与通勤版型选择原则",
+      "question": "胯宽怎么选裤子或裙子",
+      "content": "胯宽并不意味着只能穿 A 字裙。直筒、微阔、A 字等版型是否友好，取决于腰臀留量、面料垂坠、裤裙结构和用户对贴身程度的偏好。不能把“显瘦”或“绝对遮胯”作为确定承诺。",
+      "tags": [
+        "胯宽",
+        "版型",
+        "裤子",
+        "半身裙",
+        "穿搭原则"
+      ],
+      "entityType": "GUIDE",
+      "entityKey": "QH-KB-FIT",
+      "aliases": [],
+      "structuredData": {
+        "boundaries": [
+          "不承诺绝对显瘦",
+          "不承诺绝对遮胯"
+        ],
+        "decisionFactors": [
+          "腰臀留量",
+          "面料垂坠",
+          "结构",
+          "贴身偏好"
+        ]
+      },
+      "references": [],
+      "authorityLevel": "GENERAL_GUIDANCE",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试知识；与实时价格、库存、活动、订单或物流冲突时，以实时接口为准"
+    },
+    {
+      "category": "FAQ",
+      "title": "尺码建议与合身边界",
+      "question": "我应该选什么码",
+      "content": "具体尺码建议至少需要结合目标商品尺码信息，以及客户已提供的身高、体重、腰围/臀围或常穿尺码中的有效信息。只能给选择方向，不保证绝对合身；信息不足且会影响判断时再补问。",
+      "tags": [
+        "尺码",
+        "合身",
+        "身高",
+        "体重",
+        "腰围",
+        "臀围"
+      ],
+      "entityType": "POLICY",
+      "entityKey": "QH-KB-SIZE",
+      "aliases": [],
+      "structuredData": {
+        "requiredSignals": [
+          "商品尺码信息",
+          "身高/体重/围度/常穿尺码中的有效信息"
+        ],
+        "boundary": "不保证绝对合身"
+      },
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试知识；与实时价格、库存、活动、订单或物流冲突时，以实时接口为准"
+    },
+    {
+      "category": "SERVICE_POLICY",
+      "title": "青禾测试店铺售前事实边界",
+      "question": "价格库存活动能不能直接回答",
+      "content": "本 Fixture 不提供实时价格、库存、优惠、活动、订单和物流状态。未接入对应实时数据时，客服不得自行给出具体数值、库存状态、优惠力度、到货时间或发货时间。",
+      "tags": [
+        "售前",
+        "价格",
+        "库存",
+        "活动",
+        "物流",
+        "事实边界"
+      ],
+      "entityType": "POLICY",
+      "entityKey": "QH-KB-REALTIME",
+      "aliases": [],
+      "structuredData": {
+        "realtimeOnly": [
+          "price",
+          "stock",
+          "promotion",
+          "campaign",
+          "orderStatus",
+          "shippingStatus",
+          "shippingEta"
+        ],
+        "fallback": "说明需要查询当前商品页、订单或实时接口"
+      },
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试知识；与实时价格、库存、活动、订单或物流冲突时，以实时接口为准"
+    },
+    {
+      "category": "SERVICE_POLICY",
+      "title": "青禾测试店铺售后规则",
+      "question": "退货和质量问题怎么处理",
+      "content": "测试规则：支持 7 天无理由退货，前提为商品保持完好、吊牌完整且不影响二次销售；非质量问题退货运费由客户承担；质量问题按店铺/平台售后流程处理。若实际订单页或平台规则提供更具体事实，以实时规则为准。",
+      "tags": [
+        "售后",
+        "7天无理由",
+        "退货",
+        "运费",
+        "质量问题"
+      ],
+      "entityType": "POLICY",
+      "entityKey": "QH-KB-AFTERSALE",
+      "aliases": [],
+      "structuredData": {
+        "sevenDayNoReason": true,
+        "conditions": [
+          "商品完好",
+          "吊牌完整",
+          "不影响二次销售"
+        ],
+        "nonQualityReturnFreight": "客户承担",
+        "qualityIssue": "按店铺/平台售后流程处理",
+        "runtimeOverride": "订单页或平台实时规则"
+      },
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试知识；与实时价格、库存、活动、订单或物流冲突时，以实时接口为准"
+    },
+    {
+      "category": "BRAND_FACT",
+      "title": "青禾 HVE 标准测试店铺定位",
+      "question": null,
+      "content": "青禾 HVE 标准测试店铺面向上班族女性，主营通勤女装、基础内搭、半身裙、西裤和轻薄外套。测试目标是验证实体匹配、Grounding、上下文承接和回复深度，不代表真实商家。",
+      "tags": [
+        "品牌",
+        "测试店铺",
+        "HVE"
+      ],
+      "entityType": "BRAND",
+      "entityKey": "QH-KB-BRAND",
+      "aliases": [],
+      "structuredData": {
+        "demo": true,
+        "audience": "22-38岁上班族女性",
+        "mainBusiness": [
+          "通勤女装",
+          "基础内搭",
+          "半身裙",
+          "西裤",
+          "轻薄外套"
+        ]
+      },
+      "references": [],
+      "authorityLevel": "BUSINESS_FACT",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V1",
+      "freshnessPolicy": "固定 HVE 测试知识；与实时价格、库存、活动、订单或物流冲突时，以实时接口为准"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "上衣",
+      "question": null,
+      "content": "候选分类 canonical 定义，仅供 Deep Recognition 绑定客户明确限定的目标候选范围；不作为客户回复事实证据。",
+      "tags": [
+        "候选分类",
+        "Target Taxonomy"
+      ],
+      "entityType": "TARGET_TAXONOMY",
+      "entityKey": "APPAREL.TOP",
+      "aliases": [
+        "上装",
+        "通勤上衣",
+        "上身服装"
+      ],
+      "knowledgeKind": "REFERENCE",
+      "taxonomyKeys": [],
+      "structuredData": {
+        "schemaVersion": 1,
+        "purpose": "TARGET_CANDIDATE_MEMBERSHIP"
+      },
+      "references": [],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V2",
+      "freshnessPolicy": "随标准测试候选分类定义维护"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "衬衫",
+      "question": null,
+      "content": "候选分类 canonical 定义，仅供 Deep Recognition 绑定客户明确限定的目标候选范围；不作为客户回复事实证据。",
+      "tags": [
+        "候选分类",
+        "Target Taxonomy"
+      ],
+      "entityType": "TARGET_TAXONOMY",
+      "entityKey": "APPAREL.TOP.SHIRT",
+      "aliases": [
+        "通勤衬衫",
+        "短袖衬衫",
+        "长袖衬衫"
+      ],
+      "knowledgeKind": "REFERENCE",
+      "taxonomyKeys": [],
+      "structuredData": {
+        "schemaVersion": 1,
+        "purpose": "TARGET_CANDIDATE_MEMBERSHIP"
+      },
+      "references": [],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V2",
+      "freshnessPolicy": "随标准测试候选分类定义维护"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "T恤",
+      "question": null,
+      "content": "候选分类 canonical 定义，仅供 Deep Recognition 绑定客户明确限定的目标候选范围；不作为客户回复事实证据。",
+      "tags": [
+        "候选分类",
+        "Target Taxonomy"
+      ],
+      "entityType": "TARGET_TAXONOMY",
+      "entityKey": "APPAREL.TOP.TSHIRT",
+      "aliases": [
+        "T恤衫",
+        "圆领T",
+        "短袖T恤"
+      ],
+      "knowledgeKind": "REFERENCE",
+      "taxonomyKeys": [],
+      "structuredData": {
+        "schemaVersion": 1,
+        "purpose": "TARGET_CANDIDATE_MEMBERSHIP"
+      },
+      "references": [],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V2",
+      "freshnessPolicy": "随标准测试候选分类定义维护"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "针织开衫",
+      "question": null,
+      "content": "候选分类 canonical 定义，仅供 Deep Recognition 绑定客户明确限定的目标候选范围；不作为客户回复事实证据。",
+      "tags": [
+        "候选分类",
+        "Target Taxonomy"
+      ],
+      "entityType": "TARGET_TAXONOMY",
+      "entityKey": "APPAREL.TOP.KNIT_CARDIGAN",
+      "aliases": [
+        "开衫",
+        "针织衫",
+        "薄开衫"
+      ],
+      "knowledgeKind": "REFERENCE",
+      "taxonomyKeys": [],
+      "structuredData": {
+        "schemaVersion": 1,
+        "purpose": "TARGET_CANDIDATE_MEMBERSHIP"
+      },
+      "references": [],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V2",
+      "freshnessPolicy": "随标准测试候选分类定义维护"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "西装外套",
+      "question": null,
+      "content": "候选分类 canonical 定义，仅供 Deep Recognition 绑定客户明确限定的目标候选范围；不作为客户回复事实证据。",
+      "tags": [
+        "候选分类",
+        "Target Taxonomy"
+      ],
+      "entityType": "TARGET_TAXONOMY",
+      "entityKey": "APPAREL.TOP.BLAZER",
+      "aliases": [
+        "西装",
+        "薄西装",
+        "通勤西装"
+      ],
+      "knowledgeKind": "REFERENCE",
+      "taxonomyKeys": [],
+      "structuredData": {
+        "schemaVersion": 1,
+        "purpose": "TARGET_CANDIDATE_MEMBERSHIP"
+      },
+      "references": [],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V2",
+      "freshnessPolicy": "随标准测试候选分类定义维护"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "下装",
+      "question": null,
+      "content": "候选分类 canonical 定义，仅供 Deep Recognition 绑定客户明确限定的目标候选范围；不作为客户回复事实证据。",
+      "tags": [
+        "候选分类",
+        "Target Taxonomy"
+      ],
+      "entityType": "TARGET_TAXONOMY",
+      "entityKey": "APPAREL.BOTTOM",
+      "aliases": [
+        "下身服装",
+        "通勤下装"
+      ],
+      "knowledgeKind": "REFERENCE",
+      "taxonomyKeys": [],
+      "structuredData": {
+        "schemaVersion": 1,
+        "purpose": "TARGET_CANDIDATE_MEMBERSHIP"
+      },
+      "references": [],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V2",
+      "freshnessPolicy": "随标准测试候选分类定义维护"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "裤子",
+      "question": null,
+      "content": "候选分类 canonical 定义，仅供 Deep Recognition 绑定客户明确限定的目标候选范围；不作为客户回复事实证据。",
+      "tags": [
+        "候选分类",
+        "Target Taxonomy"
+      ],
+      "entityType": "TARGET_TAXONOMY",
+      "entityKey": "APPAREL.BOTTOM.PANTS",
+      "aliases": [
+        "西裤",
+        "长裤",
+        "通勤裤"
+      ],
+      "knowledgeKind": "REFERENCE",
+      "taxonomyKeys": [],
+      "structuredData": {
+        "schemaVersion": 1,
+        "purpose": "TARGET_CANDIDATE_MEMBERSHIP"
+      },
+      "references": [],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V2",
+      "freshnessPolicy": "随标准测试候选分类定义维护"
+    },
+    {
+      "category": "REFERENCE",
+      "title": "半身裙",
+      "question": null,
+      "content": "候选分类 canonical 定义，仅供 Deep Recognition 绑定客户明确限定的目标候选范围；不作为客户回复事实证据。",
+      "tags": [
+        "候选分类",
+        "Target Taxonomy"
+      ],
+      "entityType": "TARGET_TAXONOMY",
+      "entityKey": "APPAREL.BOTTOM.SKIRT",
+      "aliases": [
+        "裙子",
+        "通勤半身裙"
+      ],
+      "knowledgeKind": "REFERENCE",
+      "taxonomyKeys": [],
+      "structuredData": {
+        "schemaVersion": 1,
+        "purpose": "TARGET_CANDIDATE_MEMBERSHIP"
+      },
+      "references": [],
+      "authorityLevel": "REFERENCE_ONLY",
+      "sourceType": "IMPORT",
+      "sourceReference": "HVE_STANDARD_QINGHE_FASHION_V2",
+      "freshnessPolicy": "随标准测试候选分类定义维护"
+    }
+  ],
+  "unmatchedTestNames": [
+    "青禾「云感冰丝极光西装 2026限定款」",
+    "青禾「月光蚕丝空气裙」",
+    "青禾「零重力石墨烯通勤裤」"
+  ],
+  "testPrompts": [
+    "我在广州上班，夏天特别热，而且胯比较宽，想找条凉快、不贴胯的裤子，你们店里有适合的吗？",
+    "你刚推荐的那条具体是什么面料？为什么适合我？",
+    "它有哪些颜色？平时上班怎么搭比较省心？",
+    "你们店里的“青禾「云感冰丝极光西装 2026限定款」”是什么面料？适合我吗？"
+  ]
+}

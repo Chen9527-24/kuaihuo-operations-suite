@@ -1,0 +1,2 @@
+﻿category,title,question,content,tags,entityType,entityKey,aliases,authorityLevel,sourceReference,references
+PRODUCT,示例商品名称,客户可能怎么问,填写已核实的商品/服务事实,标签1|标签2,PRODUCT,SKU-DEMO-001,别名1|别名2,BUSINESS_FACT,内部商品资料 2026-08,"[{""type"":""PRODUCT_PAGE"",""title"":""商品详情"",""url"":""https://example.com/demo/product"",""shareable"":true}]"

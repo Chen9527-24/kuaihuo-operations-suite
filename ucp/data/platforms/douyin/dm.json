@@ -1,0 +1,29 @@
+{
+  "state_probe": {
+    "ready_hints": [
+      "全部私信",
+      "朋友私信",
+      "陌生人私信",
+      "群消息"
+    ],
+    "ready_root_selectors": [
+      ".chat-content.semi-tabs-pane-active[aria-hidden='false']",
+      ".chat-content.semi-tabs-pane-active",
+      ".container-_r15W6.chat-container-heHrxU",
+      ".list-zrsZ82",
+      ".box-container-yGo0TJ",
+      ".chat-editor-X6QnIU"
+    ]
+  },
+  "runtime": {
+    "reply_aggregate_base_wait_ms": 6000,
+    "reply_aggregate_max_wait_ms": 8000,
+    "startup_min_warmup_ms": 6500,
+    "startup_soft_cap_ms": 13000,
+    "startup_hard_cap_ms": 16500,
+    "startup_fast_probe_interval_ms": 1400
+  },
+  "reply": {
+    "fallback_text": "😁"
+  }
+}

@@ -1,0 +1,10 @@
+from __future__ import annotations
+
+COMMENT_TRACE_RUNTIME_BUNDLE = "COMMENT_TRACE_RUNTIME_BUNDLE_V70"
+
+from app.platforms.douyin.comment.filter.filter_runtime import SessionControllerCommentFilterMixin
+from app.platforms.douyin.comment.recording.record_runtime import SessionControllerCommentRecordMixin
+from app.platforms.douyin.comment.runtime.flow_runtime import SessionControllerCommentFlowMixin
+
+class SessionControllerCommentMixin(SessionControllerCommentRecordMixin, SessionControllerCommentFilterMixin, SessionControllerCommentFlowMixin):
+    pass

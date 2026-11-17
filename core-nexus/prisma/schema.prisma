@@ -1,0 +1,3082 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id               String    @id @default(cuid())
+  name             String    @db.VarChar(100)
+  code             String    @unique @db.VarChar(64)
+  status           String    @default("ACTIVE") @db.VarChar(32) // tenant_status
+  industry         String?   @db.VarChar(255)
+  productIntro     String?
+  coreSellingPoint String?
+  startedAt        DateTime
+  expiredAt        DateTime
+  remark           String?
+  deletedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  users         User[]
+  memberships   UserTenantMembership[]
+  mediaAccounts MediaAccount[]
+  dailyTasks    DailyTask[]
+  robotDevices  RobotDevice[]
+  robotAuths    RobotPlatformAuth[]
+  robots        Robot[]
+  robotRuns     RobotRun[]
+  appUsers      AppUser[]
+  withdrawals   AppUserWithdrawal[]
+  testDataBatches TestDataBatch[]
+
+  interceptCaptureRecords    InterceptCaptureRecord[]
+  interceptCaptureViewPresets InterceptCaptureViewPreset[]
+  industryAiCapabilityPacks IndustryAiCapabilityPack[]
+  industryAiRobots IndustryAiRobot[]
+  industryAiTestSessions IndustryAiTestSession[]
+  industryAiFixedReplyRules IndustryAiFixedReplyRule[]
+  customerServiceAssets CustomerServiceAsset[]
+  customerServiceRolePrototypes CustomerServiceRolePrototype[]
+  customerServiceIndustryNodes CustomerServiceIndustryNode[]
+  customerServiceMerchantRoles CustomerServiceMerchantRole[]
+  customerServiceRoleModuleInstances CustomerServiceRoleModuleInstance[]
+  customerServiceResponseRules CustomerServiceResponseRule[]
+  customerServiceQualityRules CustomerServiceQualityRule[]
+  customerServiceEvaluationCases CustomerServiceEvaluationCase[]
+  customerServiceCalibrationRecords CustomerServiceCalibrationRecord[]
+  customerServiceCalibrationProfiles CustomerServiceCalibrationProfile[]
+  customerServiceIntentDefinitions CustomerServiceIntentDefinition[]
+  customerServiceIntentCandidates  CustomerServiceIntentCandidate[]
+  customerServiceTuningSessions CustomerServiceTuningSession[]
+  customerServiceDataGovernanceRuns CustomerServiceDataGovernanceRun[]
+  customerServiceRuntimeReplyRequests CustomerServiceRuntimeReplyRequest[]
+  customerServiceReplyTraces CustomerServiceReplyTrace[]
+  customerServiceReplyFeedbacks CustomerServiceReplyFeedback[]
+  customerServiceStoreProfiles CustomerServiceStoreProfile[]
+  customerServiceAccountProfiles CustomerServiceAccountProfile[]
+  customerServiceLanguagePolicies CustomerServiceLanguagePolicy[]
+  customerServiceKnowledgeEntries CustomerServiceKnowledgeEntry[]
+  customerServiceKnowledgeCollections CustomerServiceKnowledgeCollection[]
+  customerServiceKnowledgeBindings CustomerServiceKnowledgeBinding[]
+  customerServiceKnowledgeRevisionDrafts CustomerServiceKnowledgeRevisionDraft[]
+
+  @@index([status])
+  @@index([expiredAt])
+  @@index([deletedAt])
+}
+
+model User {
+  id           String    @id @default(cuid())
+  tenantId     String?
+  username     String    @unique @db.VarChar(32)
+  passwordHash String
+  displayName  String    @db.VarChar(50)
+  phone        String?   @db.VarChar(20)
+  avatarUrl    String?
+  avatarFileId String?
+  status       String    @default("ENABLED") @db.VarChar(32) // user_status
+  remark       String?
+  deletedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  tenant                      Tenant?                @relation(fields: [tenantId], references: [id])
+  memberships                 UserTenantMembership[]
+  roles                       UserRole[]
+  uploads                     UploadFile[]           @relation("UploaderFiles")
+  createdTasks                DailyTask[]            @relation("DailyTaskCreator")
+  assignedComments            TaskComment[]          @relation("CommentAssignee")
+  settledParticipants         TaskParticipant[]      @relation("TaskParticipantSettler")
+  operatedAppUserRestrictions AppUserRestriction[]   @relation("AppUserRestrictionOperator")
+  authorizedRobotAuths        RobotPlatformAuth[]    @relation("RobotAuthAuthorizedBy")
+  createdRobots               Robot[]                @relation("RobotCreator")
+  createdRobotRuns            RobotRun[]             @relation("RobotRunCreator")
+  interceptCaptureViewPresets InterceptCaptureViewPreset[]
+  industryAiCreatedCapabilityPacks IndustryAiCapabilityPack[] @relation("IndustryAiCapabilityPackCreator")
+  industryAiCreatedCapabilityPackVersions IndustryAiCapabilityPackVersion[] @relation("IndustryAiCapabilityPackVersionCreator")
+  industryAiUpdatedCapabilityPackVersions IndustryAiCapabilityPackVersion[] @relation("IndustryAiCapabilityPackVersionUpdater")
+  industryAiCreatedRobots IndustryAiRobot[] @relation("IndustryAiRobotCreator")
+  industryAiTestSessions IndustryAiTestSession[] @relation("IndustryAiTestSessionCreator")
+  customerServiceCreatedAssets CustomerServiceAsset[] @relation("CustomerServiceAssetCreator")
+  customerServiceUpdatedAssets CustomerServiceAsset[] @relation("CustomerServiceAssetUpdater")
+  customerServiceCreatedAssetVersions CustomerServiceAssetVersion[] @relation("CustomerServiceAssetVersionCreator")
+  customerServicePublishedAssetVersions CustomerServiceAssetVersion[] @relation("CustomerServiceAssetVersionPublisher")
+  customerServiceCreatedRolePrototypes CustomerServiceRolePrototype[] @relation("CustomerServiceRolePrototypeCreator")
+  customerServiceUpdatedRolePrototypes CustomerServiceRolePrototype[] @relation("CustomerServiceRolePrototypeUpdater")
+  customerServiceCreatedIndustryNodes CustomerServiceIndustryNode[] @relation("CustomerServiceIndustryNodeCreator")
+  customerServiceUpdatedIndustryNodes CustomerServiceIndustryNode[] @relation("CustomerServiceIndustryNodeUpdater")
+  customerServiceCreatedMerchantRoles CustomerServiceMerchantRole[] @relation("CustomerServiceMerchantRoleCreator")
+  customerServiceUpdatedMerchantRoles CustomerServiceMerchantRole[] @relation("CustomerServiceMerchantRoleUpdater")
+  customerServiceCreatedRoleModuleInstances CustomerServiceRoleModuleInstance[] @relation("CustomerServiceRoleModuleInstanceCreator")
+  customerServiceUpdatedRoleModuleInstances CustomerServiceRoleModuleInstance[] @relation("CustomerServiceRoleModuleInstanceUpdater")
+  customerServiceCreatedResponseRules CustomerServiceResponseRule[] @relation("CustomerServiceResponseRuleCreator")
+  customerServiceUpdatedResponseRules CustomerServiceResponseRule[] @relation("CustomerServiceResponseRuleUpdater")
+  customerServiceCreatedQualityRules CustomerServiceQualityRule[] @relation("CustomerServiceQualityRuleCreator")
+  customerServiceUpdatedQualityRules CustomerServiceQualityRule[] @relation("CustomerServiceQualityRuleUpdater")
+  customerServiceCreatedEvaluationCases CustomerServiceEvaluationCase[] @relation("CustomerServiceEvaluationCaseCreator")
+  customerServiceUpdatedEvaluationCases CustomerServiceEvaluationCase[] @relation("CustomerServiceEvaluationCaseUpdater")
+  customerServiceCreatedCalibrationRecords CustomerServiceCalibrationRecord[] @relation("CustomerServiceCalibrationRecordCreator")
+  customerServiceUpdatedCalibrationRecords CustomerServiceCalibrationRecord[] @relation("CustomerServiceCalibrationRecordUpdater")
+  customerServiceAnalyzedCalibrationRecords CustomerServiceCalibrationRecord[] @relation("CustomerServiceCalibrationRecordAnalyzer")
+  customerServiceAppliedCalibrationRecords CustomerServiceCalibrationRecord[] @relation("CustomerServiceCalibrationRecordApplier")
+  customerServiceCreatedCalibrationProfiles CustomerServiceCalibrationProfile[] @relation("CustomerServiceCalibrationProfileCreator")
+  customerServiceUpdatedCalibrationProfiles CustomerServiceCalibrationProfile[] @relation("CustomerServiceCalibrationProfileUpdater")
+  customerServiceCreatedIntentDefinitions CustomerServiceIntentDefinition[] @relation("CustomerServiceIntentDefinitionCreator")
+  customerServiceUpdatedIntentDefinitions CustomerServiceIntentDefinition[] @relation("CustomerServiceIntentDefinitionUpdater")
+  customerServiceCreatedTuningSessions CustomerServiceTuningSession[] @relation("CustomerServiceTuningSessionCreator")
+  customerServiceCreatedTuningAnalyses CustomerServiceTuningAnalysis[] @relation("CustomerServiceTuningAnalysisCreator")
+  customerServiceCreatedStoreProfiles CustomerServiceStoreProfile[] @relation("CustomerServiceStoreProfileCreator")
+  customerServiceUpdatedStoreProfiles CustomerServiceStoreProfile[] @relation("CustomerServiceStoreProfileUpdater")
+  customerServiceCreatedAccountProfiles CustomerServiceAccountProfile[] @relation("CustomerServiceAccountProfileCreator")
+  customerServiceUpdatedAccountProfiles CustomerServiceAccountProfile[] @relation("CustomerServiceAccountProfileUpdater")
+  customerServiceCreatedLanguagePolicies CustomerServiceLanguagePolicy[] @relation("CustomerServiceLanguagePolicyCreator")
+  customerServiceUpdatedLanguagePolicies CustomerServiceLanguagePolicy[] @relation("CustomerServiceLanguagePolicyUpdater")
+  customerServiceCreatedReplyTraces CustomerServiceReplyTrace[] @relation("CustomerServiceReplyTraceCreator")
+  customerServiceCreatedReplyFeedbacks CustomerServiceReplyFeedback[] @relation("CustomerServiceReplyFeedbackCreator")
+  customerServiceCreatedKnowledgeEntries CustomerServiceKnowledgeEntry[] @relation("CustomerServiceKnowledgeEntryCreator")
+  customerServiceUpdatedKnowledgeEntries CustomerServiceKnowledgeEntry[] @relation("CustomerServiceKnowledgeEntryUpdater")
+  customerServiceCreatedKnowledgeCollections CustomerServiceKnowledgeCollection[] @relation("CustomerServiceKnowledgeCollectionCreator")
+  customerServiceUpdatedKnowledgeCollections CustomerServiceKnowledgeCollection[] @relation("CustomerServiceKnowledgeCollectionUpdater")
+  customerServiceCreatedKnowledgeBindings CustomerServiceKnowledgeBinding[] @relation("CustomerServiceKnowledgeBindingCreator")
+  customerServiceCreatedKnowledgeRevisionDrafts CustomerServiceKnowledgeRevisionDraft[] @relation("CustomerServiceKnowledgeRevisionDraftCreator")
+  customerServiceUpdatedKnowledgeRevisionDrafts CustomerServiceKnowledgeRevisionDraft[] @relation("CustomerServiceKnowledgeRevisionDraftUpdater")
+  customerServiceVerifiedKnowledgeRevisionDrafts CustomerServiceKnowledgeRevisionDraft[] @relation("CustomerServiceKnowledgeRevisionDraftVerifier")
+  customerServicePublishedKnowledgeRevisionDrafts CustomerServiceKnowledgeRevisionDraft[] @relation("CustomerServiceKnowledgeRevisionDraftPublisher")
+
+  @@index([tenantId])
+  @@index([phone])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  tenantId    String?
+  code        String   @unique @db.VarChar(64)
+  name        String   @db.VarChar(100)
+  scope       String   @default("PLATFORM") @db.VarChar(32) // PLATFORM / TENANT
+  status      String   @default("ENABLED") @db.VarChar(32) // role_status
+  description String?
+  remark      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users       UserRole[]
+  permissions RolePermission[]
+
+  @@index([tenantId])
+  @@index([scope])
+  @@index([status])
+}
+
+model Permission {
+  id        String   @id @default(cuid())
+  parentId  String?
+  code      String   @unique @db.VarChar(100)
+  name      String   @db.VarChar(100)
+  group     String   @default("system") @db.VarChar(32)
+  type      String   @default("BUTTON") @db.VarChar(32) // permission_type
+  status    String   @default("ENABLED") @db.VarChar(32) // permission_validation_status
+  sort      Int      @default(0)
+  routePath String?
+  component String?
+  icon      String?
+  remark    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parent   Permission?      @relation("PermissionTree", fields: [parentId], references: [id])
+  children Permission[]     @relation("PermissionTree")
+  roles    RolePermission[]
+
+  @@index([parentId])
+  @@index([type])
+  @@index([status])
+}
+
+model CustomerLead {
+  id                String                 @id @default(cuid())
+  companyName       String                 @db.VarChar(150)
+  contactName       String?                @db.VarChar(80)
+  contactPosition   String?                @db.VarChar(80)
+  contactInfo       String?                @db.VarChar(200)
+  leadSource        String                 @default("UNKNOWN") @db.VarChar(32)
+  leadSourceDetail  String?                @db.VarChar(300)
+  companyAddress    String?                @db.VarChar(500)
+  primaryCategories String[]               @default([])
+  requestedFeatures String?
+  currentSolution   String?
+  notWonReason      String?
+  followUpStatus    String                 @default("PENDING_CONTACT") @db.VarChar(32)
+  followUpValue     String                 @default("NURTURE") @db.VarChar(32)
+  followUpOwner     String?                @db.VarChar(80)
+  // 当前待办的下次计划，不属于实际沟通历史。
+  nextFollowUpAt    DateTime?
+  nextFollowUpPlan  String?
+  // 首次与最近一次实际沟通的投影字段；完整历史以 CustomerLeadFollowUp 为准。
+  firstFollowUpAt   DateTime?
+  lastFollowUpAt    DateTime?
+  lastFollowUpNote  String?
+  followUpCount     Int                    @default(0)
+  remark            String?
+  deletedAt         DateTime?
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+
+  followUps         CustomerLeadFollowUp[]
+  websiteSubmission WebsiteContactSubmission?
+
+  @@index([companyName])
+  @@index([leadSource])
+  @@index([followUpStatus])
+  @@index([followUpValue])
+  @@index([followUpOwner])
+  @@index([nextFollowUpAt])
+  @@index([firstFollowUpAt])
+  @@index([lastFollowUpAt])
+  @@index([deletedAt])
+}
+
+model CustomerLeadFollowUp {
+  id               String       @id @default(cuid())
+  customerLeadId   String
+  followedUpAt     DateTime
+  followUpMethod   String?      @db.VarChar(32)
+  followUpOwner    String?      @db.VarChar(80)
+  summary          String
+  followUpStatus   String       @db.VarChar(32)
+  followUpValue    String       @db.VarChar(32)
+  nextFollowUpAt   DateTime?
+  nextFollowUpPlan String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  customerLead CustomerLead @relation(fields: [customerLeadId], references: [id], onDelete: Cascade)
+
+  @@index([customerLeadId, followedUpAt])
+  @@index([followedUpAt])
+  @@index([followUpOwner])
+}
+
+/// 官网全局内容配置。PC 只编辑草稿，公开站点只读取已发布内容；两者分离，避免未完成内容直接上线。
+model WebsiteConfiguration {
+  id                String    @id @default("official-website") @db.VarChar(50)
+  draftContent      Json?
+  publishedContent  Json?
+  draftRevision     Int       @default(0)
+  publishedRevision Int       @default(0)
+  updatedById       String?
+  publishedById     String?
+  publishedAt       DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+/// 官网联系表单的不可覆盖原始快照。业务跟进继续使用 CustomerLead，来源证据和投放参数保留在这里。
+model WebsiteContactSubmission {
+  id                       String   @id @default(cuid())
+  customerLeadId           String   @unique
+  requestId                String   @unique @db.VarChar(64)
+  submittedCompanyName     String   @db.VarChar(150)
+  submittedContactName     String?  @db.VarChar(80)
+  submittedContactInfo     String   @db.VarChar(200)
+  businessOverview         String
+  operatingAccounts        String?
+  challenge                String   @db.VarChar(200)
+  pageUrl                  String?  @db.VarChar(1000)
+  referrer                 String?  @db.VarChar(1000)
+  utmSource                String?  @db.VarChar(200)
+  utmMedium                String?  @db.VarChar(200)
+  utmCampaign              String?  @db.VarChar(200)
+  utmTerm                  String?  @db.VarChar(200)
+  utmContent               String?  @db.VarChar(200)
+  ipHash                   String?  @db.VarChar(64)
+  userAgent                String?  @db.VarChar(500)
+  privacyConsentAt         DateTime
+  viewedAt                 DateTime?
+  viewedById               String?
+  createdAt                DateTime @default(now())
+
+  customerLead CustomerLead @relation(fields: [customerLeadId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([viewedAt, createdAt])
+  @@index([utmSource])
+  @@index([utmCampaign])
+}
+
+model UserRole {
+  userId     String
+  roleId     String
+  assignedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  assignedAt   DateTime @default(now())
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model DictType {
+  id        String   @id @default(cuid())
+  code      String   @unique @db.VarChar(64)
+  name      String   @db.VarChar(100)
+  status    String   @default("ENABLED") @db.VarChar(32)
+  remark    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items DictItem[]
+
+  @@index([status])
+}
+
+model DictItem {
+  id        String   @id @default(cuid())
+  typeCode  String   @db.VarChar(64)
+  label     String   @db.VarChar(100)
+  value     String   @db.VarChar(64)
+  color     String?
+  sort      Int      @default(0)
+  status    String   @default("ENABLED") @db.VarChar(32)
+  remark    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  type DictType @relation(fields: [typeCode], references: [code], onDelete: Cascade)
+
+  @@unique([typeCode, value])
+  @@index([typeCode, status])
+}
+
+model MediaAccount {
+  id          String    @id @default(cuid())
+  tenantId    String
+  platform    String    @db.VarChar(32) // media_platform
+  accountId   String    @db.VarChar(100)
+  accountName String    @db.VarChar(100)
+  status      String    @default("ENABLED") @db.VarChar(32)
+  positioning String?
+  remark      String?
+  deletedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  tenant     Tenant      @relation(fields: [tenantId], references: [id])
+  dailyTasks DailyTask[]
+
+  @@index([tenantId, platform])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+model RobotDevice {
+  id               String    @id @default(cuid())
+  tenantId         String
+  name             String    @db.VarChar(100)
+  platform         String?   @db.VarChar(32)
+  deviceCode       String    @unique @db.VarChar(64)
+  deviceSecretHash String?   @db.VarChar(255)
+  status           String    @default("OFFLINE") @db.VarChar(32) // robot_device_status
+  clientVersion    String?   @db.VarChar(32)
+  osName           String?   @db.VarChar(64)
+  ip               String?
+  lastHeartbeatAt  DateTime?
+  remark           String?
+  deletedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  tenant Tenant              @relation(fields: [tenantId], references: [id])
+  auths  RobotPlatformAuth[]
+  robots Robot[]
+  runs   RobotRun[]
+
+  @@index([tenantId, status])
+  @@index([platform])
+  @@index([lastHeartbeatAt])
+  @@index([deletedAt])
+}
+
+model UserTenantMembership {
+  id        String   @id @default(cuid())
+  userId    String
+  tenantId  String
+  status    String   @default("ENABLED") @db.VarChar(32)
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tenantId])
+  @@index([userId, status])
+  @@index([tenantId, status])
+}
+
+model RobotPlatformAuth {
+  id                 String    @id @default(cuid())
+  tenantId           String
+  platform           String    @db.VarChar(32)
+  authType           String    @default("QR_SESSION") @db.VarChar(32)
+  accountUid         String?   @db.VarChar(100)
+  accountName        String?   @db.VarChar(100)
+  accountAvatarUrl   String?
+  status             String    @default("UNBOUND") @db.VarChar(32) // robot_auth_status
+  sessionData        String?
+  sessionExpiresAt   DateTime?
+  authorizedAt       DateTime?
+  authorizedByUserId String?
+  deviceId           String?
+  lastVerifiedAt     DateTime?
+  revokedAt          DateTime?
+  remark             String?
+  deletedAt          DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  tenant       Tenant       @relation(fields: [tenantId], references: [id])
+  authorizedBy User?        @relation("RobotAuthAuthorizedBy", fields: [authorizedByUserId], references: [id])
+  device       RobotDevice? @relation(fields: [deviceId], references: [id])
+  robots       Robot[]
+  runs         RobotRun[]
+
+  @@index([tenantId, platform])
+  @@index([status])
+  @@index([deviceId])
+  @@index([sessionExpiresAt])
+  @@index([deletedAt])
+}
+
+model Robot {
+  id              String    @id @default(cuid())
+  tenantId        String
+  name            String    @db.VarChar(100)
+  type            String    @db.VarChar(32) // robot_type
+  platform        String    @db.VarChar(32)
+  status          String    @default("DRAFT") @db.VarChar(32) // robot_status
+  authId          String?
+  deviceId        String?
+  expireAt        DateTime?
+  startedAt       DateTime?
+  stoppedAt       DateTime?
+  stopReason      String?   @db.VarChar(32) // robot_stop_reason
+  lastHeartbeatAt DateTime?
+  lastError       String?
+  config          Json?
+  remark          String?
+  deletedAt       DateTime?
+  createdById     String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  tenant    Tenant             @relation(fields: [tenantId], references: [id])
+  auth      RobotPlatformAuth? @relation(fields: [authId], references: [id])
+  device    RobotDevice?       @relation(fields: [deviceId], references: [id])
+  createdBy User               @relation("RobotCreator", fields: [createdById], references: [id])
+  runs      RobotRun[]
+
+  interceptCaptureRecords InterceptCaptureRecord[]
+
+  @@index([tenantId, platform])
+  @@index([tenantId, type])
+  @@index([status])
+  @@index([authId])
+  @@index([deviceId])
+  @@index([expireAt])
+  @@index([deletedAt])
+}
+
+model RobotRun {
+  id              String    @id @default(cuid())
+  tenantId        String
+  robotId         String
+  authId          String?
+  deviceId        String?
+  createdById     String?
+  runToken        String    @unique @db.VarChar(64)
+  status          String    @default("RUNNING") @db.VarChar(32) // robot_run_status
+  stopReason      String?   @db.VarChar(32) // robot_stop_reason
+  lastHeartbeatAt DateTime?
+  startedAt       DateTime  @default(now())
+  stoppedAt       DateTime?
+  lastError       String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  tenant    Tenant             @relation(fields: [tenantId], references: [id])
+  robot     Robot              @relation(fields: [robotId], references: [id], onDelete: Cascade)
+  auth      RobotPlatformAuth? @relation(fields: [authId], references: [id])
+  device    RobotDevice?       @relation(fields: [deviceId], references: [id])
+  createdBy User?              @relation("RobotRunCreator", fields: [createdById], references: [id])
+
+  @@index([tenantId, status])
+  @@index([robotId, status])
+  @@index([authId])
+  @@index([deviceId])
+  @@index([startedAt])
+}
+
+model UploadFile {
+  id            String   @id @default(cuid())
+  uploaderId    String
+  scene         String?  @db.VarChar(64) // file_scene
+  status        String   @default("TEMP") @db.VarChar(32) // TEMP / ACTIVE / DELETED
+  storageDriver String   @db.VarChar(16)
+  bucket        String?
+  objectKey     String
+  originalName  String
+  mimeType           String   @db.VarChar(120)
+  size               Int
+  url                String
+  thumbnailObjectKey String?
+  thumbnailMimeType  String?  @db.VarChar(120)
+  thumbnailSize      Int?
+  imageWidth         Int?
+  imageHeight        Int?
+  createdAt          DateTime @default(now())
+
+  uploader User        @relation("UploaderFiles", fields: [uploaderId], references: [id], onDelete: Cascade)
+  usages   FileUsage[]
+
+  @@index([uploaderId, createdAt])
+  @@index([scene])
+  @@index([status])
+}
+
+model FileUsage {
+  id        String   @id @default(cuid())
+  fileId    String
+  bizType   String   @db.VarChar(64)
+  bizId     String
+  fieldName String   @db.VarChar(64)
+  createdAt DateTime @default(now())
+
+  file UploadFile @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@index([bizType, bizId])
+  @@index([fileId])
+}
+
+model DailyTask {
+  id                    String    @id @default(cuid())
+  tenantId              String
+  mediaAccountId        String
+  platform              String    @db.VarChar(32) // media_platform
+  title                 String    @db.VarChar(255)
+  postId                String?   @db.VarChar(64)
+  authorName            String?   @db.VarChar(100)
+  videoUrl              String
+  coverFileId           String?
+  coverUrl              String?
+  copywriting           String?
+  commentRequirement    String?
+  commentExample        String?
+  targetCommentCount    Int
+  rewardAmount          Int       @default(0)
+  claimedCommentCount   Int       @default(0)
+  completedCommentCount Int       @default(0)
+  publishedAt           DateTime?
+  stepConfig            Json?
+  status                String    @default("DRAFT") @db.VarChar(32) // daily_task_status
+  distributionScope     String    @default("TENANT") @db.VarChar(32) // TENANT / GROUP
+  distributionGroupId   String?
+  allowGroupCollaboration Boolean @default(false)
+  // 团长分佣为任务发布时的财务快照：rewardAmount 始终表示成员端可见/可结算金额。
+  // taskBudgetAmount 是管理端输入的任务金额；INCLUDED 模式会从中扣除团长佣金，EXTRA 模式则额外计入团长佣金。
+  commissionEnabled     Boolean   @default(false)
+  commissionRuleId      String?
+  taskBudgetAmount      Int       @default(0)
+  commissionMode        String?   @db.VarChar(16) // INCLUDED / EXTRA
+  commissionRuleType    String?   @db.VarChar(16) // PERCENT / FIXED
+  commissionRuleValue   Int?
+  commissionAmount      Int       @default(0)
+  commissionGroupId     String?
+  commissionLeaderUserId String?
+  remark                String?
+  dispatchedAt          DateTime?
+  completedAt           DateTime?
+  deletedAt             DateTime?
+  // 测试任务标记：仅在测试环境开启 ALLOW_TEST_DATA_PURGE 后，允许清理已领取/已结算等完整测试链路。
+  isTestData            Boolean   @default(false)
+  testMarkedAt          DateTime?
+  testMarkedById        String?
+  // 新测试任务必须明确归属一个测试批次；清理范围只按批次，不再递归猜测关联关系。
+  testBatchId           String?
+  createdById           String
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  tenant       Tenant               @relation(fields: [tenantId], references: [id])
+  mediaAccount MediaAccount         @relation(fields: [mediaAccountId], references: [id])
+  createdBy    User                 @relation("DailyTaskCreator", fields: [createdById], references: [id])
+  videoLinks   DailyTaskVideoLink[]
+  comments     TaskComment[]
+  dispatches   TaskDispatch[]
+  participants TaskParticipant[]
+  abandonLogs  TaskAbandonLog[]
+  testBatch    TestDataBatch? @relation("TestBatchTasks", fields: [testBatchId], references: [id], onDelete: SetNull)
+
+  @@unique([tenantId, platform, postId])
+  @@index([tenantId, platform])
+  @@index([distributionGroupId])
+  @@index([distributionScope])
+  @@index([commissionGroupId])
+  @@index([commissionLeaderUserId])
+  @@index([allowGroupCollaboration])
+  @@index([mediaAccountId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([deletedAt])
+  @@index([isTestData])
+  @@index([testBatchId])
+  @@index([distributionGroupId, status])
+}
+
+model DailyTaskVideoLink {
+  id        String   @id @default(cuid())
+  taskId    String
+  url       String
+  isPrimary Boolean  @default(false)
+  sort      Int      @default(0)
+  createdAt DateTime @default(now())
+
+  task DailyTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+}
+
+model TaskComment {
+  id            String    @id @default(cuid())
+  taskId        String
+  content       String
+  status        String    @default("AVAILABLE") @db.VarChar(32) // task_comment_status
+  assigneeId    String?
+  participantId String?
+  claimerName   String?   @db.VarChar(50)
+  assignedAt    DateTime?
+  completedAt   DateTime?
+  source        String    @default("MANUAL") @db.VarChar(32) // comment_source
+  regionCode    String?
+  sort          Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  task        DailyTask        @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  assignee    User?            @relation("CommentAssignee", fields: [assigneeId], references: [id])
+  participant TaskParticipant? @relation(fields: [participantId], references: [id])
+
+  @@index([taskId])
+  @@index([status])
+  @@index([assigneeId])
+  @@index([participantId])
+}
+
+model TaskParticipant {
+  id                    String    @id @default(cuid())
+  taskId                String
+  visitorToken          String    @unique @db.VarChar(64)
+  visitorName           String?   @db.VarChar(50)
+  phone                 String?   @db.VarChar(20)
+  taskAccountId         String?
+  taskAccountPhone      String?   @db.VarChar(20)
+  taskAccountNickname   String?   @db.VarChar(80)
+  primaryGroupId        String?
+  taskOwnerGroupId      String?
+  participantGroupId    String?
+  sourceCollaborationId String?
+  commissionBaseAmount  Int       @default(0)
+  commissionCalculated  Boolean   @default(false)
+  // 领取时复制任务分佣快照，后续即使团长规则调整也不重新计算。
+  leaderCommissionEnabled      Boolean   @default(false)
+  leaderCommissionGroupId      String?
+  leaderCommissionLeaderUserId String?
+  leaderCommissionMode         String?   @db.VarChar(16)
+  leaderCommissionAmount       Int       @default(0)
+  leaderCommissionSettledAt    DateTime?
+  // 从任务批次复制，避免成员后续换团队影响测试订单归属。
+  testBatchId            String?
+  uploadedImageFileId   String?
+  uploadedImageUrl      String?
+  status                String    @default("STARTED") @db.VarChar(32) // task_participant_status
+  settlementStatus      String    @default("UNSETTLED") @db.VarChar(32) // UNSETTLED / SETTLED
+  settlementAmount      Int?
+  settlementOrderNo     String?   @db.VarChar(128)
+  settlementProofFileId String?
+  settlementProofUrl    String?
+  settlementRemark      String?
+  rejectedAt            DateTime?
+  resubmitStartedAt     DateTime?
+  settledAt             DateTime?
+  settledById           String?
+  appUserId             String?
+  mediaAccountNo        String?   @db.VarChar(100)
+  proofOcrStatus        String?   @default("PENDING") @db.VarChar(32)
+  proofOcrText          String?
+  abandonedAt           DateTime?
+  abandonReason         String?
+  sourcePlatform        String?   @db.VarChar(32) // H5 / MINI_PROGRAM
+  ip                    String?
+  userAgent             String?
+  startedAt             DateTime?
+  claimedAt             DateTime?
+  completedAt           DateTime?
+  lastActiveAt          DateTime?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  task        DailyTask        @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  settledBy   User?            @relation("TaskParticipantSettler", fields: [settledById], references: [id])
+  appUser     AppUser?         @relation(fields: [appUserId], references: [id])
+  abandonLogs TaskAbandonLog[]
+  comments    TaskComment[]
+  testBatch   TestDataBatch? @relation("TestBatchParticipants", fields: [testBatchId], references: [id], onDelete: SetNull)
+
+  @@index([taskId])
+  @@index([status])
+  @@index([visitorName])
+  @@index([phone])
+  @@index([taskAccountId])
+  @@index([taskAccountPhone])
+  @@index([primaryGroupId])
+  @@index([participantGroupId])
+  @@index([appUserId])
+  @@index([mediaAccountNo])
+  @@index([settlementStatus])
+  @@index([rejectedAt])
+  @@index([resubmitStartedAt])
+  @@index([settledAt])
+  @@index([leaderCommissionGroupId])
+  @@index([leaderCommissionLeaderUserId])
+  @@index([testBatchId])
+}
+
+model TaskDispatch {
+  id         String   @id @default(cuid())
+  taskId     String
+  operatorId String
+  status     String   @default("PENDING") @db.VarChar(32) // dispatch_status
+  message    String?
+  createdAt  DateTime @default(now())
+
+  task DailyTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([status])
+}
+
+model OperationLog {
+  id          String   @id @default(cuid())
+  operatorId  String
+  tenantId    String?
+  module      String   @db.VarChar(64)
+  action      String   @db.VarChar(64)
+  bizId       String?
+  description String?
+  beforeData  Json?
+  afterData   Json?
+  ip          String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  @@index([operatorId])
+  @@index([tenantId])
+  @@index([module, action])
+  @@index([createdAt])
+}
+
+
+// 行业 AI 机器人模块与既有评论/私信/截流机器人完全隔离：
+// 仅用于行业能力包配置与 DeepSeek 后台聊天测试，当前不参与任何已有机器人执行或消息发送链路。
+model IndustryAiCapabilityPack {
+  id           String    @id @default(cuid())
+  tenantId     String
+  name         String    @db.VarChar(100)
+  industryCode String    @db.VarChar(64)
+  industryName String    @db.VarChar(100)
+  channel      String    @default("BOTH") @db.VarChar(16) // DM / COMMENT / BOTH
+  description  String?
+  status       String    @default("DRAFT") @db.VarChar(32) // DRAFT / PUBLISHED / ARCHIVED
+  createdById  String
+  deletedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  tenant   Tenant  @relation(fields: [tenantId], references: [id])
+  createdBy User   @relation("IndustryAiCapabilityPackCreator", fields: [createdById], references: [id])
+  versions IndustryAiCapabilityPackVersion[]
+  robots   IndustryAiRobot[]
+
+  @@index([tenantId, status])
+  @@index([tenantId, industryCode])
+  @@index([deletedAt])
+}
+
+model IndustryAiCapabilityPackVersion {
+  id              String    @id @default(cuid())
+  packId          String
+  versionNo       Int
+  status          String    @default("DRAFT") @db.VarChar(32) // DRAFT / PUBLISHED / ARCHIVED
+  tone            String?
+  replyPrinciples String?
+  riskPolicy      String?
+  handoffPolicy   String?
+  publishedAt     DateTime?
+  createdById     String
+  updatedById     String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  pack      IndustryAiCapabilityPack @relation(fields: [packId], references: [id], onDelete: Cascade)
+  createdBy User                     @relation("IndustryAiCapabilityPackVersionCreator", fields: [createdById], references: [id])
+  updatedBy User?                    @relation("IndustryAiCapabilityPackVersionUpdater", fields: [updatedById], references: [id])
+  scenarios IndustryAiScenario[]
+  guardrails IndustryAiGuardrail[]
+  robots IndustryAiRobot[]
+  testSessions IndustryAiTestSession[]
+
+  @@unique([packId, versionNo])
+  @@index([packId, status])
+  @@index([status])
+}
+
+model IndustryAiScenario {
+  id                String    @id @default(cuid())
+  versionId         String
+  code              String    @db.VarChar(64)
+  name              String    @db.VarChar(100)
+  channel           String    @default("BOTH") @db.VarChar(16)
+  triggerPhrases    Json      @default("[]")
+  serviceKey        String?   @db.VarChar(64)
+  intentDescription String?
+  replyGoal         String?
+  replyFramework    String?
+  riskLevel         String    @default("LOW") @db.VarChar(16)
+  replyMode         String    @default("AI_REPLY") @db.VarChar(32)
+  priority          Int       @default(0)
+  enabled           Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  version  IndustryAiCapabilityPackVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  examples IndustryAiScenarioExample[]
+
+  @@unique([versionId, code])
+  @@index([versionId, enabled])
+  @@index([versionId, priority])
+}
+
+model IndustryAiScenarioExample {
+  id               String    @id @default(cuid())
+  scenarioId       String
+  userInput        String
+  recommendedReply String
+  notes            String?
+  qualityScore     Int       @default(0)
+  enabled          Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  scenario IndustryAiScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+
+  @@index([scenarioId, enabled])
+  @@index([scenarioId, qualityScore])
+}
+
+model IndustryAiGuardrail {
+  id          String    @id @default(cuid())
+  versionId   String
+  type        String    @db.VarChar(32) // FORBIDDEN / REQUIRED / HANDOFF
+  ruleContent String
+  priority    Int       @default(0)
+  enabled     Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  version IndustryAiCapabilityPackVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+
+  @@index([versionId, enabled])
+  @@index([versionId, priority])
+}
+
+model IndustryAiRobot {
+  id                       String    @id @default(cuid())
+  tenantId                 String
+  name                     String    @db.VarChar(100)
+  channel                  String    @db.VarChar(16) // DM / COMMENT
+  industryCode             String    @db.VarChar(64)
+  industryName             String    @db.VarChar(100)
+  capabilityPackId         String
+  capabilityPackVersionId  String
+  capabilityPackSnapshot   Json
+  brandName                String?   @db.VarChar(100)
+  businessProfile          String?
+  businessRules            String?
+  // V4.2：店铺结构化处理规则（发货、物流、改地址、售后、退款、投诉）；仅用于 IndustryAiRobot。
+  storeServiceRules        Json?
+  // V4.1：行业范围和敏感消息的独立决策策略，仅作用于 IndustryAiRobot。
+  outOfScopePolicy         String    @default("GUIDE_BACK") @db.VarChar(32) // GUIDE_BACK / NO_REPLY / HANDOFF
+  outOfScopeReply          String?
+  sensitiveMessagePolicy   String    @default("HANDOFF") @db.VarChar(32) // HANDOFF / NO_REPLY
+  sensitiveReply            String?
+  serviceCapabilities      Json?
+  customPrompt             String?
+  status                   String    @default("DRAFT") @db.VarChar(32) // DRAFT / ENABLED / DISABLED
+  remark                   String?
+  createdById              String
+  deletedAt                DateTime?
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+
+  tenant                 Tenant                         @relation(fields: [tenantId], references: [id])
+  createdBy              User                           @relation("IndustryAiRobotCreator", fields: [createdById], references: [id])
+  capabilityPack         IndustryAiCapabilityPack       @relation(fields: [capabilityPackId], references: [id])
+  capabilityPackVersion  IndustryAiCapabilityPackVersion @relation(fields: [capabilityPackVersionId], references: [id])
+  testSessions           IndustryAiTestSession[]
+  fixedReplyRules       IndustryAiFixedReplyRule[]
+
+  @@index([tenantId, status])
+  @@index([tenantId, channel])
+  @@index([capabilityPackId])
+  @@index([capabilityPackVersionId])
+  @@index([deletedAt])
+}
+
+model IndustryAiFixedReplyRule {
+  id               String    @id @default(cuid())
+  tenantId         String
+  robotId          String
+  name             String    @db.VarChar(100)
+  channel          String    @default("BOTH") @db.VarChar(16) // DM / COMMENT / BOTH
+  matchType        String    @db.VarChar(32) // EXACT / CONTAINS / KEYWORD_COMBINATION
+  triggerPhrases   Json      @default("[]")
+  requiredKeywords Json      @default("[]")
+  excludedKeywords Json      @default("[]")
+  replyType        String    @default("DIRECT_REPLY") @db.VarChar(32) // DIRECT_REPLY / COLLECT_INFO / HANDOFF
+  replyContent     String
+  priority         Int       @default(100)
+  enabled          Boolean   @default(true)
+  // V4.3：当前仅统计行业 AI 聊天测试中的有效命中；真实渠道接入后可继续复用。
+  matchCount       Int       @default(0)
+  lastMatchedAt    DateTime?
+  remark           String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  tenant Tenant           @relation(fields: [tenantId], references: [id])
+  robot  IndustryAiRobot  @relation(fields: [robotId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, robotId, enabled])
+  @@index([robotId, priority])
+  @@index([robotId, channel])
+  @@index([robotId, lastMatchedAt])
+}
+
+model IndustryAiTestSession {
+  id                      String    @id @default(cuid())
+  tenantId                String
+  robotId                 String
+  capabilityPackVersionId String
+  createdById             String
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  tenant  Tenant                         @relation(fields: [tenantId], references: [id])
+  robot   IndustryAiRobot                @relation(fields: [robotId], references: [id], onDelete: Cascade)
+  capabilityPackVersion IndustryAiCapabilityPackVersion @relation(fields: [capabilityPackVersionId], references: [id])
+  createdBy User                          @relation("IndustryAiTestSessionCreator", fields: [createdById], references: [id])
+  messages IndustryAiTestMessage[]
+
+  @@index([tenantId, robotId, updatedAt])
+  @@index([capabilityPackVersionId])
+}
+
+model IndustryAiTestMessage {
+  id        String    @id @default(cuid())
+  sessionId String
+  role      String    @db.VarChar(16) // USER / ASSISTANT
+  content   String
+  trace     Json?
+  createdAt DateTime  @default(now())
+
+  session IndustryAiTestSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+}
+
+// 智能客服经营 Agent V5 独立数据域。承载配置资产、角色、行业、回复规则、质量规则与测试案例；
+// 当前仅用于 SIMULATION，不参与旧机器人运行、客户消息发送、Coze 路由或真实业务写动作。
+model CustomerServiceAsset {
+  id               String    @id @default(cuid())
+  tenantId         String
+  key              String    @db.VarChar(100)
+  name             String    @db.VarChar(120)
+  assetType        String    @db.VarChar(64)
+  description      String?
+  status           String    @default("DRAFT") @db.VarChar(32) // DRAFT / PUBLISHED / ARCHIVED
+  currentVersionId String?
+  revision         Int       @default(1)
+  createdById      String
+  updatedById      String?
+  deletedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  tenant    Tenant                        @relation(fields: [tenantId], references: [id])
+  createdBy User                          @relation("CustomerServiceAssetCreator", fields: [createdById], references: [id])
+  updatedBy User?                         @relation("CustomerServiceAssetUpdater", fields: [updatedById], references: [id])
+  versions      CustomerServiceAssetVersion[]
+  responseRules CustomerServiceResponseRule[]
+
+  @@unique([tenantId, key])
+  @@index([tenantId, assetType, status])
+  @@index([tenantId, updatedAt])
+  @@index([deletedAt])
+}
+
+model CustomerServiceAssetVersion {
+  id            String    @id @default(cuid())
+  assetId       String
+  versionNo     Int
+  title         String    @db.VarChar(160)
+  summary       String?
+  content       Json
+  contentHash   String    @db.VarChar(64)
+  status        String    @default("DRAFT") @db.VarChar(32) // DRAFT / PUBLISHED / ARCHIVED
+  revision      Int       @default(1)
+  publishedAt   DateTime?
+  publishedById String?
+  createdById   String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  asset       CustomerServiceAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  createdBy   User                 @relation("CustomerServiceAssetVersionCreator", fields: [createdById], references: [id])
+  publishedBy User?                @relation("CustomerServiceAssetVersionPublisher", fields: [publishedById], references: [id])
+
+  @@unique([assetId, versionNo])
+  @@index([assetId, status])
+  @@index([publishedAt])
+}
+
+model CustomerServiceRolePrototype {
+  id                 String    @id @default(cuid())
+  tenantId           String
+  code               String    @db.VarChar(100)
+  name               String    @db.VarChar(120)
+  description        String?
+  identity           String?
+  personality        String?
+  languageStyle      String?
+  servicePosture     String?
+  speakerProfile     Json?
+  status             String    @default("DRAFT") @db.VarChar(32) // DRAFT / ENABLED / ARCHIVED
+  revision           Int       @default(1)
+  createdById        String
+  updatedById        String?
+  deletedAt          DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  tenant    Tenant @relation(fields: [tenantId], references: [id])
+  createdBy User   @relation("CustomerServiceRolePrototypeCreator", fields: [createdById], references: [id])
+  updatedBy User?  @relation("CustomerServiceRolePrototypeUpdater", fields: [updatedById], references: [id])
+  merchantRoles CustomerServiceMerchantRole[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId, status])
+  @@index([tenantId, updatedAt])
+  @@index([deletedAt])
+}
+
+model CustomerServiceIndustryNode {
+  id          String    @id @default(cuid())
+  tenantId    String
+  parentId    String?
+  code        String    @db.VarChar(100)
+  name        String    @db.VarChar(120)
+  nodeType    String    @db.VarChar(32) // INDUSTRY / CATEGORY / SUBCATEGORY
+  level       Int
+  path        String    @db.VarChar(1000)
+  description String?
+  status      String    @default("ENABLED") @db.VarChar(32) // ENABLED / DISABLED / ARCHIVED
+  sort        Int       @default(0)
+  revision    Int       @default(1)
+  createdById String
+  updatedById String?
+  deletedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  tenant    Tenant                       @relation(fields: [tenantId], references: [id])
+  parent    CustomerServiceIndustryNode? @relation("CustomerServiceIndustryTree", fields: [parentId], references: [id])
+  children  CustomerServiceIndustryNode[] @relation("CustomerServiceIndustryTree")
+  createdBy User                         @relation("CustomerServiceIndustryNodeCreator", fields: [createdById], references: [id])
+  updatedBy User?                        @relation("CustomerServiceIndustryNodeUpdater", fields: [updatedById], references: [id])
+  merchantRoles CustomerServiceMerchantRole[]
+  evaluationCases CustomerServiceEvaluationCase[]
+  calibrationRecords CustomerServiceCalibrationRecord[]
+  calibrationProfiles CustomerServiceCalibrationProfile[]
+  tuningSessions CustomerServiceTuningSession[]
+  accountProfiles CustomerServiceAccountProfile[]
+
+  // Active-code uniqueness is enforced by a partial unique index in
+  // 20260813164000_allow_reuse_archived_industry_codes. Archived nodes keep their
+  // historical code but no longer block a new active lifecycle with the same code.
+  @@index([tenantId, parentId, sort])
+  @@index([tenantId, status])
+  @@index([deletedAt])
+}
+
+model CustomerServiceMerchantRole {
+  id               String    @id @default(cuid())
+  tenantId         String
+  prototypeId      String
+  industryNodeId   String?
+  code             String    @db.VarChar(100)
+  name             String    @db.VarChar(120)
+  description      String?
+  publicIdentity   String?
+  publicRelation   String?
+  generationPrompt String?
+  status           String    @default("DRAFT") @db.VarChar(32) // DRAFT / ENABLED / ARCHIVED
+  revision         Int       @default(1)
+  createdById      String
+  updatedById      String?
+  deletedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  tenant       Tenant                       @relation(fields: [tenantId], references: [id])
+  prototype    CustomerServiceRolePrototype @relation(fields: [prototypeId], references: [id])
+  industryNode CustomerServiceIndustryNode? @relation(fields: [industryNodeId], references: [id])
+  createdBy    User                         @relation("CustomerServiceMerchantRoleCreator", fields: [createdById], references: [id])
+  updatedBy    User?                        @relation("CustomerServiceMerchantRoleUpdater", fields: [updatedById], references: [id])
+  modules      CustomerServiceRoleModuleInstance[]
+  evaluationCases CustomerServiceEvaluationCase[]
+  calibrationRecords CustomerServiceCalibrationRecord[]
+  calibrationProfiles CustomerServiceCalibrationProfile[]
+  tuningSessions CustomerServiceTuningSession[]
+  accountProfiles CustomerServiceAccountProfile[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId, status])
+  @@index([tenantId, prototypeId])
+  @@index([tenantId, industryNodeId])
+  @@index([deletedAt])
+}
+
+// V5.17 店铺级稳定业务背景。profile 使用结构化 JSON 保存品牌、经营事实、服务规则、
+// 权限边界、有效期和正反例；运行时只读取 ENABLED 记录。
+model CustomerServiceStoreProfile {
+  id          String    @id @default(cuid())
+  tenantId    String
+  code        String    @db.VarChar(100)
+  name        String    @db.VarChar(160)
+  description String?
+  profile     Json
+  status      String    @default("DRAFT") @db.VarChar(32) // DRAFT / ENABLED / DISABLED / ARCHIVED
+  revision    Int       @default(1)
+  createdById String
+  updatedById String?
+  deletedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  tenant    Tenant @relation(fields: [tenantId], references: [id])
+  createdBy User   @relation("CustomerServiceStoreProfileCreator", fields: [createdById], references: [id])
+  updatedBy User?  @relation("CustomerServiceStoreProfileUpdater", fields: [updatedById], references: [id])
+  accounts  CustomerServiceAccountProfile[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId, status, updatedAt])
+  @@index([deletedAt])
+}
+
+// V5.17 账号级身份、渠道、人际距离和权限覆盖。店铺背景、角色与行业能力在这里绑定，
+// 避免把长期账号资料塞进意图或复制进角色原型。
+model CustomerServiceAccountProfile {
+  id             String    @id @default(cuid())
+  tenantId       String
+  storeProfileId String?
+  merchantRoleId String?
+  industryNodeId String?
+  code           String    @db.VarChar(100)
+  name           String    @db.VarChar(160)
+  channel        String    @default("OTHER") @db.VarChar(48)
+  description    String?
+  profile        Json
+  status         String    @default("DRAFT") @db.VarChar(32) // DRAFT / ENABLED / DISABLED / ARCHIVED
+  revision       Int       @default(1)
+  createdById    String
+  updatedById    String?
+  deletedAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  tenant       Tenant                        @relation(fields: [tenantId], references: [id])
+  storeProfile CustomerServiceStoreProfile?  @relation(fields: [storeProfileId], references: [id], onDelete: SetNull)
+  merchantRole CustomerServiceMerchantRole?  @relation(fields: [merchantRoleId], references: [id], onDelete: SetNull)
+  industryNode CustomerServiceIndustryNode?  @relation(fields: [industryNodeId], references: [id], onDelete: SetNull)
+  createdBy    User                          @relation("CustomerServiceAccountProfileCreator", fields: [createdById], references: [id])
+  updatedBy    User?                         @relation("CustomerServiceAccountProfileUpdater", fields: [updatedById], references: [id])
+  tuningSessions CustomerServiceTuningSession[]
+  calibrationProfiles CustomerServiceCalibrationProfile[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId, status, updatedAt])
+  @@index([tenantId, storeProfileId])
+  @@index([tenantId, merchantRoleId])
+  @@index([tenantId, industryNodeId])
+  @@index([deletedAt])
+}
+
+// V5.17 可复用语言与输出规则集。scopeType/scopeKey 支持全局、店铺、账号、角色、
+// 渠道、场景和意图；rules 为逐条可编辑规则，styleGuidance 保存正向表达方向与示例。
+model CustomerServiceLanguagePolicy {
+  id            String    @id @default(cuid())
+  tenantId      String
+  code          String    @db.VarChar(100)
+  name          String    @db.VarChar(160)
+  description   String?
+  scopeType     String    @default("GLOBAL") @db.VarChar(32)
+  scopeKey      String    @default("*") @db.VarChar(500)
+  priority      Int       @default(100)
+  rules         Json
+  styleGuidance Json?
+  status        String    @default("DRAFT") @db.VarChar(32) // DRAFT / ENABLED / DISABLED / ARCHIVED
+  revision      Int       @default(1)
+  createdById   String
+  updatedById   String?
+  deletedAt     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  tenant    Tenant @relation(fields: [tenantId], references: [id])
+  createdBy User   @relation("CustomerServiceLanguagePolicyCreator", fields: [createdById], references: [id])
+  updatedBy User?  @relation("CustomerServiceLanguagePolicyUpdater", fields: [updatedById], references: [id])
+
+  @@unique([tenantId, code])
+  @@index([tenantId, status, priority])
+  @@index([tenantId, scopeType, scopeKey])
+  @@index([deletedAt])
+}
+
+// V5.20-T3 账号/店铺级可检索业务知识。只有 ENABLED 且处于有效期内的记录可进入运行时。
+model CustomerServiceKnowledgeEntry {
+  id              String    @id @default(cuid())
+  tenantId        String
+  collectionId    String?
+  entityType      String    @default("GENERIC") @db.VarChar(40)
+  entityKey       String?   @db.VarChar(240)
+  aliases         String[]  @default([])
+  structuredData  Json?
+  references      Json?
+  authorityLevel  String    @default("BUSINESS_FACT") @db.VarChar(40)
+  chunkIndex      Int?
+  sourceFileName  String?   @db.VarChar(500)
+  scopeType       String    @db.VarChar(24) // STORE / ACCOUNT / COLLECTION
+  scopeKey        String    @db.VarChar(500)
+  category        String    @default("OTHER") @db.VarChar(40)
+  title           String    @db.VarChar(200)
+  question        String?
+  content         String
+  tags            String[]  @default([])
+  sourceType      String    @default("MANUAL") @db.VarChar(40)
+  sourceReference String?   @db.VarChar(1000)
+  effectiveFrom   DateTime?
+  effectiveTo     DateTime?
+  freshnessPolicy String?   @db.VarChar(120)
+  status          String    @default("DRAFT") @db.VarChar(32) // DRAFT / ENABLED / DISABLED / ARCHIVED
+  revision        Int       @default(1)
+  createdById     String
+  updatedById     String?
+  deletedAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  tenant    Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  collection CustomerServiceKnowledgeCollection? @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+  createdBy User   @relation("CustomerServiceKnowledgeEntryCreator", fields: [createdById], references: [id])
+  updatedBy User?  @relation("CustomerServiceKnowledgeEntryUpdater", fields: [updatedById], references: [id])
+
+  @@index([tenantId, status, updatedAt], map: "CsKnowledgeEntry_tenant_status_updated")
+  @@index([tenantId, collectionId, status], map: "CsKnowledgeEntry_tenant_collection_status")
+  @@index([tenantId, entityType, entityKey], map: "CsKnowledgeEntry_tenant_entity")
+  @@index([tenantId, scopeType, scopeKey, status], map: "CsKnowledgeEntry_tenant_scope_status")
+  @@index([tenantId, category, status], map: "CsKnowledgeEntry_tenant_category_status")
+  @@index([effectiveFrom, effectiveTo], map: "CsKnowledgeEntry_effective_window")
+  @@index([deletedAt], map: "CsKnowledgeEntry_deletedAt")
+}
+
+// Stage 2E-R2B Business Knowledge V2：知识集合用于组织行业/店铺知识，绑定决定哪些角色/账号/店铺可消费。
+model CustomerServiceKnowledgeCollection {
+  id           String   @id @default(cuid())
+  tenantId     String
+  name         String   @db.VarChar(160)
+  code         String?  @db.VarChar(120)
+  description  String?
+  industryCode String?  @db.VarChar(80)
+  status       String   @default("DRAFT") @db.VarChar(32)
+  revision     Int      @default(1)
+  createdById  String
+  updatedById  String?
+  deletedAt    DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenant    Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  createdBy User   @relation("CustomerServiceKnowledgeCollectionCreator", fields: [createdById], references: [id])
+  updatedBy User?  @relation("CustomerServiceKnowledgeCollectionUpdater", fields: [updatedById], references: [id])
+  entries   CustomerServiceKnowledgeEntry[]
+  bindings  CustomerServiceKnowledgeBinding[]
+
+  @@unique([tenantId, code], map: "CsKnowledgeCollection_tenant_code")
+  @@index([tenantId, status, updatedAt], map: "CsKnowledgeCollection_tenant_status_updated")
+  @@index([tenantId, industryCode, status], map: "CsKnowledgeCollection_tenant_industry_status")
+  @@index([deletedAt], map: "CsKnowledgeCollection_deletedAt")
+}
+
+model CustomerServiceKnowledgeBinding {
+  id           String   @id @default(cuid())
+  tenantId     String
+  collectionId String
+  targetType   String   @db.VarChar(24) // ACCOUNT / STORE / ROLE
+  targetKey    String   @db.VarChar(500)
+  priority     Int      @default(100)
+  status       String   @default("ENABLED") @db.VarChar(32)
+  createdById  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenant     Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  collection CustomerServiceKnowledgeCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  createdBy  User @relation("CustomerServiceKnowledgeBindingCreator", fields: [createdById], references: [id])
+
+  @@unique([tenantId, collectionId, targetType, targetKey], map: "CsKnowledgeBinding_unique_target")
+  @@index([tenantId, targetType, targetKey, status], map: "CsKnowledgeBinding_target_status")
+  @@index([tenantId, collectionId, status], map: "CsKnowledgeBinding_collection_status")
+}
+
+// V5.20-T4 事实错误校准形成的知识修订草稿。草稿必须经人工核实后才能发布到正式知识。
+model CustomerServiceKnowledgeRevisionDraft {
+  id                  String    @id @default(cuid())
+  tenantId            String
+  calibrationRecordId String    @unique
+  targetEntryId       String?
+  targetEntryRevision Int?
+  action              String    @default("CREATE") @db.VarChar(24) // CREATE / UPDATE
+  scopeType           String    @db.VarChar(24) // STORE / ACCOUNT
+  scopeKey            String    @db.VarChar(500)
+  category            String    @default("OTHER") @db.VarChar(40)
+  title               String    @db.VarChar(200)
+  question            String?
+  content             String
+  tags                String[]  @default([])
+  sourceReference     String?   @db.VarChar(1000)
+  effectiveFrom       DateTime?
+  effectiveTo         DateTime?
+  freshnessPolicy     String?   @db.VarChar(120)
+  status              String    @default("DRAFT") @db.VarChar(32) // DRAFT / VERIFIED / PUBLISHED / REJECTED
+  verificationNote    String?
+  verifiedAt          DateTime?
+  verifiedById        String?
+  publishedEntryId    String?
+  publishedAt         DateTime?
+  publishedById       String?
+  revision            Int       @default(1)
+  createdById         String
+  updatedById         String?
+  deletedAt           DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  tenant            Tenant                           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  calibrationRecord CustomerServiceCalibrationRecord @relation(fields: [calibrationRecordId], references: [id], onDelete: Cascade)
+  createdBy         User                             @relation("CustomerServiceKnowledgeRevisionDraftCreator", fields: [createdById], references: [id])
+  updatedBy         User?                            @relation("CustomerServiceKnowledgeRevisionDraftUpdater", fields: [updatedById], references: [id])
+  verifiedBy        User?                            @relation("CustomerServiceKnowledgeRevisionDraftVerifier", fields: [verifiedById], references: [id])
+  publishedBy       User?                            @relation("CustomerServiceKnowledgeRevisionDraftPublisher", fields: [publishedById], references: [id])
+
+  @@index([tenantId, status, updatedAt], map: "CsKnowledgeRevisionDraft_tenant_status")
+  @@index([tenantId, scopeType, scopeKey, status], map: "CsKnowledgeRevisionDraft_scope_status")
+  @@index([targetEntryId], map: "CsKnowledgeRevisionDraft_target")
+  @@index([publishedEntryId], map: "CsKnowledgeRevisionDraft_published")
+  @@index([deletedAt], map: "CsKnowledgeRevisionDraft_deletedAt")
+}
+
+model CustomerServiceRoleModuleDefinition {
+  id               String   @id @default(cuid())
+  code             String   @unique @db.VarChar(64)
+  name             String   @db.VarChar(100)
+  description      String?
+  defaultMergeMode String   @default("APPEND") @db.VarChar(32) // OVERRIDE / APPEND / STRICTER
+  defaultPriority  Int      @default(100)
+  status           String   @default("ENABLED") @db.VarChar(32)
+  sort             Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  instances CustomerServiceRoleModuleInstance[]
+
+  @@index([status, sort])
+}
+
+model CustomerServiceRoleModuleInstance {
+  id             String    @id @default(cuid())
+  tenantId       String
+  merchantRoleId String
+  definitionId   String
+  key            String    @db.VarChar(100)
+  name           String    @db.VarChar(120)
+  content        Json
+  conditions     Json?
+  mergeMode      String    @default("APPEND") @db.VarChar(32) // OVERRIDE / APPEND / STRICTER
+  priority       Int       @default(100)
+  sort           Int       @default(0)
+  status         String    @default("ENABLED") @db.VarChar(32) // DRAFT / ENABLED / DISABLED / ARCHIVED
+  revision       Int       @default(1)
+  createdById    String
+  updatedById    String?
+  deletedAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  tenant       Tenant                              @relation(fields: [tenantId], references: [id])
+  merchantRole CustomerServiceMerchantRole         @relation(fields: [merchantRoleId], references: [id], onDelete: Cascade)
+  definition   CustomerServiceRoleModuleDefinition @relation(fields: [definitionId], references: [id])
+  createdBy    User                                @relation("CustomerServiceRoleModuleInstanceCreator", fields: [createdById], references: [id])
+  updatedBy    User?                               @relation("CustomerServiceRoleModuleInstanceUpdater", fields: [updatedById], references: [id])
+
+  @@unique([merchantRoleId, key])
+  @@index([tenantId, merchantRoleId, status, sort])
+  @@index([definitionId])
+  @@index([deletedAt])
+}
+
+
+model CustomerServiceIntentDefinition {
+  id                     String    @id @default(cuid())
+  tenantId               String
+  key                    String    @db.VarChar(100)
+  name                   String    @db.VarChar(160)
+  category               String    @db.VarChar(48) // RELATIONSHIP / PRE_SALE / ORDER / LOGISTICS / AFTER_SALE / SAFETY
+  description            String?
+  scenario               String    @db.VarChar(64)
+  primaryIntent          String    @db.VarChar(64)
+  defaultRiskLevel       String    @default("LOW") @db.VarChar(16)
+  supportedIndustryCodes String[]  @default([])
+  recognitionConfig      Json
+  strategyConfig         Json
+  flowConfig             Json
+  replyConfig            Json
+  examples               Json?
+  priority               Int       @default(100)
+  sort                   Int       @default(0)
+  status                 String    @default("ENABLED") @db.VarChar(32) // DRAFT / ENABLED / DISABLED / ARCHIVED
+  revision               Int       @default(1)
+  createdById            String
+  updatedById            String?
+  deletedAt              DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  tenant    Tenant @relation(fields: [tenantId], references: [id])
+  createdBy User   @relation("CustomerServiceIntentDefinitionCreator", fields: [createdById], references: [id])
+  updatedBy User?  @relation("CustomerServiceIntentDefinitionUpdater", fields: [updatedById], references: [id])
+
+  @@unique([tenantId, key], map: "CsIntentDefinition_tenant_key")
+  @@index([tenantId, status, category, sort], map: "CsIntentDefinition_tenant_status_category")
+  @@index([tenantId, scenario, primaryIntent, status], map: "CsIntentDefinition_tenant_scenario_intent")
+  @@index([supportedIndustryCodes], type: Gin, map: "CsIntentDefinition_industry_codes")
+  @@index([deletedAt], map: "CsIntentDefinition_deleted_at")
+}
+
+model CustomerServiceIntentCandidate {
+  id                     String   @id @default(cuid())
+  tenantId               String
+  fingerprint            String   @db.VarChar(160)
+  recognitionKey         String   @db.VarChar(100)
+  name                   String   @db.VarChar(160)
+  description            String?
+  suggestedCategory      String   @db.VarChar(48)
+  suggestedScenario      String   @db.VarChar(64)
+  suggestedPrimaryIntent String   @db.VarChar(64)
+  suggestedRiskLevel     String   @default("LOW") @db.VarChar(16)
+  observedIndustryCodes  String[] @default([])
+  status                 String   @default("PENDING") @db.VarChar(24) // PENDING / CONVERTED / IGNORED
+  occurrenceCount        Int      @default(1)
+  confidenceSum          Float    @default(0)
+  maxConfidence          Float    @default(0)
+  latestConfidence       Float    @default(0)
+  evidence               Json
+  samples                Json
+  sourceContext          Json?
+  relatedDefinitionId    String?
+  convertedDefinitionId  String?
+  firstSeenAt            DateTime @default(now())
+  lastSeenAt             DateTime @default(now())
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  retentionClass         String   @default("MEDIUM") @db.VarChar(24)
+  archivedAt             DateTime?
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, fingerprint], map: "CsIntentCandidate_tenant_fingerprint")
+  @@index([tenantId, status, lastSeenAt], map: "CsIntentCandidate_tenant_status_seen")
+  @@index([tenantId, suggestedCategory, suggestedScenario], map: "CsIntentCandidate_tenant_category_scenario")
+  @@index([relatedDefinitionId], map: "CsIntentCandidate_related_definition")
+  @@index([convertedDefinitionId], map: "CsIntentCandidate_converted_definition")
+}
+
+model CustomerServiceTuningSession {
+  id                String    @id @default(cuid())
+  tenantId          String
+  merchantRoleId    String
+  industryNodeId    String?
+  accountProfileId  String?
+  title             String    @default("新调优对话") @db.VarChar(160)
+  purpose           String    @default("TUNING") @db.VarChar(32) // TUNING / ROBOT_TEST_DM
+  status            String    @default("ACTIVE") @db.VarChar(24) // ACTIVE / ARCHIVED
+  contextSnapshot   Json?
+  messageCount      Int       @default(0)
+  analysisCount     Int       @default(0)
+  lastMessageAt     DateTime?
+  createdById       String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  retentionClass    String    @default("SHORT") @db.VarChar(24)
+  archivedAt        DateTime?
+  stateSchemaVersion Int      @default(1)
+  stateRevision      Int      @default(0)
+  contextPayloadBytes Int     @default(0)
+  stateUpdatedAt     DateTime?
+
+  tenant       Tenant                       @relation(fields: [tenantId], references: [id], map: "CsTuningSession_tenant_fkey")
+  merchantRole CustomerServiceMerchantRole  @relation(fields: [merchantRoleId], references: [id], map: "CsTuningSession_role_fkey")
+  industryNode CustomerServiceIndustryNode? @relation(fields: [industryNodeId], references: [id], onDelete: SetNull, map: "CsTuningSession_industry_fkey")
+  accountProfile CustomerServiceAccountProfile? @relation(fields: [accountProfileId], references: [id], onDelete: SetNull, map: "CsTuningSession_account_profile_fkey")
+  createdBy    User                         @relation("CustomerServiceTuningSessionCreator", fields: [createdById], references: [id], map: "CsTuningSession_creator_fkey")
+  messages     CustomerServiceTuningMessage[]
+  analyses     CustomerServiceTuningAnalysis[]
+
+  @@index([tenantId, status, updatedAt], map: "CsTuningSession_tenant_status_updated")
+  @@index([tenantId, purpose, status, updatedAt], map: "CsTuningSession_tenant_purpose_status_updated")
+  @@index([tenantId, merchantRoleId, updatedAt], map: "CsTuningSession_tenant_role_updated")
+  @@index([industryNodeId], map: "CsTuningSession_industry")
+  @@index([accountProfileId], map: "CsTuningSession_account_profile")
+}
+
+model CustomerServiceTuningMessage {
+  id              String   @id @default(cuid())
+  sessionId       String
+  clientMessageId String?  @db.VarChar(120)
+  role            String   @db.VarChar(16) // CUSTOMER / ASSISTANT
+  content         String
+  turnNo          Int
+  createdAt       DateTime @default(now())
+
+  session  CustomerServiceTuningSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade, map: "CsTuningMessage_session_fkey")
+  analyses CustomerServiceTuningAnalysis[] @relation("CustomerServiceTuningMessageAnalyses")
+
+  @@unique([sessionId, turnNo], map: "CsTuningMessage_session_turn")
+  @@unique([sessionId, clientMessageId], map: "CsTuningMessage_session_client")
+  @@index([sessionId, createdAt], map: "CsTuningMessage_session_created")
+}
+
+model CustomerServiceTuningAnalysis {
+  id                String   @id @default(cuid())
+  sessionId         String
+  customerMessageId String?
+  runType           String   @db.VarChar(16) // COMPILE / EXECUTE
+  sequenceNo        Int
+  latestMessage     String
+  understanding     Json
+  runtimeContract   Json
+  generation        Json?
+  quality           Json?
+  warnings          Json?
+  summary            Json?
+  primaryScenario    String?  @db.VarChar(64)
+  primaryIntent      String?  @db.VarChar(64)
+  dominantTurnGoal   String?  @db.VarChar(64)
+  recognitionPath   String?  @db.VarChar(32)
+  generationModel   String?  @db.VarChar(120)
+  qualityStatus      String?  @db.VarChar(24)
+  feedbackType       String?  @db.VarChar(24)
+  requestedDeltas    String[] @default([])
+  stateRevision      Int?
+  configurationHash String?  @db.VarChar(64)
+  contentHash        String?  @db.VarChar(64)
+  payloadBytes       Int      @default(0)
+  payloadState       String   @default("ACTIVE") @db.VarChar(24) // ACTIVE / ARCHIVED / COMPACTED / PURGED
+  retentionClass     String   @default("SHORT") @db.VarChar(24)
+  compactedAt        DateTime?
+  purgedAt           DateTime?
+  createdById       String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  session         CustomerServiceTuningSession @relation(fields: [sessionId], references: [id], onDelete: Cascade, map: "CsTuningAnalysis_session_fkey")
+  customerMessage CustomerServiceTuningMessage? @relation("CustomerServiceTuningMessageAnalyses", fields: [customerMessageId], references: [id], onDelete: SetNull, map: "CsTuningAnalysis_customer_message_fkey")
+  createdBy       User @relation("CustomerServiceTuningAnalysisCreator", fields: [createdById], references: [id], map: "CsTuningAnalysis_creator_fkey")
+  calibrationRecords CustomerServiceCalibrationRecord[] @relation("CustomerServiceCalibrationSourceAnalysis")
+
+  @@unique([sessionId, sequenceNo], map: "CsTuningAnalysis_session_sequence")
+  @@index([sessionId, createdAt], map: "CsTuningAnalysis_session_created")
+  @@index([customerMessageId], map: "CsTuningAnalysis_customer_message")
+  @@index([createdAt, payloadState], map: "CsTuningAnalysis_created_payload_state")
+  @@index([configurationHash], map: "CsTuningAnalysis_configuration_hash")
+  @@index([contentHash], map: "CsTuningAnalysis_content_hash")
+  @@index([feedbackType, createdAt], map: "CsTuningAnalysis_feedback_created")
+  @@index([sessionId, stateRevision], map: "CsTuningAnalysis_state_revision")
+}
+
+// HVE-2 统一 Guideline Policy。Header 仅保存稳定身份；所有影响 Runtime 的内容必须进入 Version。
+model CustomerServiceGuideline {
+  id               String    @id @default(cuid())
+  tenantId         String
+  code             String    @db.VarChar(120)
+  name             String    @db.VarChar(160)
+  description      String?
+  originType       String    @default("TENANT_CUSTOM") @db.VarChar(40) // SYSTEM_TEMPLATE / TENANT_CUSTOM / CALIBRATION_GENERATED / ACCOUNT_OVERRIDE / LEGACY_MIGRATION
+  currentVersionId String?
+  status           String    @default("DRAFT") @db.VarChar(24) // DRAFT / ENABLED / DISABLED / ARCHIVED
+  revision         Int       @default(1)
+  createdById      String
+  updatedById      String?
+  deletedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  versions CustomerServiceGuidelineVersion[]
+
+  @@unique([tenantId, code], map: "CsGuideline_tenant_code")
+  @@index([tenantId, status, updatedAt], map: "CsGuideline_tenant_status_updated")
+  @@index([tenantId, originType, status], map: "CsGuideline_tenant_origin_status")
+  @@index([currentVersionId], map: "CsGuideline_current_version")
+  @@index([deletedAt], map: "CsGuideline_deleted")
+}
+
+model CustomerServiceGuidelineVersion {
+  id               String    @id @default(cuid())
+  guidelineId      String
+  versionNo        Int
+  schemaVersion    Int       @default(1)
+  binding          Json
+  condition        Json
+  actions          Json
+  priority         Int       @default(100)
+  criticality      String    @default("STANDARD") @db.VarChar(24) // ADVISORY / STANDARD / IMPORTANT / MANDATORY
+  tags             String[]  @default([])
+  relationships    Json?
+  evidenceRefs     String[]  @default([])
+  contentHash      String    @db.VarChar(64)
+  status           String    @default("DRAFT") @db.VarChar(24) // DRAFT / CANDIDATE / PUBLISHED / RETIRED
+  regressionResult Json?
+  publishedAt      DateTime?
+  publishedById    String?
+  createdById      String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  guideline CustomerServiceGuideline @relation(fields: [guidelineId], references: [id], onDelete: Cascade)
+
+  @@unique([guidelineId, versionNo], map: "CsGuidelineVersion_guideline_version")
+  @@index([guidelineId, status], map: "CsGuidelineVersion_guideline_status")
+  @@index([status, criticality, priority], map: "CsGuidelineVersion_status_criticality_priority")
+  @@index([publishedAt], map: "CsGuidelineVersion_published")
+}
+
+model CustomerServiceResponseRule {
+  id              String    @id @default(cuid())
+  tenantId        String
+  responseAssetId String
+  key             String    @db.VarChar(100)
+  name            String    @db.VarChar(120)
+  description     String?
+  conditions      Json
+  exclusions      Json?
+  priority        Int       @default(100)
+  sort            Int       @default(0)
+  exclusive       Boolean   @default(false)
+  status          String    @default("ENABLED") @db.VarChar(32) // ENABLED / DISABLED / ARCHIVED
+  revision        Int       @default(1)
+  createdById     String
+  updatedById     String?
+  deletedAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  tenant        Tenant               @relation(fields: [tenantId], references: [id])
+  responseAsset CustomerServiceAsset @relation(fields: [responseAssetId], references: [id])
+  createdBy     User                 @relation("CustomerServiceResponseRuleCreator", fields: [createdById], references: [id])
+  updatedBy     User?                @relation("CustomerServiceResponseRuleUpdater", fields: [updatedById], references: [id])
+
+  @@unique([tenantId, key])
+  @@index([tenantId, status, priority, sort])
+  @@index([tenantId, responseAssetId])
+  @@index([deletedAt])
+}
+
+model CustomerServiceQualityRule {
+  id          String    @id @default(cuid())
+  tenantId    String
+  key         String    @db.VarChar(100)
+  name        String    @db.VarChar(120)
+  description String?
+  category    String    @db.VarChar(32) // PROGRAM / FACT / POLICY / SAFETY / STYLE
+  severity    String    @default("ERROR") @db.VarChar(16) // BLOCKER / ERROR / WARNING
+  ruleType    String    @db.VarChar(48)
+  config      Json
+  sort        Int       @default(0)
+  status      String    @default("ENABLED") @db.VarChar(32) // ENABLED / DISABLED / ARCHIVED
+  revision    Int       @default(1)
+  createdById String
+  updatedById String?
+  deletedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  tenant    Tenant @relation(fields: [tenantId], references: [id])
+  createdBy User   @relation("CustomerServiceQualityRuleCreator", fields: [createdById], references: [id])
+  updatedBy User?  @relation("CustomerServiceQualityRuleUpdater", fields: [updatedById], references: [id])
+
+  @@unique([tenantId, key])
+  @@index([tenantId, status, sort])
+  @@index([tenantId, category, severity])
+  @@index([deletedAt])
+}
+
+model CustomerServiceEvaluationCase {
+  id                    String    @id @default(cuid())
+  tenantId              String
+  merchantRoleId        String?
+  industryNodeId        String?
+  key                   String    @db.VarChar(100)
+  name                  String    @db.VarChar(160)
+  description           String?
+  message               String
+  expectedScenario      String?   @db.VarChar(64)
+  expectedIntent        String?   @db.VarChar(64)
+  expectedRiskLevel     String    @default("LOW") @db.VarChar(16)
+  expectedRoute         String?   @db.VarChar(48)
+  serviceGoal           String?
+  customerState         Json?
+  variables             Json?
+  expectedRequiredPoints Json?
+  expectedWorkflowSteps Json?
+  tags                  String[]  @default([])
+  sort                  Int       @default(0)
+  status                String    @default("ENABLED") @db.VarChar(32) // ENABLED / DISABLED / ARCHIVED
+  revision              Int       @default(1)
+  createdById           String
+  updatedById           String?
+  deletedAt             DateTime?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  tenant       Tenant                       @relation(fields: [tenantId], references: [id])
+  merchantRole CustomerServiceMerchantRole? @relation(fields: [merchantRoleId], references: [id])
+  industryNode CustomerServiceIndustryNode? @relation(fields: [industryNodeId], references: [id])
+  createdBy    User                         @relation("CustomerServiceEvaluationCaseCreator", fields: [createdById], references: [id])
+  updatedBy    User?                        @relation("CustomerServiceEvaluationCaseUpdater", fields: [updatedById], references: [id])
+  calibrationRecords CustomerServiceCalibrationRecord[]
+
+  @@unique([tenantId, key])
+  @@index([tenantId, status, sort])
+  @@index([tenantId, merchantRoleId])
+  @@index([tenantId, industryNodeId])
+  @@index([tenantId, expectedScenario, expectedRiskLevel])
+  @@index([deletedAt])
+}
+
+model CustomerServiceCalibrationRecord {
+  id                  String    @id @default(cuid())
+  tenantId            String
+  merchantRoleId      String
+  industryNodeId      String?
+  evaluationCaseId    String?
+  sourceAnalysisId    String?
+  sourceType          String?   @db.VarChar(40)
+  sourceRefId         String?   @db.VarChar(512)
+  replyTraceId        String?
+  accountProfileId    String?
+  robotId             String?
+  channel             String?   @db.VarChar(32)
+  platform            String?   @db.VarChar(64)
+  conversationId      String?   @db.VarChar(512)
+  messageId           String?   @db.VarChar(512)
+  replyAttemptId      String?   @db.VarChar(512)
+  status              String    @default("OPEN") @db.VarChar(32) // OPEN / AI_ANALYZED / ACCEPTED / APPLIED_TUNING / ARCHIVED
+  improvementMode     String    @default("AI_AUTO") @db.VarChar(24) // GUIDED / AI_AUTO
+  problemTypes        String[]  @default([])
+  problemDescription  String?
+  userSuggestion      String?
+  customerMessage     String
+  originalReply       String
+  scenario            String?   @db.VarChar(64)
+  intent              String?   @db.VarChar(64)
+  riskLevel           String?   @db.VarChar(16)
+  generationModel     String?   @db.VarChar(120)
+  configurationHash   String?   @db.VarChar(64)
+  userFeedback        String?   @db.VarChar(24)
+  requestedDeltas     String[]  @default([])
+  correctionTarget    String?   @db.VarChar(32)
+  rejectedMoves       String[]  @default([])
+  dominantTurnGoal    String?   @db.VarChar(64)
+  currentResponseObligation String?
+  relatedRoleModuleIds String[]  @default([])
+  relatedResponseRuleIds String[] @default([])
+  relatedAssetIds      String[]  @default([])
+  understanding       Json?
+  runtimeContract     Json?
+  qualityReport       Json?
+  sourceSnapshot      Json?
+  aiDiagnosis         Json?
+  aiRecommendations   Json?
+  suggestedReply      String?
+  aiModel             String?   @db.VarChar(120)
+  aiRequestId         String?   @db.VarChar(160)
+  aiAnalysisStatus    String?   @db.VarChar(32) // PROCESSING / SUCCESS / MODEL_FAILED / PARSE_FAILED
+  aiAnalysisAttempts  Int       @default(0)
+  aiAnalysisDiagnostics Json?
+  aiAnalysisStartedAt DateTime?
+  contentHash         String?   @db.VarChar(64)
+  payloadBytes        Int       @default(0)
+  payloadState        String    @default("ACTIVE") @db.VarChar(24) // ACTIVE / ARCHIVED / COMPACTED / PURGED
+  retentionClass      String    @default("MEDIUM") @db.VarChar(24)
+  compactedAt         DateTime?
+  purgedAt            DateTime?
+  analyzedAt          DateTime?
+  analyzedById        String?
+  tuningDirectives    Json?
+  appliedProfileId    String?
+  appliedScopeType    String?   @db.VarChar(32)
+  appliedScopeKey     String?   @db.VarChar(500)
+  appliedAt           DateTime?
+  appliedById         String?
+  strategyDraftAssetId String?
+  strategyDraftVersionId String?
+  strategyDraftStatus String?   @db.VarChar(32) // DRAFT / REGRESSION_PASSED / REGRESSION_FAILED / PUBLISHED
+  strategyDraftRegression Json?
+  strategyDraftValidatedAt DateTime?
+  strategyDraftPublishedAt DateTime?
+  revision            Int       @default(1)
+  createdById         String
+  updatedById         String?
+  deletedAt           DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  tenant         Tenant                         @relation(fields: [tenantId], references: [id])
+  merchantRole   CustomerServiceMerchantRole    @relation(fields: [merchantRoleId], references: [id])
+  industryNode   CustomerServiceIndustryNode?   @relation(fields: [industryNodeId], references: [id])
+  evaluationCase CustomerServiceEvaluationCase? @relation(fields: [evaluationCaseId], references: [id])
+  createdBy      User                           @relation("CustomerServiceCalibrationRecordCreator", fields: [createdById], references: [id])
+  updatedBy      User?                          @relation("CustomerServiceCalibrationRecordUpdater", fields: [updatedById], references: [id])
+  analyzedBy     User?                          @relation("CustomerServiceCalibrationRecordAnalyzer", fields: [analyzedById], references: [id])
+  appliedBy      User?                          @relation("CustomerServiceCalibrationRecordApplier", fields: [appliedById], references: [id])
+  appliedProfile CustomerServiceCalibrationProfile? @relation(fields: [appliedProfileId], references: [id], onDelete: SetNull)
+  sourceAnalysis CustomerServiceTuningAnalysis? @relation("CustomerServiceCalibrationSourceAnalysis", fields: [sourceAnalysisId], references: [id], onDelete: SetNull)
+  replyTrace     CustomerServiceReplyTrace?     @relation(fields: [replyTraceId], references: [id], onDelete: SetNull)
+  knowledgeRevisionDraft CustomerServiceKnowledgeRevisionDraft?
+
+  @@index([tenantId, status, updatedAt])
+  @@index([tenantId, merchantRoleId, updatedAt])
+  @@index([tenantId, scenario])
+  @@index([tenantId, aiAnalysisStatus, updatedAt])
+  @@index([problemTypes], type: Gin)
+  @@index([evaluationCaseId])
+  @@index([configurationHash])
+  @@index([tenantId, correctionTarget, createdAt])
+  @@index([requestedDeltas], type: Gin)
+  @@index([appliedProfileId])
+  @@index([appliedScopeKey])
+  @@index([strategyDraftAssetId])
+  @@index([strategyDraftVersionId])
+  @@index([tenantId, strategyDraftStatus, updatedAt])
+  @@index([sourceAnalysisId])
+  @@index([tenantId, sourceType, sourceRefId], map: "CsCalibration_tenant_source_ref")
+  @@index([tenantId, replyTraceId], map: "CsCalibration_tenant_trace")
+  @@index([tenantId, accountProfileId, updatedAt], map: "CsCalibration_tenant_account_updated")
+  @@index([tenantId, robotId, updatedAt], map: "CsCalibration_tenant_robot_updated")
+  @@index([tenantId, conversationId, updatedAt], map: "CsCalibration_tenant_conversation_updated")
+  @@index([replyAttemptId], map: "CsCalibration_reply_attempt")
+  @@index([contentHash])
+  @@index([tenantId, payloadState, createdAt])
+  @@index([deletedAt])
+}
+
+model CustomerServiceDataGovernanceRun {
+  id                    String   @id @default(cuid())
+  tenantId              String
+  mode                  String   @db.VarChar(24) // DRY_RUN / ARCHIVE / COMPACT / PURGE / VERIFY
+  status                String   @default("PENDING") @db.VarChar(24) // PENDING / RUNNING / SUCCEEDED / FAILED / CANCELLED
+  scope                 Json?
+  configurationSnapshot Json
+  cursor                String?  @db.VarChar(160)
+  batchSize             Int      @default(100)
+  candidateCount        Int      @default(0)
+  processedCount        Int      @default(0)
+  skippedCount          Int      @default(0)
+  estimatedBytes        BigInt   @default(0)
+  releasedBytes         BigInt   @default(0)
+  result                Json?
+  errorMessage          String?
+  startedAt             DateTime?
+  finishedAt            DateTime?
+  createdById           String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, createdAt])
+  @@index([tenantId, mode, status])
+}
+
+model CustomerServiceCalibrationProfile {
+  id                        String    @id @default(cuid())
+  tenantId                  String
+  merchantRoleId            String
+  industryNodeId            String?
+  accountProfileId          String?
+  scopeType                 String    @db.VarChar(32) // ACCOUNT_CONTEXT / ACCOUNT_SCENARIO / ACCOUNT_GLOBAL / ROLE_CONTEXT / ROLE_SCENARIO / ROLE_GLOBAL
+  scopeKey                  String    @db.VarChar(500)
+  title                     String    @db.VarChar(160)
+  scenario                  String?   @db.VarChar(64)
+  intent                    String?   @db.VarChar(64)
+  riskLevel                 String?   @db.VarChar(16)
+  status                    String    @default("ACTIVE") @db.VarChar(32) // ACTIVE / DISABLED / ARCHIVED
+  directives                Json
+  examples                  Json?
+  sourceRecordIds           String[]  @default([])
+  sourceConfigurationHashes String[]  @default([])
+  appliedCount              Int       @default(1)
+  lastAppliedAt             DateTime  @default(now())
+  revision                  Int       @default(1)
+  createdById               String
+  updatedById               String?
+  deletedAt                 DateTime?
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+
+  tenant          Tenant                      @relation(fields: [tenantId], references: [id])
+  merchantRole    CustomerServiceMerchantRole @relation(fields: [merchantRoleId], references: [id])
+  industryNode    CustomerServiceIndustryNode? @relation(fields: [industryNodeId], references: [id])
+  accountProfile  CustomerServiceAccountProfile? @relation(fields: [accountProfileId], references: [id], onDelete: SetNull)
+  createdBy       User                        @relation("CustomerServiceCalibrationProfileCreator", fields: [createdById], references: [id])
+  updatedBy       User?                       @relation("CustomerServiceCalibrationProfileUpdater", fields: [updatedById], references: [id])
+  calibrationRecords CustomerServiceCalibrationRecord[]
+
+  @@unique([tenantId, scopeKey], map: "CustomerServiceCalibrationProfile_tenantId_scopeKey_key")
+  @@index([tenantId, merchantRoleId, status], map: "CustomerServiceCalibrationProfile_tenantId_merchantRoleId_statu")
+  @@index([tenantId, merchantRoleId, scenario, intent, riskLevel], map: "CustomerServiceCalibrationProfile_tenantId_merchantRoleId_scena")
+  @@index([tenantId, industryNodeId, status], map: "CustomerServiceCalibrationProfile_tenantId_industryNodeId_statu")
+  @@index([tenantId, accountProfileId, status], map: "CsCalibrationProfile_tenant_account_status")
+  @@index([deletedAt], map: "CustomerServiceCalibrationProfile_deletedAt_idx")
+}
+
+model CustomerServiceReplyTrace {
+  id                   String    @id @default(cuid())
+  tenantId             String
+  runtimeRequestId     String?
+  sourceType           String    @db.VarChar(40)
+  sourceRefId          String?   @db.VarChar(512)
+  robotId              String?
+  accountProfileId     String?
+  storeProfileId       String?
+  merchantRoleId       String?
+  industryNodeId       String?
+  channel              String?   @db.VarChar(32)
+  platform             String?   @db.VarChar(64)
+  conversationId       String?   @db.VarChar(512)
+  commentThreadId      String?   @db.VarChar(512)
+  customerMessageId    String?   @db.VarChar(512)
+  replyMessageId       String?   @db.VarChar(512)
+  replyAttemptId       String?   @db.VarChar(512)
+  customerMessage      String
+  replySegments        Json
+  finalReply           String
+  conversationSnapshot Json?
+  runtimeContract      Json?
+  generationDetails    Json?
+  postContext          String?
+  provider             String?   @db.VarChar(40)
+  model                String?   @db.VarChar(120)
+  generationSource     String    @db.VarChar(64)
+  configurationHash    String?   @db.VarChar(64)
+  sourceRevisions      Json?
+  strategyAssetIds     String[]  @default([])
+  strategyVersionIds   String[]  @default([])
+  languagePolicyIds    String[]  @default([])
+  knowledgeEntryIds    String[]  @default([])
+  understandingSummary Json?
+  qualityStatus        String    @default("NOT_RUN") @db.VarChar(32)
+  safetyStatus         String    @default("NOT_RUN") @db.VarChar(32)
+  qualityReport        Json?
+  fallbackUsed         Boolean   @default(false)
+  contentHash          String    @db.VarChar(64)
+  payloadBytes         Int       @default(0)
+  retentionClass       String    @default("MEDIUM") @db.VarChar(24)
+  payloadState         String    @default("ACTIVE") @db.VarChar(24)
+  compactedAt          DateTime?
+  purgedAt             DateTime?
+  createdById          String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  tenant             Tenant                             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  createdBy          User?                              @relation("CustomerServiceReplyTraceCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  feedbacks          CustomerServiceReplyFeedback[]
+  calibrationRecords CustomerServiceCalibrationRecord[]
+
+  @@index([tenantId, sourceType, createdAt], map: "CsReplyTrace_tenant_source_created")
+  @@index([tenantId, sourceRefId], map: "CsReplyTrace_tenant_source_ref")
+  @@unique([tenantId, runtimeRequestId], map: "CsReplyTrace_tenant_runtime_request")
+  @@index([tenantId, accountProfileId, createdAt], map: "CsReplyTrace_tenant_account_created")
+  @@index([tenantId, robotId, createdAt], map: "CsReplyTrace_tenant_robot_created")
+  @@index([tenantId, conversationId, createdAt], map: "CsReplyTrace_tenant_conversation_created")
+  @@index([tenantId, replyAttemptId], map: "CsReplyTrace_tenant_reply_attempt")
+  @@index([configurationHash], map: "CsReplyTrace_configuration_hash")
+  @@index([contentHash], map: "CsReplyTrace_content_hash")
+  @@index([tenantId, payloadState, createdAt], map: "CsReplyTrace_tenant_payload_created")
+}
+
+model CustomerServiceReplyFeedback {
+  id          String   @id @default(cuid())
+  tenantId    String
+  replyTraceId String
+  feedback    String   @db.VarChar(24) // SATISFIED / UNSATISFIED
+  note        String?
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant     Tenant                    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  replyTrace CustomerServiceReplyTrace @relation(fields: [replyTraceId], references: [id], onDelete: Cascade)
+  createdBy  User                      @relation("CustomerServiceReplyFeedbackCreator", fields: [createdById], references: [id])
+
+  @@unique([tenantId, replyTraceId, createdById], map: "CsReplyFeedback_tenant_trace_user")
+  @@index([tenantId, feedback, createdAt], map: "CsReplyFeedback_tenant_feedback_created")
+  @@index([replyTraceId], map: "CsReplyFeedback_trace")
+}
+
+model CustomerServiceRuntimeReplyRequest {
+  id             String    @id @default(cuid())
+  tenantId       String
+  idempotencyKey String    @db.VarChar(160)
+  requestHash    String    @db.VarChar(64)
+  processingToken String   @db.VarChar(64)
+  status         String    @default("PROCESSING") @db.VarChar(24) // PROCESSING / SUCCEEDED / FAILED
+  response       Json?
+  errorCode      String?   @db.VarChar(80)
+  errorMessage   String?
+  attemptCount   Int       @default(1)
+  completedAt    DateTime?
+  expiresAt      DateTime
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, idempotencyKey], map: "CsRuntimeReplyRequest_tenant_idempotency_key")
+  @@index([tenantId, status, createdAt], map: "CsRuntimeReplyRequest_tenant_status_created")
+  @@index([tenantId, expiresAt, status], map: "CsRuntimeReplyRequest_tenant_expires_status")
+  @@index([requestHash], map: "CsRuntimeReplyRequest_request_hash")
+}
+
+model AutoReplyPromptConfig {
+  id                 String    @id @default(cuid())
+  tenantId           String
+  module             String    @db.VarChar(16) // comment / dm
+  name               String    @db.VarChar(100)
+  description        String?
+  customSystemPrompt String?
+  customUserPrompt   String?
+  forbiddenWords     String?
+  requiredWords      String?
+  replyStyle         String?
+  platformLabel      String?
+  accountPositioning String?
+  businessProfile    String?
+  goal               String?
+  policy             String?
+  safetyPolicy       String?
+  replyLength        Int?
+  maxMsgCount        Int?
+  extraParams        Json?
+  status             String    @default("ENABLED") @db.VarChar(32)
+  createdById        String?
+  deletedAt          DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@index([tenantId, module])
+  @@index([tenantId, status])
+  @@index([deletedAt])
+}
+
+model AutoReplyRobotSetting {
+  id                     String   @id @default(cuid())
+  tenantId               String
+  robotId                String
+  module                 String   @db.VarChar(16) // comment / dm
+  promptConfigId         String?
+  promptSnapshot         Json?
+  commentReplyMode       String?  @db.VarChar(32) // ALL_UNREPLIED / PUBLISHER_REPLY_THREAD_ONLY
+  replyDatasetId         String?
+  enableFirstReply       Boolean  @default(false)
+  firstReplyContents     Json?
+  useConversationContext Boolean  @default(true)
+  config                 Json?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@unique([robotId, module])
+  @@index([tenantId, module])
+  @@index([promptConfigId])
+  @@index([replyDatasetId])
+}
+
+model CommentReplyDataset {
+  id          String    @id @default(cuid())
+  tenantId    String
+  robotId     String?
+  name        String    @db.VarChar(100)
+  description String?
+  status      String    @default("ENABLED") @db.VarChar(32)
+  createdById String?
+  deletedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  entries CommentReplyDatasetEntry[]
+
+  @@index([tenantId, robotId])
+  @@index([tenantId, status])
+  @@index([deletedAt])
+}
+
+model CommentReplyDatasetEntry {
+  id             String   @id @default(cuid())
+  datasetId      String
+  commentContent String
+  replyContent   String
+  keywords       Json?
+  matchType      String   @default("EXACT") @db.VarChar(32) // EXACT / CONTAINS / FUZZY
+  priority       Int      @default(0)
+  enabled        Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  dataset CommentReplyDataset @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+
+  @@index([datasetId, enabled])
+  @@index([datasetId, priority])
+}
+
+model CommentRecord {
+  id                    String    @id @default(cuid())
+  tenantId              String
+  robotId               String?
+  recordId              String
+  externalCommentId     String    @default("")
+  platform              String    @db.VarChar(32)
+  botNickname           String    @db.VarChar(100)
+  postTitle              String?
+  videoId                String    @default("")
+  videoTitle             String?
+  rootRecordId           String
+  parentRecordId         String?
+  depth                  Int       @default(0)
+  senderRole             String    @default("user") @db.VarChar(32)
+  actorSource            String    @default("platform_user") @db.VarChar(64)
+  attributionConfidence String    @default("unknown") @db.VarChar(32)
+  replyAttemptId         String    @default("") @db.VarChar(512)
+  replyTraceId           String    @default("") @db.VarChar(512)
+  generationSource       String    @default("") @db.VarChar(64)
+  userNickname           String    @db.VarChar(100)
+  commentContent         String
+  messageType            String    @default("text") @db.VarChar(32)
+  typePlaceholder        String    @default("") @db.VarChar(64)
+  commentTime            DateTime?
+  sourceTimeRaw          String    @default("")
+  observedAt             DateTime?
+  timeAccuracy           String    @default("unknown") @db.VarChar(32)
+  collectionStatus       String    @default("observed") @db.VarChar(64)
+  currentFilter          String    @default("") @db.VarChar(128)
+  repliesCollapsed       Boolean   @default(false)
+  threadCompleteness     String    @default("") @db.VarChar(64)
+  sourceClientId         String    @default("") @db.VarChar(128)
+  shouldReply            Boolean   @default(false)
+  skipReply              Boolean   @default(false)
+  skipReason             String    @default("")
+  commentType            String    @default("unknown") @db.VarChar(64)
+  intentLevel            String    @default("none") @db.VarChar(32)
+  intentLabel            String    @default("完全无意向") @db.VarChar(32)
+  judgeReason            String    @default("")
+  replyStatus            String    @default("pending") @db.VarChar(32)
+  replyContent           String    @default("")
+  replyTime              DateTime?
+  failReason             String    @default("")
+  rawData                Json?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  @@unique([tenantId, recordId])
+  @@index([tenantId, platform])
+  @@index([tenantId, robotId])
+  @@index([tenantId, robotId, videoId])
+  @@index([rootRecordId])
+  @@index([parentRecordId])
+  @@index([senderRole])
+  @@index([tenantId, replyAttemptId])
+  @@index([tenantId, replyTraceId])
+  @@index([collectionStatus])
+  @@index([replyStatus])
+  @@index([shouldReply, skipReply])
+  @@index([commentTime])
+  @@index([observedAt])
+}
+
+model DmConversation {
+  id             String   @id @default(cuid())
+  tenantId       String
+  robotId        String?
+  conversationId String   @unique
+  module         String   @default("dm") @db.VarChar(16)
+  platform       String   @db.VarChar(32)
+  botNickname    String   @db.VarChar(100)
+  userNickname   String   @db.VarChar(100)
+  manualTakeover Boolean  @default(false)
+  rawData        Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  turns DmTurn[]
+
+  @@index([tenantId, platform])
+  @@index([tenantId, robotId])
+  @@index([botNickname, userNickname])
+  @@index([updatedAt])
+}
+
+model DmTurn {
+  id             String    @id @default(cuid())
+  turnId         String    @unique
+  conversationId String
+  sortIndex      Int
+  platform       String    @db.VarChar(32)
+  botNickname    String    @db.VarChar(100)
+  userNickname   String    @db.VarChar(100)
+  messageContent String
+  messageTime    DateTime?
+  shouldReply    Boolean   @default(false)
+  skipReply      Boolean   @default(false)
+  skipReason     String    @default("")
+  messageType    String    @default("unknown") @db.VarChar(64)
+  intentLevel    String    @default("none") @db.VarChar(32)
+  intentLabel    String    @default("完全无意向") @db.VarChar(32)
+  judgeReason    String    @default("")
+  replyStatus    String    @default("pending") @db.VarChar(32)
+  replies        Json      @default("[]")
+  replyCount     Int       @default(0)
+  replyTime      DateTime?
+  failReason     String    @default("")
+  rawData        Json?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  conversation DmConversation @relation(fields: [conversationId], references: [conversationId], onDelete: Cascade)
+
+  @@index([conversationId, sortIndex])
+  @@index([platform])
+  @@index([replyStatus])
+  @@index([shouldReply, skipReply])
+  @@index([messageTime])
+}
+
+model AppUser {
+  id                   String    @id @default(cuid())
+  tenantId             String?
+  phone                String?   @unique @db.VarChar(20)
+  nickname             String?   @db.VarChar(80)
+  avatarUrl            String?
+  wechatOpenid         String?   @unique @db.VarChar(128)
+  serviceOpenid        String?   @unique @db.VarChar(128)
+  unionid              String?   @db.VarChar(128)
+  status               String    @default("ENABLED") @db.VarChar(32)
+  bannedUntil          DateTime?
+  banReason            String?
+  // 测试账号仅用于独立测试范围。只有明确标记的账号才允许参与强制测试清理。
+  isTestData           Boolean   @default(false)
+  testMarkedAt         DateTime?
+  testMarkedById       String?
+  totalCompletedOrders Int       @default(0)
+  totalSettledAmount   Int       @default(0)
+  balanceAmount        Int       @default(0)
+  withdrawnAmount      Int       @default(0)
+  lastLoginAt          DateTime?
+  deletedAt            DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  participants  TaskParticipant[]
+  mediaAccounts AppUserMediaAccount[]
+  restrictions  AppUserRestriction[]
+  abandonLogs   TaskAbandonLog[]
+  walletLedgers AppUserWalletLedger[]
+  tenant       Tenant?                @relation(fields: [tenantId], references: [id], onDelete: SetNull)
+  withdrawals   AppUserWithdrawal[]
+  testBatchMemberships TestDataBatchUser[]
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([isTestData])
+  @@index([bannedUntil])
+  @@index([createdAt])
+}
+
+model AppUserMediaAccount {
+  id          String    @id @default(cuid())
+  appUserId   String
+  platform    String    @db.VarChar(32)
+  accountNo   String    @db.VarChar(100)
+  accountName String?   @db.VarChar(100)
+  source      String    @default("MANUAL") @db.VarChar(32)
+  proofFileId String?
+  proofUrl    String?
+  ocrText     String?
+  verifiedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  appUser AppUser @relation(fields: [appUserId], references: [id], onDelete: Cascade)
+
+  @@unique([appUserId, platform, accountNo])
+  @@index([platform, accountNo])
+}
+
+model AppUserRestriction {
+  id               String   @id @default(cuid())
+  appUserId        String
+  operatorId       String?
+  reason           String
+  screenshotFileId String?
+  screenshotUrl    String?
+  days             Int
+  startedAt        DateTime @default(now())
+  endsAt           DateTime
+  status           String   @default("ACTIVE") @db.VarChar(32)
+  createdAt        DateTime @default(now())
+
+  appUser  AppUser @relation(fields: [appUserId], references: [id], onDelete: Cascade)
+  operator User?   @relation("AppUserRestrictionOperator", fields: [operatorId], references: [id])
+
+  @@index([appUserId, status])
+  @@index([endsAt])
+}
+
+model TaskAbandonLog {
+  id            String   @id @default(cuid())
+  appUserId     String
+  taskId        String
+  participantId String?
+  reason        String?
+  createdAt     DateTime @default(now())
+
+  appUser     AppUser          @relation(fields: [appUserId], references: [id], onDelete: Cascade)
+  task        DailyTask        @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  participant TaskParticipant? @relation(fields: [participantId], references: [id])
+
+  @@index([appUserId, createdAt])
+  @@index([taskId])
+}
+
+model AppUserWalletLedger {
+  id            String   @id @default(cuid())
+  appUserId     String
+  participantId String?
+  // 结算/佣金从订单批次继承；提现/调账只有明确归属时才写入批次。
+  testBatchId   String?
+  type          String   @db.VarChar(32) // SETTLEMENT / WITHDRAW / ADJUST
+  amount        Int
+  balanceAfter  Int
+  remark        String?
+  createdAt     DateTime @default(now())
+
+  appUser AppUser @relation(fields: [appUserId], references: [id], onDelete: Cascade)
+  testBatch TestDataBatch? @relation("TestBatchWalletLedgers", fields: [testBatchId], references: [id], onDelete: SetNull)
+
+  @@index([appUserId, createdAt])
+  @@index([participantId])
+  @@index([testBatchId])
+}
+
+model AppUserWithdrawal {
+  id                      String    @id @default(cuid())
+  appUserId               String
+  tenantId                String?
+  // 只有明确属于测试批次的提现才会随测试批次清理。
+  testBatchId             String?
+  amount                  Int
+  channel                 String    @default("WECHAT_TRANSFER") @db.VarChar(32)
+  transferMode            String    @default("WECHAT") @db.VarChar(32) // WECHAT / MANUAL / MOCK
+  status                  String    @default("PENDING") @db.VarChar(32) // PENDING / APPROVED / WAIT_USER_CONFIRM / PROCESSING / PAID / REJECTED / FAILED / CANCELLED / EXPIRED
+  outBatchNo              String?   @db.VarChar(128)
+  outDetailNo             String?   @db.VarChar(128)
+  outBillNo               String?   @unique @db.VarChar(32)
+  tradeNo                 String?   @db.VarChar(128)
+  transferBillNo          String?   @db.VarChar(128)
+  transferState           String?   @db.VarChar(64)
+  transferPackageInfo     String?
+  transferPackageExpireAt DateTime?
+  transferMchId           String?   @db.VarChar(32)
+  transferAppId           String?   @db.VarChar(32)
+  rejectReason            String?
+  failReason              String?
+  operatorId              String?
+  notifyRaw               Json?
+  remark                  String?
+  approvedAt              DateTime?
+  paidAt                  DateTime?
+  rejectedAt              DateTime?
+  failedAt                DateTime?
+  cancelledAt             DateTime?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  appUser AppUser @relation(fields: [appUserId], references: [id], onDelete: Cascade)
+  tenant  Tenant? @relation(fields: [tenantId], references: [id], onDelete: SetNull)
+  testBatch TestDataBatch? @relation("TestBatchWithdrawals", fields: [testBatchId], references: [id], onDelete: SetNull)
+
+  @@index([appUserId, status])
+  @@index([tenantId, status])
+  @@index([transferMode])
+  @@index([testBatchId])
+  @@index([createdAt])
+}
+
+
+model TestDataBatch {
+  id           String   @id @default(cuid())
+  tenantId     String
+  name         String   @db.VarChar(120)
+  purpose      String?  @db.VarChar(500)
+  status       String   @default("ACTIVE") @db.VarChar(32) // ACTIVE / ARCHIVED / PURGED
+  createdById  String?
+  archivedAt   DateTime?
+  archivedById String?
+  purgedAt     DateTime?
+  purgedById   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenant        Tenant                       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tasks         DailyTask[]                  @relation("TestBatchTasks")
+  participants  TaskParticipant[]            @relation("TestBatchParticipants")
+  walletLedgers AppUserWalletLedger[]        @relation("TestBatchWalletLedgers")
+  withdrawals   AppUserWithdrawal[]          @relation("TestBatchWithdrawals")
+  commissions   LeaderCommissionSettlement[] @relation("TestBatchCommissionSettlements")
+  users         TestDataBatchUser[]
+  groups        TestDataBatchGroup[]
+
+  @@unique([tenantId, name])
+  @@index([tenantId, status])
+  @@index([createdAt])
+}
+
+model TestDataBatchUser {
+  id          String   @id @default(cuid())
+  batchId     String
+  appUserId   String
+  role        String   @default("MEMBER") @db.VarChar(32) // MEMBER / LEADER / OPERATOR
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  batch   TestDataBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  appUser AppUser       @relation(fields: [appUserId], references: [id], onDelete: Cascade)
+
+  @@unique([batchId, appUserId])
+  @@index([appUserId, createdAt])
+}
+
+model TestDataBatchGroup {
+  id          String   @id @default(cuid())
+  batchId     String
+  groupId     String
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  batch TestDataBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@unique([batchId, groupId])
+  @@index([groupId, createdAt])
+}
+
+model DistributionGroup {
+  id                      String    @id @default(cuid())
+  tenantId                String
+  name                    String    @db.VarChar(100)
+  leaderName              String?   @db.VarChar(80)
+  leaderPhone             String?   @db.VarChar(20)
+  leaderUserId            String?
+  leaderTaskAccountId     String?
+  memberInviteCode        String    @unique @db.VarChar(32)
+  leaderBindCode          String    @unique @db.VarChar(64)
+  // 生命周期：ENABLED / DISABLED / UNBINDING / UNBOUND / RESETTING / DELETED。
+  // status 仅控制当前运营可用性；解绑、删除和测试重置均保留必要历史归属。
+  status                  String    @default("ENABLED") @db.VarChar(32)
+  isTestData              Boolean   @default(false)
+  leaderUnboundAt         DateTime?
+  leaderUnboundById       String?
+  deletedAt               DateTime?
+  deletedById             String?
+  testResetAt             DateTime?
+  testResetById           String?
+  commissionEnabled       Boolean   @default(false)
+  // 团长默认接受的分佣规则：PERCENT 的值为基点（500 = 5.00%），FIXED 的值为分（10 = ¥0.10）。
+  commissionRuleType      String?   @db.VarChar(16)
+  commissionRuleValue     Int?
+  selfCommissionEnabled   Boolean   @default(false)
+  defaultCommissionRuleId String?
+  remark                  String?
+  createdById             String?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  disabledAt              DateTime?
+
+  @@index([tenantId, status])
+  @@index([deletedAt])
+  @@index([isTestData])
+  @@index([leaderUserId])
+  @@index([leaderPhone])
+  @@index([createdAt])
+}
+
+model DistributionUserBinding {
+  id         String    @id @default(cuid())
+  userId     String
+  tenantId   String
+  groupId    String
+  status     String    @default("ENABLED") @db.VarChar(32)
+  bindSource String    @default("INVITE") @db.VarChar(32)
+  inviteCode String?   @db.VarChar(64)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  unbindAt   DateTime?
+
+  @@index([userId, status])
+  @@index([tenantId, groupId, status])
+  @@index([groupId, status])
+}
+
+model DistributionTaskAccount {
+  id                   String                                      @id @default(cuid())
+  userId               String
+  tenantId             String
+  groupId              String
+  phone                String                                      @unique @db.VarChar(20)
+  nickname             String                                      @db.VarChar(80)
+  smsVerified          Boolean                                     @default(false)
+  status               String                                      @default("ENABLED") @db.VarChar(32)
+  isDefault            Boolean                                     @default(false)
+  createdAt            DateTime                                    @default(now())
+  updatedAt            DateTime                                    @updatedAt
+  homepageRecognitions DistributionTaskAccountHomepageRecognition[]
+
+  @@index([userId, status])
+  @@index([tenantId, groupId, status])
+  @@index([groupId, status])
+}
+
+/// 团长申请：H5 用户提交，PC 审核通过后才会提升为团长，避免自行获得团队权限。
+model DistributionLeaderApplication {
+  id                 String   @id @default(cuid())
+  tenantId           String?
+  appUserId          String
+  currentGroupId     String?
+  requestedGroupName String   @db.VarChar(100)
+  // 申请人可确认/补充联系方式；审核通过后仍以当前 H5 用户资料为准。
+  contactPhone       String?  @db.VarChar(20)
+  agreedToLeaderRules Boolean @default(false)
+  reason             String?
+  status             String   @default("PENDING") @db.VarChar(32) // PENDING / APPROVING (transactional guard) / APPROVED / REJECTED / CANCELLED
+  reviewRemark       String?
+  reviewedById       String?
+  reviewedAt         DateTime?
+  groupId            String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([appUserId, status])
+  @@index([tenantId, status, createdAt])
+  @@index([groupId])
+  @@index([createdAt])
+}
+
+/// 团长佣金结算明细：每个任务参与记录最多产生一条，独立于成员任务结算。
+model LeaderCommissionSettlement {
+  id                 String   @id @default(cuid())
+  tenantId           String
+  groupId            String
+  leaderUserId       String
+  taskId             String
+  participantId      String   @unique
+  workerUserId       String?
+  workerRewardAmount Int
+  commissionAmount   Int
+  commissionMode     String   @db.VarChar(16) // INCLUDED / EXTRA
+  status             String   @default("SETTLED") @db.VarChar(32)
+  settledAt          DateTime @default(now())
+  settledById        String?
+  remark             String?
+  testBatchId        String?
+  createdAt          DateTime @default(now())
+
+  testBatch TestDataBatch? @relation("TestBatchCommissionSettlements", fields: [testBatchId], references: [id], onDelete: SetNull)
+
+  @@index([tenantId, settledAt])
+  @@index([leaderUserId, settledAt])
+  @@index([groupId, settledAt])
+  @@index([taskId])
+  @@index([testBatchId])
+}
+
+/// OCR 仅用于主页截图的运营核验；绝不覆盖 DistributionTaskAccount.nickname 或手机号。
+model DistributionTaskAccountHomepageRecognition {
+  id                  String                  @id @default(cuid())
+  taskAccountId       String
+  expectedPlatform    String                  @db.VarChar(32)
+  homepageProofFileId String?                 @db.VarChar(64)
+  detectedPlatform    String?                 @db.VarChar(32)
+  platformConfidence  Int?
+  nicknameCandidate   String?                 @db.VarChar(100)
+  accountIdCandidate  String?                 @db.VarChar(100)
+  ocrStatus           String                  @default("NOT_REQUESTED") @db.VarChar(32)
+  ocrText             String?
+  ocrError            String?                 @db.VarChar(500)
+  ocrAttemptCount     Int                     @default(0)
+  ocrRequestedAt      DateTime?
+  ocrStartedAt        DateTime?
+  ocrCompletedAt      DateTime?
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+
+  taskAccount DistributionTaskAccount @relation(fields: [taskAccountId], references: [id], onDelete: Cascade)
+
+  @@unique([taskAccountId, expectedPlatform])
+  @@index([ocrStatus, updatedAt])
+  @@index([homepageProofFileId])
+}
+
+model GroupCollaboration {
+  id                         String    @id @default(cuid())
+  tenantId                   String
+  sourceGroupId              String
+  targetGroupId              String
+  scopeType                  String    @default("ALL_COLLABORATIVE_TASKS") @db.VarChar(64)
+  status                     String    @default("APPROVED") @db.VarChar(32)
+  allowAllCollaborativeTasks Boolean   @default(true)
+  startAt                    DateTime?
+  endAt                      DateTime?
+  createdById                String?
+  approvedById               String?
+  approvedAt                 DateTime?
+  revokedAt                  DateTime?
+  createdAt                  DateTime  @default(now())
+  updatedAt                  DateTime  @updatedAt
+
+  @@index([tenantId, status])
+  @@index([sourceGroupId, targetGroupId, status])
+  @@index([targetGroupId, status])
+  @@index([endAt])
+}
+
+model InterceptCaptureRecord {
+  id                String    @id @default(cuid())
+  tenantId          String
+  robotId           String
+  runId             String?   @db.VarChar(64)
+  platform          String    @db.VarChar(32)
+  accountAlias      String?   @db.VarChar(100)
+  targetType        String?   @db.VarChar(32)
+  targetUrl         String?
+  homepageUrl       String?
+  contentUrl        String?
+  platformContentId String?   @db.VarChar(128)
+  contentTitle      String?
+  publishTimeIso    DateTime?
+  speechTranscript  String?
+  speechStatus      String?   @db.VarChar(32)
+  speechError       String?
+  videoDescription  String?
+  videoTags         String[]  @default([])
+  workDecisionStatus            String?  @db.VarChar(32)
+  workDecisionShouldRun         Boolean?
+  workDecisionReason            String?
+  workDecisionWorkflowId        String?  @db.VarChar(128)
+  workDecisionTraceId           String?  @db.VarChar(64)
+  workDecisionProvider          String?  @db.VarChar(40)
+  workDecisionModel             String?  @db.VarChar(120)
+  workDecisionConfigurationHash String?  @db.VarChar(64)
+  intentReplyTraceId            String?  @db.VarChar(64)
+  intentGenerationSource        String?  @db.VarChar(64)
+  intentGenerationProvider      String?  @db.VarChar(40)
+  intentGenerationModel         String?  @db.VarChar(120)
+  intentQualityStatus           String?  @db.VarChar(32)
+  intentSafetyStatus            String?  @db.VarChar(32)
+  commentId         String?   @db.VarChar(128)
+  parentCommentId   String?   @db.VarChar(128)
+  userId            String?   @db.VarChar(128)
+  nickname          String?   @db.VarChar(100)
+  commentText       String?
+  commentTimeIso    DateTime?
+  visibleRegion     String?
+  dedupeKey         String?   @db.VarChar(64)
+  raw               Json?
+  capturedAt        DateTime  @default(now())
+  createdAt         DateTime  @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  robot  Robot  @relation(fields: [robotId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, robotId, dedupeKey], name: "interceptCaptureDedupe", map: "intercept_capture_dedupe_unique")
+  @@index([tenantId, capturedAt])
+  @@index([tenantId, platform, platformContentId])
+  @@index([robotId, capturedAt])
+  @@index([platform])
+  @@index([platformContentId])
+  @@index([commentId])
+  @@index([workDecisionTraceId])
+  @@index([intentReplyTraceId])
+  @@index([dedupeKey])
+}
+
+model InterceptCaptureViewPreset {
+  id        String   @id @default(cuid())
+  tenantId  String
+  userId    String
+  name      String   @db.VarChar(64)
+  columns   Json
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, userId, name])
+  @@index([tenantId, userId, updatedAt])
+  @@index([tenantId, userId, isDefault])
+}
+
+model InterceptIntentPromptConfig {
+  id          String    @id @default(cuid())
+  tenantId    String    @db.VarChar(64)
+  name        String    @db.VarChar(100)
+  description String?
+  workflowId  String    @default("") @db.VarChar(128)
+  batchSize   Int       @default(30)
+  biz         String?
+  cust        String?
+  acctType    String?   @db.VarChar(64)
+  acctPos     String?
+  tone        String?
+  sellPts     String?
+  banRules    String?
+  nonCust     String?
+  dmRule      String?
+  entryRules  String?
+  videoTitle  String?
+  platform    String?   @db.VarChar(32)
+  extraParams Json?
+  isDefault   Boolean   @default(false)
+  status      String    @default("ENABLED") @db.VarChar(32)
+  createdById String?   @db.VarChar(64)
+  deletedAt   DateTime? @db.Timestamptz(6)
+  createdAt   DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime  @updatedAt @db.Timestamptz(6)
+
+  @@index([tenantId, status])
+  @@index([tenantId, isDefault])
+  @@index([deletedAt])
+}
+
+model InterceptIntentAnalysisBatch {
+  id                   String    @id
+  batchNo              String    @unique @db.VarChar(64)
+  tenantId             String    @db.VarChar(64)
+  robotId              String    @db.VarChar(64)
+  runId                String?   @db.VarChar(64)
+  workflowId           String    @db.VarChar(128)
+  promptConfigId       String?   @db.VarChar(64)
+  promptConfigName     String?   @db.VarChar(100)
+  promptConfigSnapshot Json?
+  status               String    @default("PENDING") @db.VarChar(32)
+  totalCount           Int       @default(0)
+  successCount         Int       @default(0)
+  failedCount          Int       @default(0)
+  batchSize            Int       @default(30)
+  errorMessage         String?
+  requestContext       Json?
+  createdBy            String?   @db.VarChar(64)
+  createdAt            DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt            DateTime  @updatedAt @db.Timestamptz(6)
+  completedAt          DateTime? @db.Timestamptz(6)
+
+  chunks InterceptIntentAnalysisChunk[]
+
+  @@index([tenantId, createdAt])
+  @@index([robotId, createdAt])
+  @@index([status])
+}
+
+model InterceptIntentAnalysisChunk {
+  id              String    @id
+  analysisBatchId String    @db.VarChar(64)
+  chunkIndex      Int
+  status          String    @default("PENDING") @db.VarChar(32)
+  captureIds      Json
+  successCount    Int       @default(0)
+  failedCount     Int       @default(0)
+  retryCount      Int       @default(0)
+  executeId       String?   @db.VarChar(128)
+  logId           String?   @db.VarChar(128)
+  errorMessage    String?
+  requestPayload  Json?
+  responseRaw     Json?
+  createdAt       DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime  @updatedAt @db.Timestamptz(6)
+  completedAt     DateTime? @db.Timestamptz(6)
+
+  analysisBatch InterceptIntentAnalysisBatch @relation(fields: [analysisBatchId], references: [id], onDelete: Cascade)
+
+  @@unique([analysisBatchId, chunkIndex])
+  @@index([analysisBatchId, status])
+}
+
+model PrivateMessageTaskBatch {
+  id             String   @id
+  batchNo        String   @unique @db.VarChar(64)
+  tenantId       String   @db.VarChar(64)
+  createdBy      String?  @db.VarChar(64)
+  selectedCount  Int      @default(0)
+  createdCount   Int      @default(0)
+  skippedCount   Int      @default(0)
+  robotIds       Json?
+  plannedStartAt DateTime @db.Timestamptz(6)
+  plannedEndAt   DateTime @db.Timestamptz(6)
+  status         String   @default("CREATED") @db.VarChar(32)
+  remark         String?
+  createdAt      DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime @updatedAt @db.Timestamptz(6)
+
+  @@index([tenantId, createdAt])
+  @@index([status])
+}
+
+model PrivateMessageTask {
+  id                 String    @id
+  taskNo             String    @unique @db.VarChar(64)
+  batchId            String?   @db.VarChar(64)
+  tenantId           String    @db.VarChar(64)
+  captureId          String?   @db.VarChar(64)
+  robotId            String    @db.VarChar(64)
+  platform           String    @db.VarChar(32)
+  targetUserId       String?   @db.VarChar(128)
+  targetNickname     String?   @db.VarChar(100)
+  targetProfileUrl   String?
+  sourceContentTitle String?
+  sourceContentUrl   String?
+  sourceCommentId    String?   @db.VarChar(128)
+  sourceCommentText  String?
+  intentLevel        String?   @db.VarChar(32)
+  intentScore        Float?
+  entryPointSummary  String?
+  messageDraft       String?
+  messageFinal       String?
+  messageSource      String?   @db.VarChar(32)
+  replyTraceId       String?   @db.VarChar(64)
+  generationSource  String?   @db.VarChar(64)
+  generationProvider String?  @db.VarChar(40)
+  generationModel   String?   @db.VarChar(120)
+  qualityStatus     String?   @db.VarChar(32)
+  safetyStatus      String?   @db.VarChar(32)
+  plannedStartAt     DateTime  @db.Timestamptz(6)
+  plannedEndAt       DateTime  @db.Timestamptz(6)
+  status             String    @default("PENDING") @db.VarChar(32)
+  priority           Int       @default(0)
+  claimToken         String?   @db.VarChar(64)
+  claimedAt          DateTime? @db.Timestamptz(6)
+  claimedByRobotId   String?   @db.VarChar(64)
+  sendAttemptCount   Int       @default(0)
+  lastSendAt         DateTime? @db.Timestamptz(6)
+  sentAt             DateTime? @db.Timestamptz(6)
+  sendError          String?
+  sendResultRaw      Json?
+  riskLevel          String?   @db.VarChar(32)
+  riskReason         String?
+  createdBy          String?   @db.VarChar(64)
+  approvedBy         String?   @db.VarChar(64)
+  approvedAt         DateTime? @db.Timestamptz(6)
+  createdAt          DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime  @updatedAt @db.Timestamptz(6)
+
+  @@index([tenantId, status, createdAt])
+  @@index([robotId, status])
+  @@index([captureId])
+  @@index([replyTraceId])
+  @@index([targetUserId])
+  @@index([sourceCommentId])
+  @@index([plannedStartAt, plannedEndAt])
+}
+
+model DialogueConversation {
+  id                       String   @id @default(cuid())
+  tenantId                 String
+  robotId                  String
+  platform                 String   @db.VarChar(32)
+  channelType              String   @default("dm") @db.VarChar(16)
+  chatType                 String   @default("private") @db.VarChar(16)
+  botNickname              String   @default("") @db.VarChar(100)
+  displayName              String   @db.VarChar(100)
+  normalizedDisplayName    String   @db.VarChar(100)
+  identityStatus           String   @default("PROVISIONAL") @db.VarChar(32)
+  identityConfidence       Int      @default(0)
+  lastMatchReason          String   @default("")
+  workflowConversationId   String   @default("") @db.VarChar(256)
+  messageCount             Int      @default(0)
+  firstMessageAt           DateTime?
+  lastMessageAt            DateTime?
+  deletedAt                DateTime?
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  aliases                  DialogueConversationAlias[]
+  messages                 DialogueMessage[]
+  customerServiceState     CustomerServiceConversationState?
+
+  @@index([tenantId, robotId, platform])
+  @@index([tenantId, robotId, normalizedDisplayName])
+  @@index([lastMessageAt])
+}
+
+
+model CustomerServiceConversationState {
+  id                         String   @id @default(cuid())
+  tenantId                   String
+  robotId                    String
+  dialogueConversationId     String   @unique
+  stateSchemaVersion         Int      @default(2)
+  revision                   Int      @default(0)
+  stateHash                  String   @default("") @db.VarChar(64)
+  statePayload               Json
+  payloadBytes               Int      @default(0)
+  lastProcessedMessageId     String   @default("") @db.VarChar(128)
+  lastProcessedIngestKey     String   @default("") @db.VarChar(64)
+  lastProcessedSortKey       String   @default("") @db.VarChar(192)
+  recentProcessedMessageIds  String[] @default([])
+  sourceConversationIds      String[] @default([])
+  rebuildRequired            Boolean  @default(false)
+  lastRebuiltAt              DateTime?
+  lastRebuildReason          String   @default("") @db.VarChar(128)
+  stateUpdatedAt             DateTime?
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+
+  conversation DialogueConversation @relation(fields: [dialogueConversationId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, robotId, updatedAt], map: "CsConversationState_tenant_robot_updated")
+  @@index([tenantId, dialogueConversationId], map: "CsConversationState_tenant_conversation")
+  @@index([lastProcessedMessageId], map: "CsConversationState_last_message")
+}
+
+model DialogueConversationAlias {
+  id                       String   @id @default(cuid())
+  tenantId                 String
+  robotId                  String
+  conversationId           String
+  sourceClientId           String   @db.VarChar(128)
+  localConversationId      String   @db.VarChar(128)
+  aliasHash                String   @db.VarChar(64)
+  confidence               Int      @default(0)
+  lastWindowHash           String   @default("") @db.VarChar(64)
+  firstSeenAt              DateTime @default(now())
+  lastSeenAt               DateTime @default(now())
+
+  conversation             DialogueConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, robotId, sourceClientId, localConversationId])
+  @@index([conversationId, lastSeenAt])
+}
+
+model DialogueMessage {
+  id                       String   @id @default(cuid())
+  tenantId                 String
+  robotId                  String
+  conversationId           String
+  ingestKey                String   @unique @db.VarChar(64)
+  clientMessageId          String   @db.VarChar(256)
+  sourceClientId           String   @db.VarChar(128)
+  localConversationId      String   @db.VarChar(128)
+  senderRole               String   @db.VarChar(32)
+  actorSource              String   @default("") @db.VarChar(64)
+  attributionConfidence    String   @default("") @db.VarChar(32)
+  messageType              String   @default("unknown") @db.VarChar(32)
+  textContent              String   @default("")
+  typePlaceholder          String   @default("") @db.VarChar(64)
+  sequenceIndex            Int      @default(0)
+  historyKind              String   @default("") @db.VarChar(32)
+  timeAccuracy             String   @default("") @db.VarChar(32)
+  observedAt               DateTime
+  payloadFingerprint       String   @default("") @db.VarChar(128)
+  replyAttemptId           String   @default("") @db.VarChar(256)
+  replyTraceId             String   @default("") @db.VarChar(512)
+  generationSource         String   @default("") @db.VarChar(64)
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  conversation             DialogueConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, observedAt])
+  @@index([tenantId, robotId, observedAt])
+  @@index([tenantId, replyAttemptId])
+  @@index([tenantId, replyTraceId])
+  @@index([clientMessageId])
+}
+
+model DialogueSyncWatermark {
+  id                       String   @id @default(cuid())
+  tenantId                 String
+  robotId                  String
+  sourceClientId           String   @db.VarChar(128)
+  localConversationId      String   @db.VarChar(128)
+  deletedBeforeAt          DateTime
+  reason                   String   @default("USER_DELETE") @db.VarChar(32)
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  @@unique([tenantId, robotId, sourceClientId, localConversationId])
+  @@index([tenantId, robotId, updatedAt])
+}

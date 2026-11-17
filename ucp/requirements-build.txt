@@ -1,0 +1,2 @@
+# 打包 exe 时额外安装；运行源码只需要 requirements.txt。
+pyinstaller>=6.6.0
