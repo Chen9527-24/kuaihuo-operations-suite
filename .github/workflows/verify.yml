@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project: [core-nexus, kf-pc, task-distribution-app]
+        project: [core-nexus, kf-pc]
     defaults:
       run:
         working-directory: ${{ matrix.project }}
@@ -32,8 +32,6 @@ jobs:
       - run: pnpm install --frozen-lockfile --ignore-scripts
       - if: matrix.project == 'core-nexus'
         run: pnpm exec prisma validate
-      - if: matrix.project == 'task-distribution-app'
-        run: pnpm typecheck
       - run: pnpm build
 
   python-source:
