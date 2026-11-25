@@ -27,11 +27,7 @@
 | 官网内容与咨询 | 管理内容草稿与发布配置，接收外接官网表单咨询并进入跟进工作台 | [查看官网管理说明](docs/features/WEBSITE_CONTENT.md) |
 | 账号权限与公共服务 | 管理租户、后台账号、角色权限、媒体账号，以及文件存储和操作日志 | [查看公共管理说明](docs/features/PLATFORM_ADMINISTRATION.md) |
 
-## 视频评论生成工作台
-
-工作台可从视频文案或作品链接生成评论草稿，按平台设置条数、关键词和作者回复。提示词可以在本机预览，直接生成评论需要配置文本模型。[源码与本地运行说明](comment-generation/README.md)
-
-统一模式使用同一套账号和数据库，可将评论、作品标题和同平台链接带入热启动草稿，也支持直接导入已有评论。独立分发版本见[快火任务分发仓库](https://github.com/Chen9527-24/kuaihuo-task-dispatch)。
+任务分发已迁至[快火任务分发独立仓库](https://github.com/Chen9527-24/kuaihuo-task-dispatch)。
 
 ## 三条业务链怎样配合
 
