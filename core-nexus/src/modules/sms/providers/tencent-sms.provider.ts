@@ -15,7 +15,6 @@ export class TencentSmsProvider implements SmsProvider {
       'TENCENT_SMS_SECRET_KEY',
       'TENCENT_SMS_SDK_APP_ID',
       'TENCENT_SMS_SIGN_NAME',
-      'TENCENT_SMS_CODE_TEMPLATE_ID',
     ];
     const missing = required.filter((name) => !this.get(name));
     if (missing.length) {

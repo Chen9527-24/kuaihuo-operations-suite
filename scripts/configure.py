@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate five local dotenv files from one namespaced configuration file.
+"""Generate project-local dotenv files from one namespaced configuration file.
 
 Only Python's standard library is used. Values are never evaluated or printed.
 """
@@ -14,7 +14,6 @@ ROOT = Path(__file__).resolve().parents[1]
 PROJECTS = (
     ('CORE', 'core-nexus', '.env'),
     ('PC', 'kf-pc', '.env.development'),
-    ('H5', 'task-distribution-app', '.env.development'),
     ('UCP', 'ucp', '.env'),
     ('INTERCEPTION', 'interception-bot', '.env'),
 )

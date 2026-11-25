@@ -22,7 +22,7 @@
       </template>
     </PageToolbar>
 
-    <CrudTablePanel title="租户列表" description="租户是账号、多媒体账号和每日任务的数据归属">
+    <CrudTablePanel title="租户列表" description="按租户管理后台账号、媒体账号和业务数据">
       <el-table v-loading="loading" :data="items" row-key="id" stripe>
         <el-table-column type="index" label="#" width="60" />
         <el-table-column prop="name" label="租户名称" min-width="180" />

@@ -1,6 +1,5 @@
-import { Body, Controller, Get, Headers, Param, Post, Query, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import type { Request, Response } from 'express';
 import { Public } from '../../common/decorators/public.decorator';
 import { WechatUrlDto, WxMiniLoginDto, WxMiniPhoneDto, WxMiniProfileDto, WxacodeDto } from './dto/wechat.dto';
 import { WechatService } from './wechat.service';
@@ -57,7 +56,7 @@ export class WechatOpenController {
   constructor(private readonly wechatService: WechatService) {}
 
   @Post('wxacode')
-  @ApiOperation({ summary: '生成带参数微信小程序码', description: 'PC 后台可传 tenantId/tenantsId + postId，后端生成 scene 并落盘返回图片地址。' })
+  @ApiOperation({ summary: '生成带参数微信小程序码', description: '传入 scene 或租户与帖子编号，返回小程序码图片地址。' })
   wxacode(@Body() dto: WxacodeDto) {
     return this.wechatService.createWxacode(dto);
   }
@@ -84,42 +83,5 @@ export class WechatOpenController {
   @ApiOperation({ summary: '解析小程序码 scene ticket' })
   scene(@Param('ticket') ticket: string) {
     return this.wechatService.resolveScene(ticket);
-  }
-
-  @Get('oauth/authorize')
-  @ApiOperation({ summary: '服务号网页授权入口', description: 'H5 微信内未登录时跳转到本接口，由后端生成微信 OAuth 授权地址并 302 到微信。' })
-  async officialAccountOAuthAuthorize(
-    @Query('redirect') redirect: string | undefined,
-    @Query('returnOrigin') returnOrigin: string | undefined,
-    @Req() request: Request,
-    @Res() response: Response,
-  ) {
-    const url = await this.wechatService.createOfficialAccountOAuthAuthorizeUrl(redirect, request, returnOrigin);
-    return response.redirect(url);
-  }
-
-  @Get('oauth/callback')
-  @ApiOperation({ summary: '服务号网页授权回调', description: '微信携带 code/state 回调后端，后端换取 openid、创建/登录 H5 成员并 302 回 H5。' })
-  async officialAccountOAuthCallback(
-    @Query('code') code: string | undefined,
-    @Query('state') state: string | undefined,
-    @Req() request: Request,
-    @Res() response: Response,
-  ) {
-    const url = await this.wechatService.handleOfficialAccountOAuthCallback(code, state, request);
-    return response.redirect(url);
-  }
-}
-
-@ApiTags('小程序-平台操作指引')
-@Public()
-@Controller({ path: 'platform-guide', version: '1' })
-export class PlatformGuideController {
-  constructor(private readonly wechatService: WechatService) {}
-
-  @Get('public')
-  @ApiOperation({ summary: '获取公开平台操作指引兜底配置' })
-  publicGuide(@Query('platform') platform?: string) {
-    return this.wechatService.getPlatformGuide(platform);
   }
 }

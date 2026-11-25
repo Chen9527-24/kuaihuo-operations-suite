@@ -25,10 +25,10 @@
         </el-table>
       </div>
 
-      <div class="panel-surface p-5 shadow-panel">
+      <div v-if="canReadFiles" class="panel-surface p-5 shadow-panel">
         <div class="mb-4 flex items-center justify-between">
           <div class="text-base font-semibold">最近文件</div>
-          <el-upload :show-file-list="false" :http-request="handleUploadRequest" accept="*/*">
+          <el-upload v-if="canUploadFiles" :show-file-list="false" :http-request="handleUploadRequest" accept="*/*">
             <el-button type="primary" plain>上传文件</el-button>
           </el-upload>
         </div>
@@ -74,10 +74,13 @@ const { loading, errorMessage: dashboardError, run } = useAsyncState();
 const healthItems = ref<{ key: string; label: string; value: string }[]>([]);
 const files = ref<{ id: string; name: string; url: string; type: string; size: string; createdAt: string }[]>([]);
 
+const canReadFiles = computed(() => auth.isPlatformAdmin || auth.user.permissions.includes('file:mine:read'));
+const canUploadFiles = computed(() => auth.isPlatformAdmin || auth.user.permissions.includes('file:upload'));
+
 const stats = computed(() => [
   { label: '角色数量', value: `${auth.user.roles.length}`, delta: '来自权限接口' },
   { label: '权限数量', value: `${auth.user.permissions.length}`, delta: '当前登录账号' },
-  { label: '文件数量', value: `${files.value.length}`, delta: '我的文件列表' },
+  ...(canReadFiles.value ? [{ label: '文件数量', value: String(files.value.length), delta: '我的文件列表' }] : []),
   { label: '健康检查项', value: `${healthItems.value.length}`, delta: '服务状态总览' }
 ]);
 
@@ -87,7 +90,7 @@ onMounted(() => {
 
 async function loadDashboardData() {
   await run(async () => {
-    const [healthPayload, filePayload] = await Promise.all([getHealthStatus(), getMyFiles()]);
+    const [healthPayload, filePayload] = await Promise.all([getHealthStatus(), canReadFiles.value ? getMyFiles() : []]);
 
     healthItems.value = normalizeHealthOverview(healthPayload);
     files.value = normalizeFileItems(filePayload);

@@ -35,9 +35,7 @@ function uniqOrigins(values: Array<string | null | undefined>): string[] {
 function buildCorsOrigins(): string[] {
   return uniqOrigins([
     ...parseOriginList(process.env.APP_ORIGIN),
-    process.env.H5_BASE_URL,
     process.env.WEBSITE_BASE_URL,
-    ...parseOriginList(process.env.WECHAT_MP_OAUTH_ALLOWED_RETURN_ORIGINS),
   ]);
 }
 

@@ -2,7 +2,7 @@
   <div class="space-y-4">
     <PageToolbar
       title="商机客户管理"
-      description="以当前推进和待办优先管理外部公司客户；首次和每次实际沟通均独立留痕，不与 H5 用户、租户或系统账号混用。"
+      description="以当前推进和待办优先管理外部公司客户；分别记录首次沟通和后续跟进。"
     >
       <el-form :model="filters" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-6">
         <el-form-item label="关键词" class="!mb-0">

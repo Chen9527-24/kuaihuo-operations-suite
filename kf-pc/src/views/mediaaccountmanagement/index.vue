@@ -38,7 +38,7 @@
       </template>
     </PageToolbar>
 
-    <CrudTablePanel title="账号列表" description="多媒体账号会被每日任务选择并绑定">
+    <CrudTablePanel title="账号列表" description="管理各平台的账号资料与启用状态">
       <el-table v-loading="loading" :data="items" row-key="id" stripe>
         <el-table-column type="index" label="#" width="60" />
         <el-table-column prop="platform" label="视频类型" width="130">

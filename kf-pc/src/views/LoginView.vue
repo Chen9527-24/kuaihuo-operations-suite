@@ -145,7 +145,7 @@ async function handleQuickSwitchAccount(key: string) {
       return;
     }
     ElMessage.success('账号已切换');
-    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/daily-tasks';
+    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/dashboard';
     await router.replace(redirect);
   } catch (error) {
     const message = error instanceof Error ? error.message : '快速登录失败，请重新输入账号密码';

@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AnyPermissions } from '../../common/decorators/any-permissions.decorator';
 import { Permissions } from '../../common/decorators/permissions.decorator';
 import { CurrentUserPayload } from '../../common/types/current-user.type';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
@@ -24,7 +23,7 @@ export class MediaAccountsController {
   }
 
   @Get('options')
-  @AnyPermissions('media-account:read', 'daily-task:create', 'daily-task:update')
+  @Permissions('media-account:read')
   @ApiOperation({ summary: '多媒体账号下拉选项' })
   options(@Query() query: MediaAccountOptionsQueryDto, @CurrentUser() user: CurrentUserPayload) {
     return this.service.options(query, user);

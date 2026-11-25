@@ -73,7 +73,7 @@
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="profile">个人中心</el-dropdown-item>
-            <el-dropdown-item command="dailyTasks">返回每日任务</el-dropdown-item>
+            <el-dropdown-item command="dashboard">返回工作台</el-dropdown-item>
             <el-dropdown-item divided command="switchAccount">切换 / 添加账号</el-dropdown-item>
             <el-dropdown-item v-if="auth.tenants.length > 1" command="switchTenant">切换租户</el-dropdown-item>
             <el-dropdown-item divided command="logout">退出当前账号</el-dropdown-item>
@@ -176,8 +176,7 @@ const pageTitle = computed(() => String(route.meta.title ?? 'Mini Admin'));
 
 const pageDescription = computed(() => {
   const map: Record<string, string> = {
-    '/dashboard': '概览、趋势和待办视图',
-    '/daily-tasks': '配置视频任务、推流和参与进度',
+    '/dashboard': '查看账号权限、服务状态与我的文件',
     '/robots/private-message': '管理私信机器人、扫码授权与到期停止策略',
     '/robots/comment': '管理评论机器人、自动回复与授权状态',
     '/robots/comment-records': '查看评论线程、一级/二级关系、回复状态与采集完整度',
@@ -208,8 +207,8 @@ async function handleCommand(command: string) {
     return;
   }
 
-  if (command === 'dailyTasks') {
-    await router.push('/daily-tasks');
+  if (command === 'dashboard') {
+    await router.push('/dashboard');
     return;
   }
 
@@ -273,7 +272,7 @@ async function handleSwitchAccount(key: string) {
       ElMessage.info('上次使用的租户已不可用，请重新选择租户');
       return;
     }
-    await router.replace('/daily-tasks');
+    await router.replace('/dashboard');
     ElMessage.success('账号已切换');
   } catch (error) {
     const message = error instanceof Error ? error.message : '账号切换失败，请重新登录';

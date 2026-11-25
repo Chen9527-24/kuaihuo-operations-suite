@@ -32,7 +32,7 @@ export class DictItemQueryDto extends PaginationDto {
 }
 
 export class DictOptionsQueryDto {
-  @ApiPropertyOptional({ example: 'enabled_status,media_platform,daily_task_status' })
+  @ApiPropertyOptional({ example: 'enabled_status,media_platform,robot_status' })
   @IsOptional()
   @IsString()
   types?: string;

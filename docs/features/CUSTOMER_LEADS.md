@@ -96,7 +96,7 @@ flowchart LR
 
 **当前 CustomerLead 模型没有 tenantId，列表服务也没有按当前租户过滤。** 它是受后台权限控制的共享管理数据，不能作为已经完成客户级租户隔离的 CRM 对外介绍。若要让互不相关的组织共用实例，需要先补齐数据范围设计与验证。
 
-源码证据：[客户模型](../../core-nexus/prisma/schema.prisma#L203)、[列表查询](../../core-nexus/src/modules/customer-leads/customer-leads.service.ts#L31)。
+源码证据：[客户模型](../../core-nexus/prisma/schema.prisma#L193)、[列表查询](../../core-nexus/src/modules/customer-leads/customer-leads.service.ts#L31)。
 
 ## 8 页面、接口与源码入口
 

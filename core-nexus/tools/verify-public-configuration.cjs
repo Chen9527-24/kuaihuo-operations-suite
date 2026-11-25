@@ -24,7 +24,6 @@ check('JWT secret cannot be empty', () => assert.throws(() => validateEnv({ ...b
 check('access and refresh secrets must differ', () => assert.throws(() => validateEnv({ ...base, JWT_REFRESH_SECRET: base.JWT_ACCESS_SECRET })));
 check('unsupported SMS provider is rejected early', () => assert.throws(() => validateEnv({ ...base, SMS_PROVIDER: 'aliyun' })));
 check('no default administrator password', () => assert.equal(validateEnv(base).SEED_ADMIN_PASSWORD, undefined));
-check('payment starts in MOCK mode', () => assert.equal(validateEnv(base).WECHAT_PAY_TRANSFER_MODE, 'MOCK'));
 check('no deployment-specific Coze defaults', () => {
   const config = validateEnv(base);
   for (const key of ['COZE_COMMENT_REPLY_WORKFLOW_ID', 'COZE_COMMENT_INTENT_WORKFLOW_ID', 'COZE_DM_CHAT_WORKFLOW_ID', 'COZE_DM_CHAT_BOT_ID']) assert.equal(config[key], '');

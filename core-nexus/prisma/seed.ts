@@ -31,7 +31,7 @@ async function main() {
       status: 'ACTIVE',
       industry: '短视频运营',
       productIntro: '用于本地开发和联调的默认租户',
-      coreSellingPoint: '多媒体账号管理、每日任务、评论进度',
+      coreSellingPoint: '多媒体账号管理、客户线索与客服运营',
       startedAt: new Date('2026-01-01T00:00:00.000Z'),
       expiredAt: PERMANENT_EXPIRED_AT,
     },
@@ -81,7 +81,7 @@ async function main() {
         accountId: 'demo_douyin_001',
         accountName: '花生牛奶8721',
         status: 'ENABLED',
-        positioning: '演示抖音账号，用于每日任务联调',
+        positioning: '演示抖音账号，用于媒体账号管理',
       },
     });
   }

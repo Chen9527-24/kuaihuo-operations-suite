@@ -5,7 +5,7 @@ import { canAccessMenuPath, flatMenuItems } from './menu';
 import { useAuthStore } from '@/stores/auth';
 
 const viewMap = {
-  '/daily-tasks': { name: 'DailyTaskManagementView', component: () => import('@/views/dailytaskmanagement/index.vue'), keepAlive: true },
+  '/dashboard': { name: 'DashboardView', component: () => import('@/views/DashboardView.vue'), keepAlive: true },
   '/robots/private-message': { name: 'PrivateMessageRobotManagementView', component: () => import('@/views/privatemessagerobotmanagement/index.vue'), keepAlive: true },
   '/robots/comment': { name: 'CommentRobotManagementView', component: () => import('@/views/commentrobotmanagement/index.vue'), keepAlive: true },
   '/robots/intercept': { name: 'InterceptRobotManagementView', component: () => import('@/views/interceptrobotmanagement/index.vue'), keepAlive: true },
@@ -27,11 +27,7 @@ const viewMap = {
   '/customer-service/industries': { name: 'CustomerServiceIndustriesView', component: () => import('@/views/customer-service/industries/index.vue'), keepAlive: true },
   '/customer-service/response-rules': { name: 'CustomerServiceResponseRulesView', component: () => import('@/views/customer-service/response-rules/index.vue'), keepAlive: true },
   '/customer-service/simulation': { name: 'CustomerServiceSimulationView', component: () => import('@/views/customer-service/simulation/index.vue'), keepAlive: true },
-  '/distribution-groups': { name: 'DistributionGroupManagementView', component: () => import('@/views/distributiongroupmanagement/index.vue'), keepAlive: true },
-  '/task-orders': { name: 'TaskOrderManagementView', component: () => import('@/views/taskordermanagement/index.vue'), keepAlive: true },
-  '/withdrawals': { name: 'WithdrawalManagementView', component: () => import('@/views/withdrawalmanagement/index.vue'), keepAlive: true },
   '/media-accounts': { name: 'MediaAccountManagementView', component: () => import('@/views/mediaaccountmanagement/index.vue'), keepAlive: true },
-  '/app-users': { name: 'AppUserManagementView', component: () => import('@/views/appusermanagement/index.vue'), keepAlive: true },
   '/customer-leads': { name: 'CustomerLeadManagementView', component: () => import('@/views/customerleadmanagement/index.vue'), keepAlive: true },
   '/website/content': { name: 'WebsiteManagementView', component: () => import('@/views/websitemanagement/index.vue'), keepAlive: true },
   '/website/inquiries': { name: 'WebsiteInquiryManagementView', component: () => import('@/views/websiteinquirymanagement/index.vue'), keepAlive: true },
@@ -53,14 +49,14 @@ const children: RouteRecordRaw[] = flatMenuItems.map((item) => {
     path: item.path,
     name: view.name,
     component: view.component,
-    meta: { title: item.title, icon: item.icon, closable: item.closable ?? item.path !== '/daily-tasks', keepAlive: view.keepAlive }
+    meta: { title: item.title, icon: item.icon, closable: item.closable ?? item.path !== '/dashboard', keepAlive: view.keepAlive }
   };
 });
 
 const routes: RouteRecordRaw[] = [
-  { path: '/', component: AppLayout, redirect: '/daily-tasks', meta: { requiresAuth: true }, children },
+  { path: '/', component: AppLayout, redirect: '/dashboard', meta: { requiresAuth: true }, children },
   { path: '/login', name: 'login', component: () => import('@/views/LoginView.vue'), meta: { public: true, title: '登录' } },
-  { path: '/:pathMatch(.*)*', redirect: '/daily-tasks' }
+  { path: '/:pathMatch(.*)*', redirect: '/dashboard' }
 ];
 
 const router = createRouter({ history: createWebHistory(), routes, scrollBehavior: () => ({ top: 0 }) });
@@ -70,7 +66,7 @@ router.beforeEach(async (to) => {
   if (to.meta.public) {
     // mode=add intentionally opens the login page without dropping the active
     // session, so another account can be added to the quick-switch list.
-    if (auth.isLoggedIn && to.path === '/login' && to.query.mode !== 'add') return '/daily-tasks';
+    if (auth.isLoggedIn && to.path === '/login' && to.query.mode !== 'add') return '/dashboard';
     return true;
   }
 
@@ -86,7 +82,7 @@ router.beforeEach(async (to) => {
   }
 
   if (!canAccessMenuPath(to.path, auth.user.permissions, auth.isPlatformAdmin)) {
-    return '/daily-tasks';
+    return '/dashboard';
   }
   return true;
 });

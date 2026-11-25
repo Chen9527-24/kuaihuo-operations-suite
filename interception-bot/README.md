@@ -72,7 +72,7 @@ build_tools/ *.spec             Windows构建辅助
 
 ## 配套项目
 
-配套项目：core-nexus、kf-pc、task-distribution-app、ucp。仓库地址与兼容版本正式建仓后补充。
+配套项目包括 [Core Nexus](../core-nexus/)、[PC 管理后台](../kf-pc/) 和 [ucp](../ucp/)。
 
 ## 许可与商用限制
 

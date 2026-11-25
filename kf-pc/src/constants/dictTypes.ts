@@ -6,10 +6,6 @@ export const DICT_TYPES = {
   permissionType: 'permission_type',
   permissionValidationStatus: 'permission_validation_status',
   mediaPlatform: 'media_platform',
-  dailyTaskStatus: 'daily_task_status',
-  taskCommentStatus: 'task_comment_status',
-  commentSource: 'comment_source',
-  dispatchStatus: 'dispatch_status',
   fileScene: 'file_scene'
 } as const;
 

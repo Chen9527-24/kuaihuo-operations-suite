@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import type { TabItem } from '@/types';
+import { isLeafMenuPath } from '@/router/menu';
 
 interface TabsState {
   tabs: TabItem[];
@@ -10,46 +11,35 @@ interface TabsState {
 const STORAGE_KEY = 'mini-admin-tabs';
 
 const defaultTab: TabItem = {
-  title: '每日任务',
-  path: '/daily-tasks',
-  name: 'DailyTaskManagementView',
+  title: '工作台',
+  path: '/dashboard',
+  name: 'DashboardView',
   closable: false
 };
 
-function loadState(): TabsState {
-  if (typeof localStorage === 'undefined') {
-    return {
-      tabs: [defaultTab],
-      favoritePaths: ['/comments']
-    };
-  }
+function defaultState(): TabsState {
+  return { tabs: [{ ...defaultTab }], favoritePaths: [] };
+}
 
+function loadState(): TabsState {
+  const state = defaultState();
+  if (typeof localStorage === 'undefined') return state;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      return {
-        tabs: [defaultTab],
-        favoritePaths: ['/comments']
-      };
-    }
-    const parsed = JSON.parse(raw) as Partial<TabsState>;
+    if (!raw) return state;
+    const saved = JSON.parse(raw) as Partial<TabsState>;
+    const currentTabs = (saved.tabs ?? []).filter(tab => tab.path !== defaultTab.path && isLeafMenuPath(tab.path));
     return {
-      tabs: parsed.tabs?.length ? parsed.tabs : [defaultTab],
-      favoritePaths: parsed.favoritePaths ?? ['/comments']
+      tabs: [...state.tabs, ...currentTabs],
+      favoritePaths: (saved.favoritePaths ?? []).filter(isLeafMenuPath)
     };
   } catch {
-    return {
-      tabs: [defaultTab],
-      favoritePaths: ['/comments']
-    };
+    return state;
   }
 }
 
 export const useTabsStore = defineStore('tabs', {
-  state: (): TabsState => ({
-    tabs: [defaultTab],
-    favoritePaths: ['/comments']
-  }),
+  state: defaultState,
   getters: {
     hasFavorite: (state) => (path: string) => state.favoritePaths.includes(path)
   },
@@ -64,7 +54,7 @@ export const useTabsStore = defineStore('tabs', {
       const path = route.path;
       const title = String(route.meta.title ?? route.name ?? path);
       const name = String(route.name ?? path);
-      const closable = Boolean(route.meta.closable ?? path !== '/daily-tasks');
+      const closable = Boolean(route.meta.closable ?? path !== '/dashboard');
 
       if (!this.tabs.some((tab) => tab.path === path)) {
         this.tabs.push({ path, title, name, closable });

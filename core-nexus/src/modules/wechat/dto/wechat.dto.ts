@@ -46,7 +46,7 @@ export class WxacodeDto {
   @Length(1, 64)
   tenantsId?: string;
 
-  @ApiPropertyOptional({ description: '帖子/任务 ID。' })
+  @ApiPropertyOptional({ description: '帖子 ID。' })
   @IsOptional()
   @IsString()
   @Length(1, 64)

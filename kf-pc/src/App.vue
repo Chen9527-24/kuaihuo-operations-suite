@@ -56,7 +56,7 @@ async function handleTenantConfirm(tenantId: string) {
     authStore.setPendingTenant(tenantId);
     await authStore.selectTenant(tenantId);
     ElMessage.success(wasManualSwitch ? '租户已切换' : '租户已确认');
-    await router.replace(wasManualSwitch ? '/daily-tasks' : authStore.consumePostLoginRedirect());
+    await router.replace(wasManualSwitch ? '/dashboard' : authStore.consumePostLoginRedirect());
   } catch (error) {
     const message = error instanceof Error ? error.message : '租户选择失败，请稍后重试';
     ElMessage.error(message);

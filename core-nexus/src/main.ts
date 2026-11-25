@@ -8,7 +8,6 @@ import {
   SwaggerModule,
 } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
-import express from 'express';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
@@ -32,11 +31,7 @@ async function bootstrap() {
     prefix: `/${localUploadDir}/`,
   });
 
-  // 微信支付回调验签必须使用原始请求体，不能先被 JSON body parser 改写。
-  app.use('/api/v1/wechatpay/transfer/notify', express.raw({ type: '*/*' }));
-
   // Runtime evidence and import payloads can legitimately exceed Express' 100 KB default.
-  // Register the bounded parsers after the raw webhook route so signature verification remains intact.
   app.useBodyParser('json', { limit: '1mb' });
   app.useBodyParser('urlencoded', { limit: '1mb', extended: true });
 
@@ -70,7 +65,7 @@ async function bootstrap() {
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle(appName)
-    .setDescription('中后台/H5/小程序通用 API 文档')
+    .setDescription('运营管理与客户端 API 文档')
     .setVersion('1.0.0')
     .addBearerAuth(
       {

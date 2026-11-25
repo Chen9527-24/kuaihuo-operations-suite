@@ -14,13 +14,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="权限编码" prop="code">
-          <el-input v-model="form.code" placeholder="例如 daily-task:create" :disabled="mode === 'edit'" />
+          <el-input v-model="form.code" placeholder="例如 robot:create" :disabled="mode === 'edit'" />
         </el-form-item>
         <el-form-item label="权限名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入权限名称" />
         </el-form-item>
         <el-form-item label="权限分组">
-          <el-input v-model="form.group" placeholder="例如 daily-task" />
+          <el-input v-model="form.group" placeholder="例如 robot" />
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-select v-model="form.status" placeholder="请选择状态" class="w-full">
@@ -29,10 +29,10 @@
         </el-form-item>
         <template v-if="form.type === 'MENU'">
           <el-form-item label="路由路径">
-            <el-input v-model="form.routePath" placeholder="/daily-tasks" />
+            <el-input v-model="form.routePath" placeholder="/robots/comment" />
           </el-form-item>
           <el-form-item label="组件标识">
-            <el-input v-model="form.component" placeholder="DailyTaskManagementView" />
+            <el-input v-model="form.component" placeholder="CommentRobotManagementView" />
           </el-form-item>
         </template>
         <el-form-item v-if="form.type !== 'BUTTON'" label="图标">

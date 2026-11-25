@@ -3,7 +3,7 @@ import { IsOptional, IsString } from 'class-validator';
 import { PaginationDto } from '../../../common/dto/pagination.dto';
 
 export class PermissionQueryDto extends PaginationDto {
-  @ApiPropertyOptional({ example: '每日任务' })
+  @ApiPropertyOptional({ example: '媒体账号' })
   @IsOptional()
   @IsString()
   keyword?: string;

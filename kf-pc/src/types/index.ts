@@ -8,7 +8,7 @@ export interface MenuItem {
   permissionCode?: string;
   /** 该菜单对应的按钮权限前缀；兼容旧角色只勾选按钮、未显式勾选菜单节点的情况。 */
   permissionPrefixes?: string[];
-  /** 每日任务是登录后的默认可达页面，不受菜单节点权限影响。 */
+  /** 登录后所有后台账号均可进入的页面。 */
   alwaysVisible?: boolean;
   children?: MenuItem[];
 }

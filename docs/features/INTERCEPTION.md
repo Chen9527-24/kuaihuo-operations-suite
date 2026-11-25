@@ -28,7 +28,7 @@
 | 平台账号 | 提供当前登录身份可以看到的页面和内容 | 账号可见范围、页面变化与验证提示会影响结果 |
 
 PC入口是 `/robots/intercept`，页面包含截流机器人、主动私信机器人、捕获数据、提示词配置和任务队列。
-界面入口见[路由](../../kf-pc/src/router/index.ts#L11)与[功能页面](../../kf-pc/src/views/interceptrobotmanagement/InterceptRobotPhasePage.vue#L3)。
+界面入口见[路由](../../kf-pc/src/router/index.ts)与[功能页面](../../kf-pc/src/views/interceptrobotmanagement/InterceptRobotPhasePage.vue#L3)。
 
 ## 主页监听与作品监听
 
@@ -111,7 +111,7 @@ GUI手动启动追加 `--ignore-run-cycle`：会跳过按天周期，仍检查�
 同批重复行会补齐首条缺失字段，而不是任意覆盖已有内容。
 后端在租户和机器人范围内继续查重并补空字段；不同机器人采到同一评论不应被概括为全系统只保留一条。
 字段缺失或时间表达改变会影响去重判断；去重不等于识别同一自然人或客户公司。
-依据：[一级评论开关](../../interception-bot/src/account_sync_service.py#L620)、[客户端去重](../../interception-bot/src/core_nexus_client.py#L658)、[数据库唯一范围](../../core-nexus/prisma/schema.prisma#L2764)。
+依据：[一级评论开关](../../interception-bot/src/account_sync_service.py#L620)、[客户端去重](../../interception-bot/src/core_nexus_client.py#L658)、[数据库唯一范围](../../core-nexus/prisma/schema.prisma#L2152)。
 
 ## 怎样同步到管理后台
 

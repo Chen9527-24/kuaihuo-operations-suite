@@ -42,7 +42,7 @@ const defaultState: Omit<AuthState, 'user' | 'tenants' | 'savedAccounts'> = {
   tenantId: '',
   tenantName: '',
   pendingTenantId: '',
-  postLoginRedirect: '/daily-tasks',
+  postLoginRedirect: '/dashboard',
   profileLoaded: false,
   contextVersion: 0,
   manualTenantSelectionOpen: false
@@ -298,7 +298,7 @@ export const useAuthStore = defineStore('auth', {
       this.tenantId = '';
       this.tenantName = '';
       this.pendingTenantId = '';
-      this.postLoginRedirect = '/daily-tasks';
+      this.postLoginRedirect = '/dashboard';
       this.manualTenantSelectionOpen = false;
       this.advanceAuthContext();
       clearAuthToken();
@@ -314,11 +314,11 @@ export const useAuthStore = defineStore('auth', {
       };
     },
     setPostLoginRedirect(path: string) {
-      this.postLoginRedirect = path || '/daily-tasks';
+      this.postLoginRedirect = path || '/dashboard';
     },
     consumePostLoginRedirect() {
-      const path = this.postLoginRedirect || '/daily-tasks';
-      this.postLoginRedirect = '/daily-tasks';
+      const path = this.postLoginRedirect || '/dashboard';
+      this.postLoginRedirect = '/dashboard';
       return path;
     },
     setPendingTenant(tenantId: string) {
@@ -441,7 +441,7 @@ export const useAuthStore = defineStore('auth', {
       if (selectedTenantId) {
         this.tenantId = selectedTenantId;
         this.syncSelectedTenant();
-        this.postLoginRedirect = '/daily-tasks';
+        this.postLoginRedirect = '/dashboard';
         this.advanceAuthContext();
         this.saveCurrentAccount();
       } else {

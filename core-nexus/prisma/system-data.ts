@@ -25,11 +25,7 @@ export const permissionSeeds: PermissionSeed[] = [
   { code: 'directory:system', name: '系统管理', group: 'system', type: 'DIRECTORY', icon: 'Setting', sort: 50 },
 
   // 运营业务菜单
-  { code: 'menu:daily-tasks', name: '每日任务', group: 'daily-task', type: 'MENU', parentCode: 'directory:operation', routePath: '/daily-tasks', component: 'DailyTaskManagementView', icon: 'List', sort: 10 },
-  { code: 'menu:distribution-groups', name: '团长管理', group: 'distribution-group', type: 'MENU', parentCode: 'directory:operation', routePath: '/distribution-groups', component: 'DistributionGroupManagementView', icon: 'Connection', sort: 20 },
-  { code: 'menu:app-users', name: 'H5成员', group: 'app-user', type: 'MENU', parentCode: 'directory:operation', routePath: '/app-users', component: 'AppUserManagementView', icon: 'UserFilled', sort: 30 },
   { code: 'menu:customer-leads', name: '商机客户', group: 'customer-lead', type: 'MENU', parentCode: 'directory:operation', routePath: '/customer-leads', component: 'CustomerLeadManagementView', icon: 'OfficeBuilding', sort: 40 },
-  { code: 'menu:withdrawals', name: '提现管理', group: 'withdrawal', type: 'MENU', parentCode: 'directory:operation', routePath: '/withdrawals', component: 'WithdrawalManagementView', icon: 'Money', sort: 50 },
   { code: 'menu:media-accounts', name: '多媒体账号', group: 'media-account', type: 'MENU', parentCode: 'directory:operation', routePath: '/media-accounts', component: 'MediaAccountManagementView', icon: 'VideoCamera', sort: 60 },
 
   // 机器人管理菜单。当前后端机器人接口仍共享 robot:* 按钮编码，菜单节点用于导航与角色树分组。
@@ -59,34 +55,6 @@ export const permissionSeeds: PermissionSeed[] = [
   { code: 'menu:dicts', name: '数据字典', group: 'dict', type: 'MENU', parentCode: 'directory:system', routePath: '/dicts', component: 'DictManagementView', icon: 'Collection', sort: 50 },
   { code: 'menu:profile', name: '个人中心', group: 'user', type: 'MENU', parentCode: 'directory:system', routePath: '/profile', component: 'ProfileView', icon: 'Avatar', sort: 60 },
 
-  // 每日任务：页面默认可访问；以下仅控制页面内按钮与操作接口。
-  { code: 'daily-task:read', name: '查看任务详情', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 10 },
-  { code: 'daily-task:create', name: '新增每日任务', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 20 },
-  { code: 'daily-task:update', name: '编辑/暂停/关闭任务', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 30 },
-  { code: 'daily-task:delete', name: '删除每日任务', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 40 },
-  { code: 'daily-task:dispatch', name: '发布推流任务', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 50 },
-  { code: 'daily-task:progress:read', name: '查看任务进度', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 60 },
-  { code: 'daily-task:order:read', name: '查看任务订单', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 70 },
-  { code: 'daily-task:order:settle', name: '审核/结算订单', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 80 },
-  { code: 'daily-task:comment:read', name: '查看评论配置', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 90 },
-  { code: 'daily-task:comment:create', name: '新增任务评论', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 100 },
-  { code: 'daily-task:comment:update', name: '编辑任务评论', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 110 },
-  { code: 'daily-task:comment:delete', name: '删除任务评论', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 120 },
-  { code: 'daily-task:comment:ai-generate', name: 'AI生成任务评论', group: 'daily-task', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 130 },
-  { code: 'file:upload', name: '上传任务文件', group: 'file', type: 'BUTTON', parentCode: 'menu:daily-tasks', sort: 140 },
-
-  // 团长管理
-  { code: 'distribution-group:read', name: '查看团长与团队', group: 'distribution-group', type: 'BUTTON', parentCode: 'menu:distribution-groups', sort: 10 },
-  { code: 'distribution-group:create', name: '新增团长与团队', group: 'distribution-group', type: 'BUTTON', parentCode: 'menu:distribution-groups', sort: 20 },
-  { code: 'distribution-group:update', name: '编辑团长与团队', group: 'distribution-group', type: 'BUTTON', parentCode: 'menu:distribution-groups', sort: 30 },
-  { code: 'distribution-group:delete', name: '删除团长与团队', group: 'distribution-group', type: 'BUTTON', parentCode: 'menu:distribution-groups', sort: 40 },
-
-  // H5成员
-  { code: 'app-user:read', name: '查看H5成员', group: 'app-user', type: 'BUTTON', parentCode: 'menu:app-users', sort: 10 },
-  { code: 'app-user:update', name: '编辑H5成员', group: 'app-user', type: 'BUTTON', parentCode: 'menu:app-users', sort: 20 },
-  { code: 'app-user:restrict', name: '限制H5成员接单', group: 'app-user', type: 'BUTTON', parentCode: 'menu:app-users', sort: 30 },
-  { code: 'app-user:delete', name: '删除H5成员', group: 'app-user', type: 'BUTTON', parentCode: 'menu:app-users', sort: 40 },
-
   // 商机客户
   { code: 'customer-lead:read', name: '查看商机客户', group: 'customer-lead', type: 'BUTTON', parentCode: 'menu:customer-leads', sort: 10 },
   { code: 'customer-lead:create', name: '新增商机客户', group: 'customer-lead', type: 'BUTTON', parentCode: 'menu:customer-leads', sort: 20 },
@@ -108,10 +76,6 @@ export const permissionSeeds: PermissionSeed[] = [
   { code: 'website-inquiry:delete', name: '移入官网客户回收站', group: 'website-inquiry', type: 'BUTTON', parentCode: 'menu:website-inquiries', sort: 40 },
   { code: 'website-inquiry:restore', name: '恢复官网意向客户', group: 'website-inquiry', type: 'BUTTON', parentCode: 'menu:website-inquiries', sort: 50 },
   { code: 'website-inquiry:purge', name: '彻底删除官网意向客户', group: 'website-inquiry', type: 'BUTTON', parentCode: 'menu:website-inquiries', sort: 60 },
-
-  // 提现
-  { code: 'withdrawal:read', name: '查看提现记录', group: 'withdrawal', type: 'BUTTON', parentCode: 'menu:withdrawals', sort: 10 },
-  { code: 'withdrawal:update', name: '处理提现记录', group: 'withdrawal', type: 'BUTTON', parentCode: 'menu:withdrawals', sort: 20 },
 
   // 多媒体账号
   { code: 'media-account:read', name: '查看多媒体账号', group: 'media-account', type: 'BUTTON', parentCode: 'menu:media-accounts', sort: 10 },
@@ -198,6 +162,7 @@ export const permissionSeeds: PermissionSeed[] = [
   { code: 'dict:delete', name: '删除数据字典', group: 'dict', type: 'BUTTON', parentCode: 'menu:dicts', sort: 40 },
   { code: 'user:profile:read', name: '查看个人资料', group: 'user', type: 'BUTTON', parentCode: 'menu:profile', sort: 10 },
   { code: 'user:profile:update', name: '编辑个人资料', group: 'user', type: 'BUTTON', parentCode: 'menu:profile', sort: 20 },
+  { code: 'file:upload', name: '上传文件', group: 'file', type: 'BUTTON', parentCode: 'menu:profile', sort: 35 },
   { code: 'file:mine:read', name: '查看我的文件', group: 'file', type: 'BUTTON', parentCode: 'menu:profile', sort: 30 },
 ];
 
@@ -282,69 +247,6 @@ export const dictSeed: DictSeed = [
     ],
   },
   {
-    code: 'daily_task_status',
-    name: '每日任务状态',
-    items: [
-      { label: '草稿', value: 'DRAFT', color: 'gray', sort: 1 },
-      { label: '待发布', value: 'READY', color: 'blue', sort: 2 },
-      { label: '已发推流', value: 'DISPATCHED', color: 'purple', sort: 3 },
-      { label: '执行中', value: 'RUNNING', color: 'orange', sort: 4 },
-      { label: '已暂停', value: 'PAUSED', color: 'orange', sort: 5 },
-      { label: '已关闭', value: 'CLOSED', color: 'gray', sort: 6 },
-      { label: '已归档', value: 'ARCHIVED', color: 'gray', sort: 7 },
-      { label: '已完成', value: 'COMPLETED', color: 'green', sort: 8 },
-      { label: '已取消', value: 'CANCELLED', color: 'red', sort: 9 },
-      { label: '已停用', value: 'DISABLED', color: 'red', sort: 10 },
-    ],
-  },
-  {
-    code: 'task_comment_status',
-    name: '任务评论状态',
-    items: [
-      { label: '未配置', value: 'UNCONFIGURED', color: 'gray', sort: 1 },
-      { label: '可领取', value: 'AVAILABLE', color: 'blue', sort: 2 },
-      { label: '已领取', value: 'CLAIMED', color: 'orange', sort: 3 },
-      { label: '已完成', value: 'COMPLETED', color: 'green', sort: 4 },
-      { label: '已作废', value: 'INVALID', color: 'red', sort: 5 },
-    ],
-  },
-  {
-    code: 'comment_source',
-    name: '评论来源',
-    items: [
-      { label: '手动', value: 'MANUAL', sort: 1 },
-      { label: 'AI', value: 'AI', sort: 2 },
-      { label: '导入', value: 'IMPORT', sort: 3 },
-    ],
-  },
-  {
-    code: 'task_participant_status',
-    name: '任务参与状态',
-    items: [
-      { label: '已开始', value: 'STARTED', color: 'blue', sort: 1 },
-      { label: '已领取', value: 'CLAIMED', color: 'orange', sort: 2 },
-      { label: '已完成', value: 'COMPLETED', color: 'green', sort: 3 },
-      { label: '已取消', value: 'CANCELLED', color: 'red', sort: 4 },
-    ],
-  },
-  {
-    code: 'task_settlement_status',
-    name: '任务结算状态',
-    items: [
-      { label: '未结算', value: 'UNSETTLED', color: 'orange', sort: 1 },
-      { label: '已结算', value: 'SETTLED', color: 'green', sort: 2 },
-    ],
-  },
-  {
-    code: 'dispatch_status',
-    name: '推流状态',
-    items: [
-      { label: '处理中', value: 'PENDING', color: 'blue', sort: 1 },
-      { label: '成功', value: 'SUCCESS', color: 'green', sort: 2 },
-      { label: '失败', value: 'FAILED', color: 'red', sort: 3 },
-    ],
-  },
-  {
     code: 'robot_type',
     name: '机器人类型',
     items: [
@@ -418,10 +320,7 @@ export const dictSeed: DictSeed = [
     name: '文件场景',
     items: [
       { label: '用户头像', value: 'USER_AVATAR', sort: 1 },
-      { label: '任务封面', value: 'TASK_COVER', sort: 2 },
       { label: '租户附件', value: 'TENANT_ATTACHMENT', sort: 3 },
-      { label: '任务领取凭证', value: 'TASK_CLAIM_PROOF', sort: 4 },
-      { label: '任务结算凭证', value: 'TASK_SETTLEMENT_PROOF', sort: 5 },
     ],
   },
 ];
@@ -555,11 +454,7 @@ export async function syncSystemAccessControl(prisma: PrismaClient) {
       'directory:robot',
       'directory:customer-service',
       'directory:system',
-      'menu:daily-tasks',
-      'menu:distribution-groups',
-      'menu:app-users',
       'menu:customer-leads',
-      'menu:withdrawals',
       'menu:media-accounts',
       'menu:private-message-robot',
       'menu:comment-robot',
@@ -576,11 +471,7 @@ export async function syncSystemAccessControl(prisma: PrismaClient) {
       'user:profile',
       'file:',
       'media-account:',
-      'app-user:',
-      'daily-task:',
-      'distribution-group:',
       'customer-lead:',
-      'withdrawal:',
       'robot:',
       'customer-service:',
     ].some((prefix) => code.startsWith(prefix)),
@@ -592,7 +483,7 @@ export async function syncSystemAccessControl(prisma: PrismaClient) {
     prisma,
     tenantUserRole.id,
     tenantPermissionCodes
-      .filter((code) => !code.endsWith(':delete') && code !== 'daily-task:order:settle')
+      .filter((code) => !code.endsWith(':delete'))
       .map((code) => permissionMap.get(code)!.id),
   );
 

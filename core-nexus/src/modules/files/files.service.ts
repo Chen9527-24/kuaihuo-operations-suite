@@ -10,9 +10,6 @@ import { FILE_STORAGE, type FileStorageProvider } from './providers/storage.prov
 
 const UPLOAD_SCENE_RULES: Record<string, { maxSize: number; mimeTypes: string[] }> = {
   USER_AVATAR: { maxSize: 2 * 1024 * 1024, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-  TASK_COVER: { maxSize: 5 * 1024 * 1024, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-  TASK_CLAIM_PROOF: { maxSize: 10 * 1024 * 1024, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
-  TASK_SETTLEMENT_PROOF: { maxSize: 10 * 1024 * 1024, mimeTypes: ['image/jpeg', 'image/png', 'image/webp'] },
   TENANT_ATTACHMENT: { maxSize: 20 * 1024 * 1024, mimeTypes: [] },
   WEBSITE_ASSET: {
     maxSize: 5 * 1024 * 1024,
@@ -87,11 +84,6 @@ export class FilesService {
     }
   }
 
-  /** 公开上传（无账号模式）：临时绑定到系统中的任意有效用户。 */
-  async uploadPublic(file: Express.Multer.File, scene?: string) {
-    return this.upload(await this.resolvePublicUploaderId(), file, scene);
-  }
-
   async createDirectUpload(userId: string, params: { fileName: string; mimeType: string; size: number; scene?: string }) {
     this.validateSceneMeta({ size: params.size, mimeType: params.mimeType }, params.scene);
     this.assertPrivateTencentCosSceneUsesServerUpload(params.scene);
@@ -119,10 +111,6 @@ export class FilesService {
     };
   }
 
-  async createDirectUploadPublic(params: { fileName: string; mimeType: string; size: number; scene?: string }) {
-    return this.createDirectUpload(await this.resolvePublicUploaderId(), params);
-  }
-
   async completeDirectUpload(
     userId: string,
     params: { objectKey: string; originalName: string; mimeType: string; size: number; scene?: string },
@@ -147,16 +135,6 @@ export class FilesService {
         url,
       },
     });
-  }
-
-  async completeDirectUploadPublic(params: {
-    objectKey: string;
-    originalName: string;
-    mimeType: string;
-    size: number;
-    scene?: string;
-  }) {
-    return this.completeDirectUpload(await this.resolvePublicUploaderId(), params);
   }
 
   async listMine(userId: string) {
@@ -196,7 +174,7 @@ export class FilesService {
     });
     if (directMatch) return directMatch;
 
-    // Legacy H5 clients can still submit a signed Tencent COS URL instead of fileId.
+    // Signed COS links may use a different origin from the stored object URL.
     // Only the object key is used for lookup; the bucket is verified before a new URL is signed.
     const objectKey = this.extractTencentCosObjectKey(trimmedUrl);
     if (objectKey) {
@@ -391,18 +369,6 @@ export class FilesService {
     if (rule.mimeTypes.length > 0 && !rule.mimeTypes.includes(file.mimeType)) {
       throw new BadRequestException(`Invalid file type for scene: ${scene}`);
     }
-  }
-
-  private async resolvePublicUploaderId() {
-    const uploader = await this.prisma.user.findFirst({
-      where: { deletedAt: null, status: 'ENABLED' },
-      orderBy: { createdAt: 'asc' },
-      select: { id: true },
-    });
-    if (!uploader) {
-      throw new BadRequestException('No available uploader user for public upload');
-    }
-    return uploader.id;
   }
 
   private resolveCurrentBucket() {

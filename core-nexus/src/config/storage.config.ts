@@ -37,7 +37,7 @@ export const storageConfig = registerAs('storage', () => ({
     scheme: process.env.TENCENT_COS_SCHEME ?? 'https',
     signedUrlTtlSeconds: Number(process.env.TENCENT_COS_SIGNED_URL_TTL_SECONDS ?? 600),
     thumbnailUrlTtlSeconds: Number(process.env.TENCENT_COS_THUMBNAIL_URL_TTL_SECONDS ?? 3600),
-    privateScenes: toStringList(process.env.TENCENT_COS_PRIVATE_SCENES, ['TASK_CLAIM_PROOF', 'TASK_SETTLEMENT_PROOF']),
+    privateScenes: toStringList(process.env.TENCENT_COS_PRIVATE_SCENES, []),
     thumbnailMaxLongEdge: Number(process.env.TENCENT_COS_THUMBNAIL_MAX_LONG_EDGE ?? 320),
     thumbnailQuality: Number(process.env.TENCENT_COS_THUMBNAIL_QUALITY ?? 80),
   },

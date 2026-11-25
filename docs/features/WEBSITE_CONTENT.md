@@ -32,7 +32,7 @@ flowchart LR
   Restore --> Draft
 ```
 
-源码入口：[配置模型](../../core-nexus/prisma/schema.prisma#L268)、[草稿与发布服务](../../core-nexus/src/modules/website/website.service.ts#L50)。
+源码入口：[配置模型](../../core-nexus/prisma/schema.prisma#L258)、[草稿与发布服务](../../core-nexus/src/modules/website/website.service.ts#L50)。
 
 ## 3 图片素材
 

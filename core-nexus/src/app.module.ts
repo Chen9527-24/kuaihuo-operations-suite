@@ -6,9 +6,7 @@ import { storageConfig } from './config/storage.config';
 import { validateEnv } from './config/validate-env';
 import { AuthModule } from './modules/auth/auth.module';
 import { AiModule } from './modules/ai/ai.module';
-import { AppUsersModule } from './modules/app-users/app-users.module';
 import { AutoRepliesModule } from './modules/auto-replies/auto-replies.module';
-import { DailyTasksModule } from './modules/daily-tasks/daily-tasks.module';
 import { DialogueRecordsModule } from './modules/dialogue-records/dialogue-records.module';
 import { CustomerLeadsModule } from './modules/customer-leads/customer-leads.module';
 import { DictsModule } from './modules/dicts/dicts.module';
@@ -24,7 +22,7 @@ import { RolesModule } from './modules/roles/roles.module';
 import { TenantsModule } from './modules/tenants/tenants.module';
 import { UsersModule } from './modules/users/users.module';
 import { WechatModule } from './modules/wechat/wechat.module';
-import { WithdrawalsModule } from './modules/withdrawals/withdrawals.module';
+import { SmsModule } from './modules/sms/sms.module';
 import { WebsiteModule } from './modules/website/website.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { RedisModule } from './redis/redis.module';
@@ -42,7 +40,6 @@ import { RedisModule } from './redis/redis.module';
     RedisModule,
     AiModule,
     AuthModule,
-    AppUsersModule,
     DialogueRecordsModule,
     AutoRepliesModule,
     UsersModule,
@@ -55,10 +52,9 @@ import { RedisModule } from './redis/redis.module';
     PermissionsModule,
     RolesModule,
     MediaAccountsModule,
-    DailyTasksModule,
     CustomerLeadsModule,
     WechatModule,
-    WithdrawalsModule,
+    SmsModule,
     WebsiteModule,
     RobotsModule,
     OperationLogsModule,

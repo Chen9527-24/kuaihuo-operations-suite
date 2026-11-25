@@ -73,7 +73,7 @@ build_exe.py UCP.spec            使用白名单复制默认配置的构建入�
 
 ## 配套项目
 
-配套项目：core-nexus、kf-pc、task-distribution-app、interception-bot。仓库链接和兼容版本将在正式建仓后补充。
+配套项目包括 [Core Nexus](../core-nexus/)、[PC 管理后台](../kf-pc/) 和 [interception-bot](../interception-bot/)。
 
 ## 许可与商用限制
 

@@ -3,7 +3,7 @@ import { IsOptional, IsString } from 'class-validator';
 import { PaginationDto } from '../../../common/dto/pagination.dto';
 
 export class OperationLogQueryDto extends PaginationDto {
-  @ApiPropertyOptional({ example: 'DAILY_TASK' })
+  @ApiPropertyOptional({ example: 'MEDIA_ACCOUNT' })
   @IsOptional()
   @IsString()
   module?: string;

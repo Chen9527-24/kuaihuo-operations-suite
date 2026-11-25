@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FilesController } from './files.controller';
-import { FilesPublicController } from './files-public.controller';
 import { FilesService } from './files.service';
 import { LocalStorageProvider } from './providers/local-storage.provider';
 import { OssStorageProvider } from './providers/oss-storage.provider';
@@ -26,7 +25,7 @@ function hasUsableOssConfig(configService: ConfigService) {
 }
 
 @Module({
-  controllers: [FilesController, FilesPublicController],
+  controllers: [FilesController],
   providers: [
     LocalStorageProvider,
     OssStorageProvider,

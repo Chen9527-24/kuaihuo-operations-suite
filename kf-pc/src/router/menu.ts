@@ -1,22 +1,14 @@
 import type { MenuItem } from '@/types';
 
-/**
- * 后台导航仅保留真实业务结构：三大目录 → 业务菜单。
- * `permissionCode` 是目录/菜单节点的授权编码；每日任务是唯一的默认入口，
- * 不依赖目录或菜单权限，但页面内部动作继续由按钮权限控制。
- */
 export const menuItems: MenuItem[] = [
+  { title: '工作台', path: '/dashboard', icon: 'Grid', closable: false, alwaysVisible: true },
   {
     title: '运营业务',
     path: '/operation',
     icon: 'Grid',
     permissionCode: 'directory:operation',
     children: [
-      { title: '每日任务', path: '/daily-tasks', icon: 'List', closable: false, alwaysVisible: true, permissionCode: 'menu:daily-tasks', permissionPrefixes: ['daily-task:'] },
-      { title: '团长管理', path: '/distribution-groups', icon: 'Connection', permissionCode: 'menu:distribution-groups', permissionPrefixes: ['distribution-group:'] },
-      { title: 'H5成员', path: '/app-users', icon: 'UserFilled', permissionCode: 'menu:app-users', permissionPrefixes: ['app-user:'] },
       { title: '商机客户', path: '/customer-leads', icon: 'OfficeBuilding', permissionCode: 'menu:customer-leads', permissionPrefixes: ['customer-lead:'] },
-      { title: '提现管理', path: '/withdrawals', icon: 'Money', permissionCode: 'menu:withdrawals', permissionPrefixes: ['withdrawal:'] },
       { title: '多媒体账号', path: '/media-accounts', icon: 'VideoCamera', permissionCode: 'menu:media-accounts', permissionPrefixes: ['media-account:'] }
     ]
   },
@@ -130,9 +122,6 @@ export function findMenuItemByPath(targetPath: string, items: MenuItem[] = menuI
 }
 
 export function canAccessMenuPath(path: string, permissions: string[], platformAdmin: boolean) {
-  if (path === '/daily-tasks') return true;
-  // 每日任务内的隐藏订单页只由“订单查看”按钮权限打开。
-  if (path === '/task-orders') return platformAdmin || permissions.includes('daily-task:order:read');
   const item = findMenuItemByPath(path);
   return Boolean(item && hasPermissionForNode(item, permissions, platformAdmin));
 }
@@ -141,7 +130,4 @@ export function isLeafMenuPath(targetPath: string): boolean {
   return flatMenuItems.some((item) => item.path === targetPath);
 }
 
-export const flatMenuItems = [
-  ...getLeafMenuItems(menuItems),
-  { title: '任务订单', path: '/task-orders', icon: 'Tickets', hidden: true, permissionCode: 'daily-task:order:read' }
-];
+export const flatMenuItems = getLeafMenuItems(menuItems);

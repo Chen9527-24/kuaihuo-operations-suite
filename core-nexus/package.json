@@ -2,7 +2,7 @@
   "name": "core-nexus",
   "version": "0.1.0",
   "private": true,
-  "description": "Multi-tenant task distribution, robot management and AI customer-service backend",
+  "description": "Multi-tenant operations, robot management and AI customer-service backend",
   "scripts": {
     "build": "prisma generate && tsc -p tsconfig.build.json",
     "start": "node dist/src/main.js",

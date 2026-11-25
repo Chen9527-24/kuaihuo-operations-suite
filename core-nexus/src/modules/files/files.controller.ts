@@ -44,7 +44,7 @@ export class FilesController {
       type: 'object',
       properties: {
         file: { type: 'string', format: 'binary' },
-        scene: { type: 'string', example: 'TASK_COVER' },
+        scene: { type: 'string', example: 'TENANT_ATTACHMENT' },
       },
       required: ['file'],
     },

@@ -3,8 +3,8 @@ import { IsOptional, IsString, Length } from 'class-validator';
 
 export class UploadFileDto {
   @ApiPropertyOptional({
-    example: 'TASK_CLAIM_PROOF',
-    description: '上传场景，如 USER_AVATAR / TASK_COVER / TASK_CLAIM_PROOF / TASK_SETTLEMENT_PROOF',
+    example: 'USER_AVATAR',
+    description: '上传场景，如 USER_AVATAR / TENANT_ATTACHMENT / WEBSITE_ASSET',
   })
   @IsOptional()
   @IsString()

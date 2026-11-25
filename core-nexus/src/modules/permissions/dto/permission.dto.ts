@@ -7,17 +7,17 @@ export class CreatePermissionDto {
   @IsString()
   parentId?: string;
 
-  @ApiProperty({ example: 'daily-task:create' })
+  @ApiProperty({ example: 'media-account:create' })
   @IsString()
   @Length(2, 100)
   code!: string;
 
-  @ApiProperty({ example: '新增每日任务' })
+  @ApiProperty({ example: '新增媒体账号' })
   @IsString()
   @Length(2, 100)
   name!: string;
 
-  @ApiPropertyOptional({ example: 'daily-task' })
+  @ApiPropertyOptional({ example: 'media-account' })
   @IsOptional()
   @IsString()
   group?: string;
@@ -37,17 +37,17 @@ export class CreatePermissionDto {
   @Min(0)
   sort?: number;
 
-  @ApiPropertyOptional({ example: '/daily-tasks' })
+  @ApiPropertyOptional({ example: '/media-accounts' })
   @IsOptional()
   @IsString()
   routePath?: string;
 
-  @ApiPropertyOptional({ example: 'DailyTasksPage' })
+  @ApiPropertyOptional({ example: 'MediaAccountManagementView' })
   @IsOptional()
   @IsString()
   component?: string;
 
-  @ApiPropertyOptional({ example: 'task' })
+  @ApiPropertyOptional({ example: 'User' })
   @IsOptional()
   @IsString()
   icon?: string;
@@ -64,13 +64,13 @@ export class UpdatePermissionDto {
   @IsString()
   parentId?: string | null;
 
-  @ApiPropertyOptional({ example: '新增每日任务' })
+  @ApiPropertyOptional({ example: '新增媒体账号' })
   @IsOptional()
   @IsString()
   @Length(2, 100)
   name?: string;
 
-  @ApiPropertyOptional({ example: 'daily-task' })
+  @ApiPropertyOptional({ example: 'media-account' })
   @IsOptional()
   @IsString()
   group?: string;
@@ -91,17 +91,17 @@ export class UpdatePermissionDto {
   @Min(0)
   sort?: number;
 
-  @ApiPropertyOptional({ example: '/daily-tasks' })
+  @ApiPropertyOptional({ example: '/media-accounts' })
   @IsOptional()
   @IsString()
   routePath?: string;
 
-  @ApiPropertyOptional({ example: 'DailyTasksPage' })
+  @ApiPropertyOptional({ example: 'MediaAccountManagementView' })
   @IsOptional()
   @IsString()
   component?: string;
 
-  @ApiPropertyOptional({ example: 'task' })
+  @ApiPropertyOptional({ example: 'User' })
   @IsOptional()
   @IsString()
   icon?: string;

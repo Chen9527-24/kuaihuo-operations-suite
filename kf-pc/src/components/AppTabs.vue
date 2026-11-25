@@ -64,7 +64,7 @@ const tabsContainer = ref<HTMLElement | null>(null);
 
 const activeTab = computed(() => route.path);
 const visibleTabs = computed(() =>
-  tabsStore.tabs.filter((tab) => tab.path === '/daily-tasks' || canAccessMenuPath(tab.path, auth.user.permissions, auth.isPlatformAdmin))
+  tabsStore.tabs.filter((tab) => canAccessMenuPath(tab.path, auth.user.permissions, auth.isPlatformAdmin))
 );
 const activeTabStyle = computed(() => ({
   background: 'color-mix(in srgb, var(--app-theme-color) 14%, white)',
@@ -111,6 +111,6 @@ function closeCurrent() {
 
 function closeAll() {
   tabsStore.closeAll();
-  router.push('/daily-tasks');
+  router.push('/dashboard');
 }
 </script>

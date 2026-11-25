@@ -18,7 +18,6 @@ class ConfigurationDistributionTests(unittest.TestCase):
         templates = {
             'core-nexus': 'DATABASE_URL=\nREDIS_URL=redis://localhost:6379\nJWT_ACCESS_SECRET=\nJWT_REFRESH_SECRET=\n',
             'kf-pc': 'VITE_API_BASE_URL=/api/v1\n',
-            'task-distribution-app': 'VITE_ENABLE_WECHAT_OAUTH=false\n',
             'ucp': 'CORE_NEXUS_API_BASE_URL=http://localhost:3000\n',
             'interception-bot': 'CORE_NEXUS_API_BASE_URL=http://localhost:3000\n',
         }
@@ -42,13 +41,12 @@ class ConfigurationDistributionTests(unittest.TestCase):
         self.assertEqual(self.run_cli(), 0)
         core = (self.root / 'core-nexus' / '.env').read_text()
         self.assertIn('fixture-access-value-', core)
-        for project in ('kf-pc', 'task-distribution-app'):
-            target = self.root / project / '.env.development'
-            contents = target.read_text()
-            self.assertNotIn('fixture-access-value-', contents)
-            self.assertNotIn('DATABASE_URL', contents)
-            self.assertEqual(target.stat().st_mode & 0o777, 0o600)
-        self.assertIn('VITE_API_BASE_URL=/custom-api', (self.root / 'kf-pc' / '.env.development').read_text())
+        target = self.root / 'kf-pc' / '.env.development'
+        contents = target.read_text()
+        self.assertNotIn('fixture-access-value-', contents)
+        self.assertNotIn('DATABASE_URL', contents)
+        self.assertEqual(target.stat().st_mode & 0o777, 0o600)
+        self.assertIn('VITE_API_BASE_URL=/custom-api', contents)
 
     def test_unknown_frontend_secret_field_is_rejected_before_writing(self):
         with self.configuration.open('a') as stream:

@@ -1,7 +1,7 @@
 # 初始化、记录管理与高级工具
 
 本文补充日常业务说明以外的安装初始化、机器人授权、对话资料管理和客服高级维护能力。
-主要供部署者、有相应权限的管理员及开发人员使用；普通业务流程仍见 [AI 客服](AI_CUSTOMER_SERVICE.md)、[自动回复](AUTO_REPLY.md) 和 [任务分发](TASK_DISTRIBUTION.md)。
+主要供部署者、有相应权限的管理员及开发人员使用；普通业务流程仍见 [AI 客服](AI_CUSTOMER_SERVICE.md)、[自动回复](AUTO_REPLY.md) 和 [截流采集](INTERCEPTION.md)。
 这些操作有的只查询，有的修改长期配置，有的永久删除记录，不能把所有“维护”按钮当成无副作用刷新。
 
 ## 先分清入口与影响
@@ -245,16 +245,14 @@ PC“测试与优化”的高级工具可以读取基准清单并运行现有意
 | 能力 | 当前范围与使用边界 |
 | --- | --- |
 | DeepSeek 连通测试 | `POST /api/v1/ai/deepseek-chat/test` 使用后端环境 Key；PC 有组件但当前没有注册默认路由，不介绍为现有菜单 |
-| 健康检查 | `GET /api/v1/health` 检查 PostgreSQL 查询与 Redis PING；成功不代表模型、支付和平台都正常 |
+| 健康检查 | `GET /api/v1/health` 检查 PostgreSQL 查询与 Redis PING；成功不代表模型服务和平台都正常 |
+| 账号停用通知 | `POST /api/v1/sms/notifications` 供具备 `sms:send` 权限的操作员调用，按后端映射的 `account_disabled` 模板发送。 |
 | RBAC 诊断 | `/api/v1/rbac/overview`、`me/access`；控制器受 admin 角色限制，不是所有普通账号通用查询 |
-| 短信模板通知 | `POST /api/v1/sms/notifications` 只接受服务端预设 templateKey，不支持任意正文或任意云模板 ID |
 | 小程序版本模式与 scene | `app/miniprogram/mode`、`wechat/scene/:ticket`；属于后端接入能力，不表示附有完整小程序前端 |
-| 平台指引 | `/api/v1/platform-guide/public` 供消费指引配置；有指引不表示相应平台机器人已实现 |
-| 旧任务 public/legacy | `app/daily-tasks`、`posts/*`、`claim-comment/*` 兼容旧 H5/小程序，不是已摘出的任务分发 V2；新接入需核对其不同身份参数 |
 | 旧界面入口 | overview/advanced 等历史路径部分已重定向，不能据旧文件名承诺仍有独立完整工作台 |
 
 开发者按当前 Swagger、DTO、权限声明和服务实现对接，不应把这张表当成已经完成外部服务运行验收。
-依据：[AI 测试](../../core-nexus/src/modules/ai/ai.controller.ts#L8)、[健康检查](../../core-nexus/src/modules/health/health.controller.ts#L16)、[微信控制器](../../core-nexus/src/modules/wechat/wechat.controller.ts#L10)、[旧任务兼容](../../core-nexus/src/modules/daily-tasks/daily-tasks-legacy.controller.ts#L15)。
+依据：[AI 测试](../../core-nexus/src/modules/ai/ai.controller.ts#L8)、[健康检查](../../core-nexus/src/modules/health/health.controller.ts#L16)、[微信控制器](../../core-nexus/src/modules/wechat/wechat.controller.ts)。
 
 ## 使用前后的核对清单
 
